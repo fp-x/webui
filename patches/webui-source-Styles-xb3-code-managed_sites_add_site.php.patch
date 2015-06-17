@@ -1,0 +1,30 @@
+--- ./webui/source/Styles/xb3/code/managed_sites_add_site.php
++++ ./webui/source/Styles/xb3/code/managed_sites_add_site.php	2015-04-22 14:22:31.206843009 -0600
+@@ -71,11 +71,16 @@
+                 }
+             }
+         },
++	onfocusout: false,
+         messages:{
+             url: "Please input a valid URL, start with 'http://' or 'https://'"
+         }
+     });
+ 
++    $("#url").change(function(){
++        $("#pageForm").validate().element('#url');
++    });
++
+     $("#url").focus().val('http://');
+ 
+     $("#btn-cancel").click(function() {
+@@ -147,8 +152,8 @@
+                 data: { BlockInfo: blockInfo },
+                 success: function(data){            
+                     jHide();
+-                    if (data == "1") {
+-                        jAlert("This site is already set!");
++                    if (data != "Success!") {
++                        jAlert(data);
+                     }else{
+                         window.location.href = "managed_sites.php";
+                     }

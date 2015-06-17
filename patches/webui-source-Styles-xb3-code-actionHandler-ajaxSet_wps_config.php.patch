@@ -1,0 +1,25 @@
+--- ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_wps_config.php
++++ ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_wps_config.php	2015-04-22 14:22:31.198839009 -0600
+@@ -45,16 +45,19 @@
+ {
+ 	if ("PushButton" == $arConfig['pair_method']) 
+ 	{
+-		setStr("Device.WiFi.AccessPoint.$i.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
++		setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
++		setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
+ 	}
+ 	else 
+ 	{
+-		setStr("Device.WiFi.AccessPoint.$i.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
++		setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
++		setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
+ 	}
+ }
+ else if ("pair_cancel" == $arConfig['target'])
+ {
+-	setStr("Device.WiFi.AccessPoint.$i.WPS.X_CISCO_COM_CancelSession", "true", true);
++	setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_CancelSession", "true", true);
++	setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_CancelSession", "true", true);
+ }
+ sleep(1);
+ echo $jsConfig;	

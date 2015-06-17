@@ -1,0 +1,10 @@
+--- ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_mta_sip_packet_log.php
++++ ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_mta_sip_packet_log.php	2015-04-22 14:22:31.198839009 -0600
+@@ -1,6 +1,6 @@
+ <?php
+ 
+-exec("/fss/gw/usr/ccsp/ccsp_bus_client_tool eRT getv Device.X_CISCO_COM_CableModem.MTALog. > /var/log_mta.txt");
++exec("/fss/gw/usr/ccsp/ccsp_bus_client_tool eRT getv Device.X_CISCO_COM_MTA.MTALog. > /var/log_mta.txt");
+ 
+ $Log = array();
+ 

@@ -1,0 +1,113 @@
+--- ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_add_blockedSite.php
++++ ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_add_blockedSite.php	2015-04-22 14:22:31.198839009 -0600
+@@ -1,5 +1,23 @@
+ <?php 
+ 
++function time_date_conflict($TD1, $TD2) {
++	$ret = false;
++	$days1 = explode(",", $TD1[2]);
++	$days2 = explode(",", $TD2[2]);
++
++	foreach ($days1 as &$value) {
++		if (in_array($value, $days2)) {
++			//deMorgan's law - to find if ranges are overlapping
++			//(StartA <= EndB)  and  (EndA >= StartB)
++			if((strtotime($TD1[0]) < strtotime($TD2[1])) and (strtotime($TD1[1]) > strtotime($TD2[0]))){
++	  			$ret = true;
++	  			break;
++			} 
++		}
++	}
++	return $ret;
++}
++
+ $blockedSiteInfo = json_decode($_REQUEST['BlockInfo'], true);
+ 
+ $objPrefix = "Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite.";
+@@ -7,18 +25,33 @@
+ $exist = false;
+ $idArr = explode(",", getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
+ 
++$block=$blockedSiteInfo['alwaysBlock'];
++$startTime=$blockedSiteInfo['StartTime'];
++$endTime=$blockedSiteInfo['EndTime'];
++$blockDays=$blockedSiteInfo['blockedDays'];
++
++$result = "";
++
+ if( array_key_exists('URL', $blockedSiteInfo) ) {
+ 	//this is to set blocked URL
+     //firstly, check whether URL exist or not
+ 	$url = $blockedSiteInfo['URL'];
+     foreach ($idArr as $key => $value) {
+-	    if ( $url == getStr($objPrefix.$value.".Site")){
+-	        $exist = true;
++		$always_Block = getStr($objPrefix.$value.".AlwaysBlock");
++		$start_Time = getStr($objPrefix.$value.".StartTime");
++		$end_Time = getStr($objPrefix.$value.".EndTime");
++		$block_Days = getStr($objPrefix.$value.".BlockDays");
++
++		//Check for time and day conflicts
++		$TD1=array($startTime, $endTime, $blockDays);
++		$TD2=array($start_Time, $end_Time, $block_Days);
++		if (($url == getStr($objPrefix.$value.".Site")) && ((($always_Block == "true") || ($block == "true") || time_date_conflict($TD1, $TD2)))){
++			$result .= "Conflict with other blocked site rule. Please check your input!";
+ 	        break;
+ 	    }
+ 	}
+ 
+-	if (! $exist){
++	if ($result == ""){
+ 
+ 		addTblObj("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite.");
+ 		$idArr = explode(",", getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
+@@ -73,24 +106,27 @@
+ 			setStr($objPrefix.$index.".BlockDays", $blockedSiteInfo['blockedDays'], true);
+ */		
+ 		}
+-
+-		echo "0";
+-	}
+-	else{
+-		echo "1";
+ 	}
+ }
+ else{
+ 	//this is to set blocked Keyword
+ 	$keyword = $blockedSiteInfo['Keyword'];
+     foreach ($idArr as $key => $value) {
+-	    if ( $keyword == getStr($objPrefix.$value.".Site")){
+-	        $exist = true;
++	    	$always_Block = getStr($objPrefix.$value.".AlwaysBlock");
++		$start_Time = getStr($objPrefix.$value.".StartTime");
++		$end_Time = getStr($objPrefix.$value.".EndTime");
++		$block_Days = getStr($objPrefix.$value.".BlockDays");
++
++		//Check for time and day conflicts
++		$TD1=array($startTime, $endTime, $blockDays);
++		$TD2=array($start_Time, $end_Time, $block_Days);
++		if (($keyword == getStr($objPrefix.$value.".Site")) && ((($always_Block == "true") || ($block == "true") || time_date_conflict($TD1, $TD2)))){
++			$result .= "Conflict with other blocked Keyword rule. Please check your input!";
+ 	        break;
+ 	    }
+ 	}
+ 
+-	if (! $exist){
++	if ($result == ""){
+ 
+ 		addTblObj("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite.");
+ 		$idArr = explode(",", getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
+@@ -145,11 +181,9 @@
+ 			setStr($objPrefix.$index.".BlockDays", $blockedSiteInfo['blockedDays'], true);
+ */	
+ 		}
+-		echo "0";
+-	}
+-	else{
+-		echo "1";
+ 	}
+ }
+ 
++echo $result;
++
+ ?>

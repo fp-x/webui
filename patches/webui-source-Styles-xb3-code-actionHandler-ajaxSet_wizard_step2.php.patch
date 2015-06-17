@@ -1,0 +1,43 @@
+--- ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_wizard_step2.php
++++ ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_wizard_step2.php	2015-04-22 14:22:31.198839009 -0600
+@@ -69,11 +69,15 @@
+ 	setStr("Device.WiFi.AccessPoint.1.Security.X_CISCO_COM_WEPKey128Bit.3.WEPKey", $arConfig['network_password'], true);
+ 	setStr("Device.WiFi.AccessPoint.1.Security.X_CISCO_COM_WEPKey128Bit.4.WEPKey", $arConfig['network_password'], true);
+ }
+-else {
++else {	//no open, no wep
++		//bCommit false->true still do validation each, have to group set this...
++		DmExtSetStrsWithRootObj("Device.WiFi.", true, array(
++			array("Device.WiFi.AccessPoint.1.Security.ModeEnabled", "string", $encrypt_mode), 
++			array("Device.WiFi.AccessPoint.1.Security.X_CISCO_COM_EncryptionMethod", "string", $encrypt_method)));
+ 	setStr("Device.WiFi.AccessPoint.1.Security.X_CISCO_COM_KeyPassphrase", $arConfig['network_password'], true); 
+-	setStr("Device.WiFi.AccessPoint.1.Security.X_CISCO_COM_EncryptionMethod", $encrypt_method, true);
+ }
+ 
++
+ // setStr("Device.WiFi.Radio.1.X_CISCO_COM_ApplySetting", "true", true);
+ MiniApplySSID(1);
+ 
+@@ -132,14 +136,20 @@
+ 	setStr("Device.WiFi.AccessPoint.2.Security.X_CISCO_COM_WEPKey128Bit.3.WEPKey", $arConfig['network_password1'], true);
+ 	setStr("Device.WiFi.AccessPoint.2.Security.X_CISCO_COM_WEPKey128Bit.4.WEPKey", $arConfig['network_password1'], true);
+ }
+-else {
++else {	//no open, no wep
++		//bCommit false->true still do validation each, have to group set this...
++		DmExtSetStrsWithRootObj("Device.WiFi.", true, array(
++			array("Device.WiFi.AccessPoint.2.Security.ModeEnabled", "string", $encrypt_mode), 
++			array("Device.WiFi.AccessPoint.2.Security.X_CISCO_COM_EncryptionMethod", "string", $encrypt_method)));
+ 	setStr("Device.WiFi.AccessPoint.2.Security.X_CISCO_COM_KeyPassphrase", $arConfig['network_password1'], true); 
+-	setStr("Device.WiFi.AccessPoint.2.Security.X_CISCO_COM_EncryptionMethod", $encrypt_method, true);
+ }
+ 
+ // setStr("Device.WiFi.Radio.2.X_CISCO_COM_ApplySetting", "true", true);
+ MiniApplySSID(2);
+ 
++//changing password for admin case
++if($arConfig['newPassword']) setStr("Device.Users.User.3.X_CISCO_COM_Password", $arConfig['newPassword'], true);	
++
+ echo $jsConfig;
+ 
+ ?>

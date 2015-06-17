@@ -1,0 +1,13 @@
+--- ./webui/source/Styles/xb3/code/actionHandler/ajax_parental_reports.php
++++ ./webui/source/Styles/xb3/code/actionHandler/ajax_parental_reports.php	2015-04-22 14:22:31.198839009 -0600
+@@ -21,7 +21,9 @@
+ 		$mintime=strtotime("last month");
+ 	break;
+ 	case "Last 90 days":
+-		$maxtime=strtotime("today");
++		//zqiu: last 90 days include today
++		//$maxtime=strtotime("today");
++		$maxtime=strtotime("now");
+ 		$mintime=strtotime("-90 days");
+ 	break;
+ }

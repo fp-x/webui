@@ -1,0 +1,74 @@
+--- ./webui/source/Styles/xb3/code/connection_status.php
++++ ./webui/source/Styles/xb3/code/connection_status.php	2015-06-10 14:05:49.101030780 -0600
+@@ -165,8 +165,13 @@
+ 
+                       function sec2dhms($sec)
+                       {
++                        
++			if($sec == "-1") return "Forever";
++
+                         (!is_numeric($sec)) && ($sec = 0);
+ 
++                        if($sec >= 604800 && $sec % 604800 == 0) return $sec/(604800)." Week";
++
+                         $tmp = div_mod($sec, 24*60*60);
+                         $day = $tmp[0];
+ 
+@@ -506,11 +511,17 @@
+ 
+ 	for ($j=0; $j<count($public_v); $j++)
+ 	{
++		$wifi_enable = "Inactive";
++		if("true" == $public_v[$j]['ssid_enable']) 
++		        $wifi_enable = "Active";
++		else
++		        $wifi_enable = "Inactive";
++				
+ 		echo '<div class="module forms block" style="position:relative;top:0px;right:0px;">';
+ 		echo '<h2>HomeSecurityNetwork-'.$public_v[$j]['ssid_name'].'</h2>';
+ 		// !!!dont goto edit_public page!!! thant page just for hotspot tunnel configuration
+ 		echo '<p class="button"><a tabindex="0" class="btn" href="wireless_network_configuration_edit.php?id='.$public_v[$j]['ssid_id'].'">Edit</a></p>';
+-		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">Wireless Network(Wi-Fi '.$public_v[$j]['radio_freq'].' GHz):</span> <span class="value">'.$public_v[$j]['ssid_enable'].'</span></div>';
++		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">Wireless Network (Wi-Fi '.$public_v[$j]['radio_freq'].' GHz):</span> <span class="value">'.$wifi_enable.'</span></div>';
+ 		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">Supported Protocols:</span> <span class="value">'.$public_v[$j]['radio_mode'].'</span></div>';
+ 		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">Security:</span> <span class="value">'.$public_v[$j]['security'].'</span></div>';
+ 		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">No of Clients connected:</span> <span class="value">'.$public_v[$j]['client_cnt'].'</span></div>';
+@@ -539,18 +550,17 @@
+ 		}
+ 		$freq_id = strpos(php_getstr("Device.WiFi.SSID.$i.LowerLayers"), "Radio.1") ? "1" : "2";
+ 		
+-		$RemoteEndpoints	= php_getstr("Device.X_COMCAST_COM_GRE.Interface.1.RemoteEndpoints");
++		$PrimaryRemoteEndpoint	= php_getstr("Device.X_COMCAST-COM_GRE.Tunnel.1.PrimaryRemoteEndpoint");	// 2.4G and 5G share one gre tunnel
++		$SecondaryRemoteEndpoint = php_getstr("Device.X_COMCAST-COM_GRE.Tunnel.1.SecondaryRemoteEndpoint");	// 2.4G and 5G share one gre tunnel
+ 		$RemoteEndpointsV4	= array();
+ 		$RemoteEndpointsV6	= array();
+-		$ips = explode(",", $RemoteEndpoints);
+-		foreach($ips as $v){
+-			if (strpos($v, ".")){
+-				array_push($RemoteEndpointsV4, $v);
+-			}
+-			else if (strpos($v, ":")){
+-				array_push($RemoteEndpointsV6, $v);
+-			}
+-		}
++		
++		array_push($RemoteEndpointsV4, $PrimaryRemoteEndpoint);
++		array_push($RemoteEndpointsV4, $SecondaryRemoteEndpoint);
++		
++		array_push($RemoteEndpointsV6, $PrimaryRemoteEndpoint);
++		array_push($RemoteEndpointsV6, $SecondaryRemoteEndpoint);
++		
+ 		$wlan_gw = "";
+ 		if (isset($RemoteEndpointsV4[0])) $wlan_gw = $RemoteEndpointsV4[0];
+ 		if (isset($RemoteEndpointsV6[0])) $wlan_gw = $wlan_gw."/".$RemoteEndpointsV6[0];
+@@ -559,8 +569,8 @@
+ 			'ssid_id'		=> $i,
+ 			'ssid_enable'	=> php_getstr("Device.WiFi.SSID.$i.Enable"),
+ 			'ssid_name'		=> php_getstr("Device.WiFi.SSID.$i.SSID"),
+-			'xf_capable'	=> php_getstr("Device.DeviceInfo.X_COMCAST-COM_xfinitywifiCapable"),
+-			'time_last'		=> sec2dhms(php_getstr("Device.X_COMCAST_COM_GRE.Interface.1.LastChange")),	// 2.4G and 5G share one gre tunnel
++			'xf_capable'	=> php_getstr("Device.DeviceInfo.X_COMCAST-COM_xfinitywifiCapableCPE"),
++			'time_last'		=> sec2dhms(php_getstr("Device.X_COMCAST-COM_GRE.Tunnel.1.LastChange")),	// 2.4G and 5G share one gre tunnel
+ 			'wlan_gw'		=> $wlan_gw,
+ 			'radio_mode'	=> strtoupper(php_getstr("Device.WiFi.Radio.$freq_id.OperatingStandards")),
+ 			'radio_freq'	=> ("1"==$freq_id) ? "2.4" : "5",

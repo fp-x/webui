@@ -1,0 +1,10 @@
+--- ./webui/source/Styles/xb3/code/cmn/js/lib/jquery.alerts.js
++++ ./webui/source/Styles/xb3/code/cmn/js/lib/jquery.alerts.js	2015-04-22 14:22:31.202841009 -0600
+@@ -272,6 +272,7 @@
+ 					$("#popup_title").css({ cursor: 'move' });
+ 				} catch(e) { /* requires jQuery UI draggables */ }
+ 			}
++			$("#popup_ok").blur();
+ 		},
+ 		
+ 		_hide: function() {

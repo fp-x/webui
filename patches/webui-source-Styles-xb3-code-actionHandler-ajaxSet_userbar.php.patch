@@ -1,0 +1,28 @@
+--- ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_userbar.php
++++ ./webui/source/Styles/xb3/code/actionHandler/ajaxSet_userbar.php	2015-04-22 14:22:31.198839009 -0600
+@@ -37,21 +37,21 @@
+ 
+ 		case "sta_moca":{
+ 			if ("true"==$status && "Up"==getStr("Device.MoCA.Interface.1.Status")){
+-				$tip = 'Status: Connected<br/>' . (1 + intval(getStr("Device.MoCA.Interface.1.AssociatedDeviceNumberOfEntries"))) . ' nodes connected';
++				$tip = 'Status: Connected<br/>'.getStr("Device.MoCA.Interface.1.X_CISCO_COM_NumberOfConnectedClients").' computers connected';
+ 			}
+ 			else{
+-				$tip = 'Status: Unconnected<br/>no nodes';
++				$tip = 'Status: Unconnected<br/>no computers';
+ 			}	
+ 		}break;
+ 
+-		case "sta_dect":{
++		/*case "sta_dect":{
+ 			if ("true"==$status){
+ 				$tip = getStr("Device.X_CISCO_COM_MTA.Dect.HandsetsNumberOfEntries").' Handsets connected';
+ 			}
+ 			else{
+ 				$tip = 'no Handsets';
+ 			}
+-		}break;
++		}break;*/
+ 		
+ 		case "sta_fire":{
+ 			$tip = 'Firewall is set to '.$status;

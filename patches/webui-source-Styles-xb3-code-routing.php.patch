@@ -1,0 +1,50 @@
+--- ./webui/source/Styles/xb3/code/routing.php
++++ ./webui/source/Styles/xb3/code/routing.php	2015-04-22 14:22:31.206843009 -0600
+@@ -206,8 +206,7 @@
+ 
+ $('#save_btn').click(function() {
+ 
+-	//var ifName      = $("#interface_name").val();
+-	var ifName      = 'Ethernet';
++	var ifName      = $("#interface_name").val();
+ 	var sendVer     = $("#send_version").val();
+ 	var recVer      = $("#receive_version").val();
+ 	var interval    = $("#update_interval").val();
+@@ -262,7 +261,7 @@
+ 
+ 	<div id="educational-tip">
+ 		<p class="tip">The RIP protocol is used to exchange the routing information between the gateway and headend.</p>
+-		<!-- <p class="hidden"><strong>Interface Name:</strong>Select the interface that the rip information will send from.</p> -->
++		<p class="hidden"><strong>Interface Name:</strong>Select the interface that the rip information will send from.</p>
+ 		<p class="hidden"><strong>RIP Send Version:</strong> Select the rip Send Version.</p>
+ 		<p class="hidden"> <strong>RIP Receive Version:</strong> Select the rip Receive Version.</p>
+ 		<p class="hidden"><strong>Update Interval:</strong> Enter the time that the rip information will resend.</p>
+@@ -278,14 +277,6 @@
+ 	<form id="pageForm" action="routing.php" method="post">
+ 
+ 		<!-- <div class="form-row">
+-			<label for="interface_name" class="readonlyLabel">Interface Name:</label>
+-			<select id="interface_name">
+-				<option value="Cable">Cable</option>
+-				<option value="Ethernet">Ethernet</option>
+-			</select>
+-		</div> -->
+-
+-	<!-- <div class="form-row">
+ 		<span class="readonlyLabel label">Status:</span>
+ 		<ul id="Routing-switch" class="radio-btns enable">
+     	 	<a tabindex='0'>
+@@ -304,6 +295,13 @@
+ 	</div> -->
+ 
+ 	<div id="Routing-items">
++		<div class="form-row">
++			<label for="interface_name" class="readonlyLabel">Interface Name:</label>
++			<select id="interface_name">
++				<option value="Cable">Cable</option>
++				<option value="Ethernet">Ethernet</option>
++			</select>
++		</div>
+ 		<div class="form-row odd">
+ 			<label for="send_version" class="readonlyLabel">RIP Send Version:</label>
+ 			<select id="send_version">

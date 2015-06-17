@@ -1,0 +1,40 @@
+--- ./webui/source/Styles/xb3/code/managed_sites_add_keyword.php
++++ ./webui/source/Styles/xb3/code/managed_sites_add_keyword.php	2015-05-04 11:39:36.230783877 -0600
+@@ -50,10 +50,17 @@
+         }
+     });
+ 
++	 $(function() {
++$.validator.addMethod("no_space", function(value, element, param) {
++		return !param || /^[a-zA-Z0-9]*$/i.test(value);
++	}, " No spaces. Case sensitive.");
++
+     $("#pageForm").validate({
+         rules: {
+             keyword: {
+-                required: true
++                required: true,
++                no_space:true
++
+             }
+             ,day: {
+               required: function() {
+@@ -62,6 +69,7 @@
+         }
+     }
+     });
++    });
+ 
+     $("#keyword").focus();
+ 
+@@ -132,8 +140,8 @@
+                 data: { BlockInfo: blockInfo },
+                 success: function(data){            
+                     jHide();
+-                    if (data == "1") {
+-                        jAlert("This keyword is already set!");
++                    if (data != "Success!") {
++                        jAlert(data);
+                     }else{
+                         window.location.href = "managed_sites.php";
+                     }

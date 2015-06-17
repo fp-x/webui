@@ -1,0 +1,175 @@
+--- ./webui/source/Styles/xb3/code/check.php
++++ ./webui/source/Styles/xb3/code/check.php	2015-04-22 14:22:31.198839009 -0600
+@@ -3,13 +3,14 @@
+     if (isset($_POST["username"]))
+ 	{
+ 		session_start();
+-		echo("You are logging...");
++		//echo("You are logging...");
+ 
+ 		$client_ip				= $_SERVER["REMOTE_ADDR"];			// $client_ip="::ffff:10.0.0.101";
+ 		$server_ip				= $_SERVER["SERVER_ADDR"];
+ 		$timeout_val 			= intval(getStr("Device.X_CISCO_COM_DeviceControl.WebUITimeout"));
++		("" == $timeout_val) && ($timeout_val = 900);
++		$_SESSION["timeout"]	= $timeout_val - 60;	//dmcli param is returning 900, GUI expects 840 - then GUI adds 60
+ 		$_SESSION["sid"]		= session_id();
+-		$_SESSION["timeout"]	= ("" == $timeout_val ? 900 : $timeout_val);
+ 		$_SESSION["loginuser"]	= $_POST["username"];
+ 
+ 		/*=============================================*/
+@@ -33,20 +34,21 @@
+ 
+         if ($_POST["username"] == "mso")
+ 		{
++	   //triggering password validation in back end
++	   setStr("Device.Users.User.1.X_CISCO_COM_Password",$_POST["password"],true);
++	   sleep(1);
+ 			$curPwd1 = getStr("Device.Users.User.1.X_CISCO_COM_Password");
+-			if ($_POST["password"] == $curPwd1)
+-            {
+-                if ( (if_type($server_ip)=="lan_ip") || (if_type($server_ip)=="rg_ip") )
++	   
++	    if ( innerIP($client_ip) || (if_type($server_ip)=="rg_ip") )
+                 {
+                     session_destroy();
+                     echo '<script type="text/javascript"> alert("Access denied!"); history.back(); </script>';
+                 }
+-                else
++            elseif ($curPwd1 == "Good_PWD")
+                 {
+                     exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
+                     header("location:at_a_glance.php");
+                 }
+-            }
+             elseif ("" == $curPwd1)
+             {
+ 				session_destroy();
+@@ -61,19 +63,16 @@
+         elseif ($_POST["username"] == "cusadmin")
+ 		{
+ 			$curPwd2 = getStr("Device.Users.User.2.X_CISCO_COM_Password");
+-			if ($_POST["password"] == $curPwd2) 
+-            {
+-				if ( (if_type($server_ip)=="lan_ip") || (if_type($server_ip)=="rg_ip") )
++			if ( innerIP($client_ip) || (if_type($server_ip)=="rg_ip") )
+ 				{
+ 					session_destroy();
+ 					echo '<script type="text/javascript"> alert("Access denied!"); history.back(); </script>';
+ 				}
+-				else
++			elseif ($_POST["password"] == $curPwd2) 
+ 				{
+ 					exec("/usr/bin/logger -t GUI -p local5.notice 'User:cusadmin login'");
+ 					header("location:at_a_glance.php");
+ 				}  
+-            }
+             elseif ("" == $curPwd2)
+             {
+ 				session_destroy();
+@@ -90,7 +89,7 @@
+ 			$curPwd3 = getStr("Device.Users.User.3.X_CISCO_COM_Password");
+ 			if ($_POST["password"] == $curPwd3) 
+             {
+-				if ( (if_type($server_ip)!="lan_ip") && (if_type($server_ip)!="rg_ip") )
++				if ( !innerIP($client_ip) && (if_type($server_ip)!="rg_ip") )
+ 				{
+ 					session_destroy();
+ 					echo '<script type="text/javascript"> alert("Access denied!"); history.back(); </script>';
+@@ -126,6 +125,36 @@
+         }
+     }
+ 	
++	function innerIP($client_ip){		//for compatibility, $client_ip is not used
++		$out		= array();
++		$tmp		= array();
++		$lan_ip		= array();
++		$server_ip	= $_SERVER["SERVER_ADDR"];
++		
++		if (strpos($server_ip, ".")){		//ipv4, something like "::ffff:10.1.10.1"
++			$tmp		= explode(":", $server_ip);
++			$server_ip	= array_pop($tmp);
++		}
++		
++		exec("ifconfig brlan0", $out);
++
++		foreach ($out as $v){
++			if (strpos($v, 'inet addr')){
++				$tmp = explode('Bcast', $v);
++				$tmp = explode('addr:', $tmp[0]);
++				array_push($lan_ip, trim($tmp[1]));
++			}
++			else if (strpos($v, 'inet6 addr')){
++				$tmp = explode('Scope', $v);
++				$tmp = explode('addr:', $tmp[0]);
++				$tmp = explode('/', $tmp[1]);
++				array_push($lan_ip, trim($tmp[0]));
++			}
++		}
++		
++		return in_array($server_ip, $lan_ip);
++	}
++
+ 	function get_ips($if_name){
+ 		$out = array();
+ 		$tmp = array();
+@@ -145,17 +174,15 @@
+ 	
+ 	function if_type($ip_addr){
+ 		$tmp	= array();
+-		$lan_ip	= get_ips("brlan0");	//routed IPv4 and IPv6
++		$lan_ip	= get_ips("brlan0");
+ 		$cm_ip	= get_ips("wan0");
+-		$lan0_ip= get_ips("lan0");		//bridged lan0, v4 only
+ 		
+-		//Note: 3939 has no static IP, so do not need workaround as 3939B
+ 		if (strstr($ip_addr, ".")){		//ipv4, something like "::ffff:10.1.10.1"
+ 			$tmp	 = explode(":", $ip_addr);
+ 			$ip_addr = array_pop($tmp);
+ 		}
+ 		
+-		if (in_array($ip_addr, $lan_ip) || in_array($ip_addr, $lan0_ip)){
++		if (in_array($ip_addr, $lan_ip)){
+ 			return "lan_ip";
+ 		}
+ 		else if (in_array($ip_addr, $cm_ip)){
+@@ -169,40 +196,7 @@
+ 		// print_r($cm_ip);
+ 	}	
+ 
+-	// innerIP 2nd edition, replaced by "ip addr show" at if_type()
+-	/*
+-	function innerIP($client_ip){		//for compatibility, $client_ip is not used
+-		$out		= array();
+-		$tmp		= array();
+-		$lan_ip		= array();
+-		$server_ip	= $_SERVER["SERVER_ADDR"];
+-		
+-		if (strpos($server_ip, ".")){		//ipv4, something like "::ffff:10.1.10.1"
+-			$tmp		= explode(":", $server_ip);
+-			$server_ip	= array_pop($tmp);
+-		}
+-		
+-		exec("ifconfig brlan0", $out);
+-
+-		foreach ($out as $v){
+-			if (strpos($v, 'inet addr')){
+-				$tmp = explode('Bcast', $v);
+-				$tmp = explode('addr:', $tmp[0]);
+-				array_push($lan_ip, trim($tmp[1]));
+-			}
+-			else if (strpos($v, 'inet6 addr')){
+-				$tmp = explode('Scope', $v);
+-				$tmp = explode('addr:', $tmp[0]);
+-				$tmp = explode('/', $tmp[1]);
+-				array_push($lan_ip, trim($tmp[0]));
+-			}
+-		}
+-		
+-		return in_array($server_ip, $lan_ip);
+-	}
+-	*/
+ 
+-	// innerIP 1st edition, replaced by "ifconfig" at 2nd edition
+ 	/*	
+ 	function innerIP($client_ip)
+ 	{

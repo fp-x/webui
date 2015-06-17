@@ -1,0 +1,21 @@
+--- ./webui/source/Styles/xb3/config/lighttpd.conf
++++ ./webui/source/Styles/xb3/config/lighttpd.conf	2015-04-22 14:22:31.210845009 -0600
+@@ -129,7 +129,7 @@
+ # ~    is for backupfiles from vi, emacs, joe, ...
+ # .inc is often used for code includes which should in general not be part
+ #      of the document-root
+-url.access-deny             = ( "~", ".inc" )
++url.access-deny             = ( "~", ".inc", ".html" )
+ 
+ #$HTTP["url"] =~ "\.pdf$" {
+ #  server.range-requests = "disable"
+@@ -227,7 +227,8 @@
+ 										"host" => "0.0.0.0",
+ 										"port" => 1026 ,
+ #										"bin-path" => "/bin/php-cgi -c /etc/php.ini",
+-										"bin-path" => "/fss/gw" + "/bin/php-cgi -c /etc/php.ini",
++#										"bin-path" => "/fss/gw" + "/bin/php-cgi -c /etc/php.ini",
++										"bin-path" => "/fss/gw" + "/bin/php-cgi -c /fss/gw/etc/php.ini",
+ 									)
+ 								)
+                             )

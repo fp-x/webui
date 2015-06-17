@@ -1,0 +1,66 @@
+--- ./webui/source/Styles/xb3/code/includes/nav.php
++++ ./webui/source/Styles/xb3/code/includes/nav.php	2015-05-04 11:39:36.230783877 -0600
+@@ -14,7 +14,7 @@
+ $port_triggering  	= TRUE;
+ $MoCA             	= TRUE;
+ $battery            = TRUE;
+-$cordless_handset 	= TRUE;
++$cordless_handset 	= FALSE;
+ $USB              	= FALSE;
+ $network_storage  	= FALSE;
+ $range_extenders  	= TRUE;
+@@ -29,6 +29,8 @@
+ $hs_port_forwarding = TRUE; //for mso only
+ $dynamic_dns        = TRUE;  //for mso/cusadmin
+ $nat		        = FALSE;  //for mso/cusadmin
++$password_change	= FALSE;  //for admin only
++$wizard        		= TRUE;
+ 
+ if ($_DEBUG) {
+ 	$media_sharing = TRUE;
+@@ -37,7 +39,7 @@
+ /*
+  * The difference between  bridge mode and router mode
+  * In bridge mode, local ip config page, firewall page, parental control pages, 
+- * routing page(mso), dmz page, port fowarding and port triggering pages removed
++ * routing page(mso), dmz page, wizard pages, port fowarding and port triggering pages removed
+  */
+ if (isset($_SESSION['lanMode']) && $_SESSION["lanMode"] == "bridge-static") {
+ 	$local_ip_config  = FALSE;
+@@ -48,6 +50,7 @@
+ 	$port_forwarding  = FALSE;
+ 	$port_triggering  = FALSE;
+ 	$hs_port_forwarding = FALSE;
++	$wizard		 		= FALSE;
+ }
+ 
+ if (isset($_SESSION['loginuser']) && $_SESSION['loginuser'] == 'cusadmin') {
+@@ -61,6 +64,7 @@
+ 	$email_notify		= FALSE;
+ 	$dynamic_dns 		= FALSE;
+ 	$hs_port_forwarding = FALSE;
++	$password_change	= TRUE;
+ }
+ 
+ /*
+@@ -110,7 +114,10 @@
+ 		if($USB) echo '<li class="nav-usb"><a role="menuitem"  href="usb.php">USB</a></li>';
+ 		echo '</ul>';
+ 	echo '</li>';
+-	echo '<li class="nav-wizard"><a role="menuitem"  href="wizard_step1.php">Wizard</a></li>';
++	if($wizard){
++		if($password_change) echo '<li class="nav-wizard"><a role="menuitem"  href="wizard_step1.php">Wizard</a></li>';
++		else echo '<li class="nav-wizard"><a role="menuitem"  href="wizard_step2.php">Wizard</a></li>';
++	}
+ 	echo '</ul>';
+ echo '</li>';
+ 
+@@ -178,7 +185,7 @@
+ 		echo '<li class="nav-logs"><a role="menuitem"  href="troubleshooting_logs.php">Logs</a></li>';
+ 		echo '<li class="nav-diagnostic-tools"><a role="menuitem"  href="network_diagnostic_tools.php">Diagnostic Tools</a></li>';
+ 		echo '<li class="nav-restore-reboot"><a role="menuitem"  href="restore_reboot.php">Reset/Restore Gateway</a></li>';
+-		echo '<li class="nav-password"><a role="menuitem"  href="password_change.php">Change Password</a></li>';
++		if($password_change) echo '<li class="nav-password"><a role="menuitem"  href="password_change.php">Change Password</a></li>';
+ 	echo '</ul>';
+ echo '</li>';
+ echo '</ul>';

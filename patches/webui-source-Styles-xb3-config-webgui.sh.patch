@@ -1,0 +1,92 @@
+--- ./webui/source/Styles/xb3/config/webgui.sh
++++ ./webui/source/Styles/xb3/config/webgui.sh	2015-04-22 14:22:31.210845009 -0600
+@@ -1,22 +1,5 @@
+ #! /bin/sh
+ 
+-#######################################################################
+-#   Copyright [2014] [Cisco Systems, Inc.]
+-# 
+-#   Licensed under the Apache License, Version 2.0 (the \"License\");
+-#   you may not use this file except in compliance with the License.
+-#   You may obtain a copy of the License at
+-# 
+-#       http://www.apache.org/licenses/LICENSE-2.0
+-# 
+-#   Unless required by applicable law or agreed to in writing, software
+-#   distributed under the License is distributed on an \"AS IS\" BASIS,
+-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-#   See the License for the specific language governing permissions and
+-#   limitations under the License.
+-#######################################################################
+-
+-
+ #WEBGUI_SRC=/fss/gw/usr/www/html.tar.bz2
+ #WEBGUI_DEST=/var/www
+ 
+@@ -36,6 +19,7 @@
+ 	/bin/kill $LIGHTTPD_PID
+ fi
+ 
++HTTP_ADMIN_PORT=`syscfg get http_admin_port`
+ HTTP_PORT=`syscfg get mgmt_wan_httpport`
+ HTTP_PORT_ERT=`syscfg get mgmt_wan_httpport_ert`
+ HTTPS_PORT=`syscfg get mgmt_wan_httpsport`
+@@ -52,7 +36,7 @@
+ #sed -i "s/^server.port.*/server.port = $HTTP_PORT/" /var/lighttpd.conf
+ #sed -i "s#^\$SERVER\[.*\].*#\$SERVER[\"socket\"] == \":$HTTPS_PORT\" {#" /var/lighttpd.conf
+ 
+-echo "server.port = 80" >> /var/lighttpd.conf
++echo "server.port = $HTTP_ADMIN_PORT" >> /var/lighttpd.conf
+ echo "server.bind = \"$INTERFACE\"" >> /var/lighttpd.conf
+ echo "\$SERVER[\"socket\"] == \"wan0:80\" { server.use-ipv6 = \"enable\" }" >> /var/lighttpd.conf
+ 
+@@ -64,7 +48,49 @@
+ 
+ echo "\$SERVER[\"socket\"] == \"$INTERFACE:443\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> /var/lighttpd.conf
+ echo "\$SERVER[\"socket\"] == \"wan0:443\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> /var/lighttpd.conf
++if [ $HTTPS_PORT -ne 0 ]
++then
++    echo "\$SERVER[\"socket\"] == \"erouter0:$HTTPS_PORT\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> /var/lighttpd.conf
++else
++    # When the httpsport is set to NULL. Always put default value into database.
++    syscfg set mgmt_wan_httpsport 8081
++    syscfg commit
++    HTTPS_PORT=`syscfg get mgmt_wan_httpsport`
+ echo "\$SERVER[\"socket\"] == \"erouter0:$HTTPS_PORT\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> /var/lighttpd.conf
++fi
++
++SSID1_DEF=`cat /nvram/bbhm_cur_cfg.xml | grep Device.WiFi.Radio.SSID.1.SSID | cut -d">" -f 2 | cut -d "<" -f 1`
++SSID2_DEF=`cat /nvram/bbhm_cur_cfg.xml | grep Device.WiFi.Radio.SSID.2.SSID | cut -d">" -f 2 | cut -d "<" -f 1`
++
++PASSPHRASE1_DEF=`cat /nvram/bbhm_cur_cfg.xml | grep Device.WiFi.Radio.SSID.1.Passphrase | cut -d">" -f 2 | cut -d "<" -f 1`
++PASSPHRASE2_DEF=`cat /nvram/bbhm_cur_cfg.xml | grep Device.WiFi.Radio.SSID.2.Passphrase | cut -d">" -f 2 | cut -d "<" -f 1`
++
++SSID1_CUR=`dmcli eRT getv Device.WiFi.SSID.1.SSID | grep string, | awk '{print $5}'`
++SSID2_CUR=`dmcli eRT getv Device.WiFi.SSID.2.SSID | grep string, | awk '{print $5}'`
++
++PASSPHRASE1_CUR=`dmcli eRT getv Device.WiFi.AccessPoint.1.Security.X_CISCO_COM_KeyPassphrase | grep string, | awk '{print $5}'`
++PASSPHRASE2_CUR=`dmcli eRT getv Device.WiFi.AccessPoint.2.Security.X_CISCO_COM_KeyPassphrase | grep string, | awk '{print $5}'`
++
++ 
++WIFIUNCONFIGURED=`syscfg get redirection_flag`
++
++if [ "$WIFIUNCONFIGURED" = "true" ]
++then
++	CONFIGFILEAVAIL=`ls /tmp/*walledgarden*`
++	if [ "$CONFIGFILEAVAIL" = "" ]
++	then
++		if [ "$SSID1_DEF" == "$SSID1_CUR" ] ||  [ "$SSID2_DEF" == "$SSID2_CUR" ] 
++		then
++			dmcli eRT setvalues Device.DeviceInfo.X_RDKCENTRAL-COM_ConfigureWiFi bool TRUE
++		elif [ "$PASSPHRASE1_DEF" == "$PASSPHRASE1_CUR" ] || [ "$PASSPHRASE2_DEF" == "$PASSPHRASE2_CUR" ]
++		then
++			dmcli eRT setvalues Device.DeviceInfo.X_RDKCENTRAL-COM_ConfigureWiFi bool TRUE
++		else
++			echo "WiFi is already configured"
++		fi
++	fi
++fi		
++
+ 
+ echo "\$SERVER[\"socket\"] == \"$INTERFACE:10443\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" server.document-root = \"/fss/gw/usr/walled_garden/parcon/siteblk\" server.error-handler-404 = \"/index.php\" }" >> /var/lighttpd.conf
+ echo "\$SERVER[\"socket\"] == \"$INTERFACE:18080\" { server.use-ipv6 = \"enable\"  server.document-root = \"/fss/gw/usr/walled_garden/parcon/siteblk\" server.error-handler-404 = \"/index.php\" }" >> /var/lighttpd.conf

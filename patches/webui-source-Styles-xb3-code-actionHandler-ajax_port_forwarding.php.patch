@@ -1,0 +1,74 @@
+--- ./webui/source/Styles/xb3/code/actionHandler/ajax_port_forwarding.php
++++ ./webui/source/Styles/xb3/code/actionHandler/ajax_port_forwarding.php	2015-04-22 14:22:31.198839009 -0600
+@@ -61,21 +61,32 @@
+ 		// $result="";
+ 		$ids=explode(",",getInstanceIDs("Device.NAT.PortMapping."));
+ 		foreach ($ids as $key=>$j) {
+-			if (getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0 && getStr("Device.NAT.PortMapping.".$j.".InternalPort")==0){
++			if (getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0){
+ 				$arrayName  = getStr("Device.NAT.PortMapping.".$j.".Description");
+ 				$arrayIP    = getStr("Device.NAT.PortMapping.".$j.".InternalClient");
+ 				$arrayType  = getStr("Device.NAT.PortMapping.".$j.".Protocol");
+ 				$arraySPort = getStr("Device.NAT.PortMapping.".$j.".ExternalPort");
+ 				$arrayEPort = getStr("Device.NAT.PortMapping.".$j.".ExternalPortEndRange");
++				$InternalPort = getStr("Device.NAT.PortMapping.$j.InternalPort");
+ 				if($name==$arrayName) { 
+-					$result.="Service name has been used!\n";
++					if($InternalPort !=0){
++						$result.="Service name has been used in HS Port Forwarding service!\n";
+ 					break;
++					} else {
++						$result.="Service name has been used in Port Forwarding service!\n";
++						break;
++					}
+ 				} 
+ 				else if($type=="BOTH"||$arrayType=="BOTH"||$type==$arrayType){
+ 					$porttest=PORTTEST($sport,$eport,$arraySPort,$arrayEPort);
+ 					if ($porttest==1) {
+-						$result.="Conflict with other service. Please check port and IP!";
++						if($InternalPort !=0){
++							$result.="Conflict with other HS Port Forwarding service. Please check port and IP!";
+ 						break;
++						} else {
++							$result.="Conflict with other Port Forwarding service. Please check port and IP!";
++							break;
++						}
+ 					}
+ 				}
+ 			}
+@@ -118,21 +129,32 @@
+ 	$ids=explode(",",getInstanceIDs("Device.NAT.PortMapping."));
+ 	foreach ($ids as $key=>$j) {
+ 		if ($i==$j) continue;
+-		if (getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0 && getStr("Device.NAT.PortMapping.".$j.".InternalPort")==0){
++		if (getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0){
+ 			$arrayName  = getStr("Device.NAT.PortMapping.".$j.".Description");
+ 			$arrayIP    = getStr("Device.NAT.PortMapping.".$j.".InternalClient");
+ 			$arrayType  = getStr("Device.NAT.PortMapping.".$j.".Protocol");
+ 			$arraySPort = getStr("Device.NAT.PortMapping.".$j.".ExternalPort");
+ 			$arrayEPort = getStr("Device.NAT.PortMapping.".$j.".ExternalPortEndRange");
++			$InternalPort = getStr("Device.NAT.PortMapping.$j.InternalPort");
+ 			if($name==$arrayName) { 
+-				$result.="Service name has been used!\n";
++				if($InternalPort !=0){
++					$result.="Service name has been used in HS Port Forwarding service!\n";
+ 				break;
++				} else {
++					$result.="Service name has been used in Port Forwarding service!\n";
++					break;
++				}
+ 			}
+ 			else if($type=="BOTH"||$arrayType=="BOTH"||$type==$arrayType){
+ 				$porttest=PORTTEST($sport,$eport,$arraySPort,$arrayEPort);
+ 				if ($porttest==1) {
+-					$result.="Conflict with other service. Please check port and IP!";
++					if($InternalPort !=0){
++						$result.="Conflict with other HS Port Forwarding service. Please check port and IP!";
+ 					break;
++					} else {
++						$result.="Conflict with other Port Forwarding service. Please check port and IP!";
++						break;
++					}
+ 				}
+ 			}
+ 		}

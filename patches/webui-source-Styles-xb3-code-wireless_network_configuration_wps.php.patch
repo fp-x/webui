@@ -1,0 +1,75 @@
+--- ./webui/source/Styles/xb3/code/wireless_network_configuration_wps.php
++++ ./webui/source/Styles/xb3/code/wireless_network_configuration_wps.php	2015-06-01 10:29:06.112555088 -0600
+@@ -35,14 +35,21 @@
+ 		$wps_config	= "true";
+ 		$encrypt_mode	= getStr("Device.WiFi.AccessPoint.$i.Security.ModeEnabled");
+ 		$encrypt_method	= getStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_EncryptionMethod");
+-		$broadcastSSID	= getStr("Device.WiFi.AccessPoint.$i.SSIDAdvertisementEnabled");
+-		$filter_enable	= getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
+-		if (strstr($encrypt_mode, "WEP") || (strstr($encrypt_mode, "WPA") && $encrypt_method=="TKIP") || "false"==$broadcastSSID || "true"==$filter_enable){
++		//$broadcastSSID	= getStr("Device.WiFi.AccessPoint.$i.SSIDAdvertisementEnabled");
++		//$filter_enable	= getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
++		if (strstr($encrypt_mode, "WEP") || (strstr($encrypt_mode, "WPA") && $encrypt_method=="TKIP")){ //|| "false"==$broadcastSSID || "true"==$filter_enable){
+ 			$wps_config	= "false";
+ 			break;
+ 		}
+ 	}
+ }
++
++//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
++$broadcastSSID_1 = getStr("Device.WiFi.AccessPoint.1.SSIDAdvertisementEnabled");
++$broadcastSSID_2 = getStr("Device.WiFi.AccessPoint.2.SSIDAdvertisementEnabled");
++
++if("false"==$broadcastSSID_1 && "false"==$broadcastSSID_2) $wps_config	= "false";
++
+ // $wps_config = "true";
+ if ($_DEBUG) {
+ 	$wps_enabled = "false";
+@@ -57,7 +64,9 @@
+ <script type="text/javascript">
+ function validChecksum(PIN)
+ {
+-	if (""==PIN) return false;
++	if (PIN.search(/^(\d{4}|\d{8}|\d{4}[\-|\s]\d{4})$/) != 0) return false;
++	PIN = PIN.replace(" ","");
++	PIN = PIN.replace("-","");
+ 	var accum = 0;
+ 	accum += 3 * (parseInt(PIN / 10000000) % 10);
+ 	accum += 1 * (parseInt(PIN / 1000000) % 10);
+@@ -100,6 +109,9 @@
+ 			if ("wps_enabled"==target || "wps_method"==target){
+ 				location.reload();
+ 			}			
++			if ("pair_cancel"==target){
++				window.location.href = "wireless_network_configuration.php";
++			}
+ 		},
+ 		error: function(){            
+ 			jHide();
+@@ -208,17 +220,16 @@
+ 	$("#pin_switch").trigger("change", [true]);
+ 	
+ 	if ("false"=="<?php echo $wps_config;?>"){
+-	/*
+-		$(".wps_config").html('<h2>Add Wi-Fi Client (WPS)</h2>\
+-		<p style="color:red;font-size:130%;font-style:bold;">WPS function is disabled and can not be enabled now!</p>\
+-		<p>You can take these steps to enable WPS:</p>\
+-		<p/>(1) enable at least one private Wi-Fi interface</p>\
+-		<p/>(2) its security mode is not WEP/WPA-TKIP/WPA2-TKIP</p>\
+-		<p/>(3) its network name is not hidden</p>\
+-		<p/>(4) its MAC filter function is not enabled</p>\
+-		<p/>Then please refresh(or back to) this page and try again.</p>');
++		$(".wps_config").html('<h2>Add Wi-Fi Client (WPS)</h2>'
++		+'<p style="color:red;font-size:130%;font-style:bold;">WPS function is disabled and can not be enabled now!</p>'
++		+'<p style="color: #838c91;">You can take these steps to enable WPS:</p>'
++		+'<p style="color: #838c91;">(1) Enable at least one private Wi-Fi interface</p>'
++		+'<p style="color: #838c91;">(2) Its security mode is not WEP/WPA-TKIP/WPA2-TKIP</p>'
++		+'<p style="color: #838c91;">(3) Its network name is not hidden</p>'
++		+'<!--p style="color: #838c91;">(4) Its MAC filter function is not enabled</p-->'
++		+'<p style="color: #838c91;">Then please refresh(or back to) this page and try again.</p>');
+ 		return;
+-	*/
++
+ 		$(".wps_config *").not(".radioswitch_cont, .radioswitch_cont *").unbind("click").prop("disabled", true).addClass("disabled").removeClass("selected");
+ 		$(".wps_config .radioswitch_cont").radioswitch("doEnable", false);
+ 	}

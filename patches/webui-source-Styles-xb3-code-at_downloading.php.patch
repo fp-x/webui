@@ -1,0 +1,12 @@
+--- ./webui/source/Styles/xb3/code/at_downloading.php
++++ ./webui/source/Styles/xb3/code/at_downloading.php	2015-04-22 14:22:31.198839009 -0600
+@@ -23,7 +23,8 @@
+ 		
+ 			$filesize=filesize("/var/tmp/".$filename);
+ 			header ("Content-Type: application/download"); 
+-			header ("Content-Disposition: attachment; filename=backup_".date("YmdHis").".cfg"); 
++			//header ("Content-Disposition: attachment; filename=backup_".date("YmdHis").".cfg");
++			header ("Content-Disposition: attachment; filename=backup_latest.cfg"); 
+ 			header("Content-Length: ".$filesize); 
+ 
+ 			$fp=fopen("/var/tmp/".$filename,"r");

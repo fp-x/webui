@@ -1,0 +1,11 @@
+--- ./webui/source/Styles/xb3/code/cmn/js/comcast.js
++++ ./webui/source/Styles/xb3/code/cmn/js/comcast.js	2015-04-22 14:22:31.202841009 -0600
+@@ -292,7 +292,7 @@
+             document.title = title + " - " + document.title;
+             setupLeftNavigation(navElementId);
+             setupDeleteConfirmDialogs();
+-			setupBatteryIndicator();
++			//setupBatteryIndicator();
+ 			setupEducationalTip();
+ 			setupFormValidation();
+ 			setupFirewallDisplay();

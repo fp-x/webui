@@ -1,0 +1,34 @@
+--- ./webui/source/Styles/xb3/code/hardware.php
++++ ./webui/source/Styles/xb3/code/hardware.php	2015-04-22 14:22:31.206843009 -0600
+@@ -43,13 +43,29 @@
+ 			<?php echo getStr("Device.DeviceInfo.X_CISCO_COM_ProcessorSpeed"); ?> MHz</span>
+ 		</div>
+ 		<div class="form-row">
+-			<span class="readonlyLabel">DRAM:</span> <span class="value">
++			<span class="readonlyLabel">DRAM Total Memory:</span> <span class="value">
+ 			<?php echo getStr("Device.DeviceInfo.MemoryStatus.Total"); ?> MB</span>
+ 		</div>
+ 		<div class="form-row odd">
+-			<span class="readonlyLabel">Flash:</span> <span class="value">
++			<span class="readonlyLabel">DRAM Used Memory:</span> <span class="value">
++			<?php echo getStr("Device.DeviceInfo.MemoryStatus.Used"); ?> MB</span>
++		</div>
++		<div class="form-row">
++			<span class="readonlyLabel">DRAM Available Memory:</span> <span class="value">
++			<?php echo getStr("Device.DeviceInfo.MemoryStatus.Free"); ?> MB</span>
++		</div>
++		<div class="form-row odd">
++			<span class="readonlyLabel">Flash Total Memory:</span> <span class="value">
+ 			<?php echo getStr("Device.DeviceInfo.Hardware"); ?> MB</span>
+ 		</div>
++		<div class="form-row">
++			<span class="readonlyLabel">Flash Used Memory:</span> <span class="value">
++			<?php echo getStr("Device.DeviceInfo.Hardware_MemUsed"); ?> MB</span>
++		</div>
++		<div class="form-row odd">
++			<span class="readonlyLabel">Flash Available Memory:</span> <span class="value">
++			<?php echo getStr("Device.DeviceInfo.Hardware_MemFree"); ?> MB</span>
++		</div>
+ 	</div> <!-- end .module -->
+ </div><!-- end #content -->
+ 

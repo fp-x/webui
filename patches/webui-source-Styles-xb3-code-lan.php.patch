@@ -1,0 +1,19 @@
+--- ./webui/source/Styles/xb3/code/lan.php
++++ ./webui/source/Styles/xb3/code/lan.php	2015-04-22 14:22:31.206843009 -0600
+@@ -126,10 +126,16 @@
+ 			$lspeed = "Not Applicable";
+ 			$lunit = "";
+ 		}
++		else if ((int)$lspeed < 0) {
++			$lspeed = "Disconnected";
++			$lunit = "";
++		}
++		/* zqiu
+ 		else if ((int)$lspeed >= 1000) {
+ 			$lspeed = floor((int)$lspeed / 1000);
+ 			$lunit = " Gbps";
+ 		}
++		*/
+ 		array_push($dm, array("Connection Speed:", $lspeed.$lunit));
+ 		
+ 		for ($m=0, $i=0; $i<count($dm); $i++)

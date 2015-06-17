@@ -1,0 +1,28 @@
+--- ./webui/source/Styles/xb3/code/firewall_settings_ipv6.php
++++ ./webui/source/Styles/xb3/code/firewall_settings_ipv6.php	2015-04-22 14:22:31.206843009 -0600
+@@ -30,11 +30,11 @@
+ 	
+ 	$("#disable_firewall").change(function(){
+ 		if($("#disable_firewall").prop("checked")) {
+-			$("#block_http").prop("disabled",true);
+-			$("#block_icmp").prop("disabled",true);
+-			$("#block_multicast").prop("disabled",true);
+-			$("#block_peer").prop("disabled",true);
+-			$("#block_ident").prop("disabled",true);
++			$("#block_http").prop("disabled",true).attr('checked', false);
++			$("#block_icmp").prop("disabled",true).attr('checked', false);
++			$("#block_multicast").prop("disabled",true).attr('checked', false);
++			$("#block_peer").prop("disabled",true).attr('checked', false);
++			$("#block_ident").prop("disabled",true).attr('checked', false);
+ 		}
+ 		else {
+ 			$("#block_http").prop("disabled",false);
+@@ -189,7 +189,7 @@
+ 				</div>
+ 			</li>
+ 			<!--###### for IPv6 ######-->
+-			<li id="default" class="medium">
++			<li id="default">
+ 				<input type="radio" name="firewall_level" value="Default" id="firewall_level_default" <?php if ( !strcasecmp("Default", $SecurityLevel)) echo "checked"; ?>  />
+ 				<label for="firewall_level_default" class="label">Typical Security (Default)</label>
+ 				<div class="hide">

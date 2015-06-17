@@ -1,0 +1,21 @@
+--- ./webui/source/Styles/xb3/config/php.ini
++++ ./webui/source/Styles/xb3/config/php.ini	2015-04-22 14:22:31.210845009 -0600
+@@ -382,7 +382,7 @@
+ ; It receives a comma-delimited list of function names. This directive is
+ ; *NOT* affected by whether Safe Mode is turned On or Off.
+ ; http://php.net/disable-functions
+-disable_functions =
++disable_functions = phpinfo
+ 
+ ; This directive allows you to disable certain classes for security reasons.
+ ; It receives a comma-delimited list of class names. This directive is
+@@ -512,8 +512,7 @@
+ ; Production Value: E_ALL & ~E_DEPRECATED
+ ; http://php.net/error-reporting
+ ;error_reporting = E_ALL | E_STRICT
+-; just log error, prevent creating large size of logs
+-error_reporting = E_ERROR
++error_reporting = E_ALL & ~E_DEPRECATED
+ 
+ ; This directive controls whether or not and where PHP will output errors,
+ ; notices and warnings too. Error output is very useful during development, but

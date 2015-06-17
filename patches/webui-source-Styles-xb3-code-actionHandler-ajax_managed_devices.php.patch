@@ -1,0 +1,92 @@
+--- ./webui/source/Styles/xb3/code/actionHandler/ajax_managed_devices.php
++++ ./webui/source/Styles/xb3/code/actionHandler/ajax_managed_devices.php	2015-04-22 14:22:31.198839009 -0600
+@@ -21,12 +21,33 @@
+ //	echo json_encode("Disabled");
+ }
+ 
++function time_date_conflict($TD1, $TD2) {
++	$ret = false;
++	$days1 = explode(",", $TD1[2]);
++	$days2 = explode(",", $TD2[2]);
++
++	foreach ($days1 as &$value) {
++		if (in_array($value, $days2)) {
++			//deMorgan's law - to find if ranges are overlapping
++			//(StartA <= EndB)  and  (EndA >= StartB)
++			if((strtotime($TD1[0]) < strtotime($TD2[1])) and (strtotime($TD1[1]) > strtotime($TD2[0]))){
++	  			$ret = true;
++	  			break;
++			} 
++		}
++	}
++	return $ret;
++}
++
+ if (isset($_POST['add'])){
+ 
+ 	$type=$_POST['type'];
+ 	$name=$_POST['name'];
+ 	$mac=$_POST['mac'];
+ 	$block=$_POST['block'];
++	$startTime=$_POST['startTime'];
++	$endTime=$_POST['endTime'];
++	$blockDays=$_POST['days'];
+ 	
+ 	$ids=explode(",",getInstanceIDs("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device."));
+ 	if (count($ids)==0) {	//no table, need test whether it equals 0
+@@ -54,12 +75,21 @@
+ 			$deviceName = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.Description");
+ 			$accessType = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.Type");	
+ 			$MACAddress = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.MACAddress");	
++			$always_Block = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.AlwaysBlock");
++			$start_Time = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.StartTime");
++			$end_Time = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.EndTime");
++			$block_Days = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.BlockDays");
+ 
+ 			if (($type == $accessType) && (!strcasecmp($mac, $MACAddress))) {
+-				$result .= "This device is already in $type list.";
++				//Check for time and day conflicts
++				$TD1=array($startTime, $endTime, $blockDays);
++				$TD2=array($start_Time, $end_Time, $block_Days);
++				if(($always_Block == "true") || ($block == "true") || time_date_conflict($TD1, $TD2)){
++					$result .= "Conflict with other device. Please check your input!";
+ 				break;
+ 			}
+ 		}
++		}
+ 
+ 		if ($result=="") {
+ 			addTblObj("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.");
+@@ -86,6 +116,9 @@
+ 	$name=$_POST['name'];
+ 	$mac=$_POST['mac'];
+ 	$block=$_POST['block'];
++	$startTime=$_POST['startTime'];
++	$endTime=$_POST['endTime'];
++	$blockDays=$_POST['days'];
+ 
+ 	$type = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$i.Type");
+ 	$result="";
+@@ -97,12 +130,21 @@
+ 		$deviceName = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.Description");
+ 	    $accessType = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.Type");	
+ 	    $MACAddress = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.MACAddress");	
++		$always_Block = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.AlwaysBlock");
++		$start_Time = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.StartTime");
++		$end_Time = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.EndTime");
++		$block_Days = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$j.BlockDays");
+ 		
+ 		if (($type == $accessType) && (!strcasecmp($mac, $MACAddress))) {
+-			$result .= "This device is already in $type list.";
++			//Check for time and day conflicts
++			$TD1=array($startTime, $endTime, $blockDays);
++			$TD2=array($start_Time, $end_Time, $block_Days);
++			if(($always_Block == "true") || ($block == "true") || time_date_conflict($TD1, $TD2)){
++				$result .= "Conflict with other device. Please check your input!";
+ 			break;
+ 		}
+ 	}
++	}
+ 
+ 	if ($result=="") {
+ 		setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Description",$name,false);

@@ -1,0 +1,11 @@
+--- ./webui/source/Styles/xb3/code/voice_quality_metrics.php
++++ ./webui/source/Styles/xb3/code/voice_quality_metrics.php	2015-04-22 14:22:31.210845009 -0600
+@@ -89,7 +89,7 @@
+ <div id="content">
+ 	<h1>Gateway > Connection > Voice Quality Metrics</h1>
+ 	<div id="educational-tip">
+-		<p class="tip">This Page displays the voice quality metrics of your Telephone lines.</p>
++		<p class="tip">This page displays the voice quality metrics of your Telephone lines.</p>
+ 	</div>
+ 	<div class="module data" style="margin-left:px">
+ 		<table  id="radius_tab" style="font-size:11px;">

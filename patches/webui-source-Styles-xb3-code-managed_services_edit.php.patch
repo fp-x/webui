@@ -1,0 +1,20 @@
+--- ./webui/source/Styles/xb3/code/managed_services_edit.php
++++ ./webui/source/Styles/xb3/code/managed_services_edit.php	2015-04-22 14:22:31.206843009 -0600
+@@ -141,7 +141,7 @@
+ 	}, "Please enter a value more than or equal to Start Port.");
+ 	$("#pageForm").validate({
+ 	   rules: {
+-	       service: {
++	       user_defined_service: {
+ 	           required: true
+ 	       }
+ 	       ,start_port: {
+@@ -299,7 +299,7 @@
+ <form id="pageForm"  method="post">
+ 
+             <div class="form-row">
+-				<label for="service">User Defined Service:</label>
++				<label for="user_defined_service">User Defined Service:</label>
+ 				<input type="text" id="user_defined_service" value="FTP" name="user_defined_service" class="text" />
+ 			</div>
+ 

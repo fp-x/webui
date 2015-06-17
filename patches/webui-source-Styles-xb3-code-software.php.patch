@@ -1,0 +1,28 @@
+--- ./webui/source/Styles/xb3/code/software.php
++++ ./webui/source/Styles/xb3/code/software.php	2015-04-22 14:22:31.210845009 -0600
+@@ -26,18 +26,18 @@
+ 			<span class="readonlyLabel">eMTA & DOCSIS Software Version:</span> <span class="value">
+ 			<?php echo getStr("Device.DeviceInfo.SoftwareVersion"); ?></span>
+ 		</div>
+-		<div class="form-row odd">
++		<!--div class="form-row odd">
+ 			<span class="readonlyLabel">DECT Software Version:</span> <span class="value">
+-			<?php echo getStr("Device.X_CISCO_COM_MTA.Dect.SoftwareVersion"); ?></span>
+-		</div>
+-		<div class="form-row ">
++			<?php //echo getStr("Device.X_CISCO_COM_MTA.Dect.SoftwareVersion"); ?></span>
++		</div-->
++		<div class="form-row odd">
+ 			<span class="readonlyLabel">Software Image Name:</span> <span class="value">
+ 			<?php echo getStr("Device.DeviceInfo.X_CISCO_COM_FirmwareName"); ?></span>
+ 		</div>
+-		<!--div class="form-row odd">
++		<div class="form-row ">
+ 			<span class="readonlyLabel">Advanced Services:</span> <span class="value">
+-			<?php //echo getStr(); ?></span>
+-		</div-->
++			<?php echo getStr("Device.DeviceInfo.ModelName"); ?></span>
++		</div>
+ 		<div class="form-row odd">
+ 			<span class="readonlyLabel">Packet Cable:</span> <span class="value">
+ 			<?php echo getStr("Device.X_CISCO_COM_MTA.PCVersion"); ?></span>

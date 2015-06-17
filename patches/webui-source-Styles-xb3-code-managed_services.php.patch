@@ -1,0 +1,47 @@
+--- ./webui/source/Styles/xb3/code/managed_services.php
++++ ./webui/source/Styles/xb3/code/managed_services.php	2015-04-22 14:22:31.206843009 -0600
+@@ -188,7 +188,7 @@
+         <p class="tip">Manage access to specific services and applications by network devices.</p>
+ 		<p class="hidden">Select <strong>Enable</strong> to manage services and applications, or <strong> Disable</strong>  to turn off.</p>
+ 		<p class="hidden"><strong>+ADD:</strong> Add to block a new service or application.</p>
+-		<p class="hidden">The Gateway will block services and applications on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select Yes under Trusted.</p>
++		<p class="hidden">The Gateway will block services and applications on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>.</p>
+     </div>
+ 
+ 	<div class="module">
+@@ -303,6 +303,24 @@
+ 		        }
+ 
+ 				$Host["$i"]['IPAddress'] = getStr("Device.Hosts.Host." .$hostsInstanceArr["$i"]. ".IPAddress");
++			$IPAddress = $Host["$i"]['IPAddress'];
++			//$IPv4Address	= getStr("Device.Hosts.Host." .$hostsInstanceArr["$i"]. ".IPv4Address.1.IPAddress");
++			$IPv6Address	= getStr("Device.Hosts.Host." .$hostsInstanceArr["$i"]. ".IPv6Address.1.IPAddress");
++			
++			//for now as "Device.Hosts.Host.'$i'.IPv4Address.1.IPAddress" is not updating on GW_IP Change
++			$IPv4Address = $IPAddress;
++
++			//In IPv6 only mode, IPv4=NA
++			if( strpos($IPv4Address, '.') === false ) $IPv4Address = 'NA';
++
++			if (substr($IPv6Address, 0, 5) == "2001:") {
++				$Host["$i"]['IPShow'] = $IPv4Address.'/'.$IPv6Address;
++			}
++			else {
++				//If IPv6 is not global then IPv6=NA
++				$Host["$i"]['IPShow'] = $IPv4Address.'/NA';
++			}
++
+ 				array_push($HostNameArr, $Host["$i"]['HostName']);
+ 				array_push($ipAddrArr, $Host["$i"]['IPAddress']);
+                 $Host["$i"]['Trusted'] = false;
+@@ -342,8 +360,8 @@
+ 						echo "<tr $odd>
+ 						<td headers='number' class=\"row-label alt\">" .$k. "</td>
+ 						<td headers='device-name'  id='HostName-" .$k. "' >" .$Host["$i"]['HostName']. "</td>
+-						<td headers='IP'  id='IPAddress-" .$k. "' >" .$Host["$i"]['IPAddress']. "</td>
+-						<td headers='trusted-or-not'>
++						<td headers='IP'  id='IPAddress-" .$k. "' >" .$Host["$i"]['IPShow']. "</td>
++						<td headers='trusted-or-not' style='min-width: 92px;'>
+ 							<span id=\"trusted_user_".$k."\" switch-val=\"".( $Host["$i"]['Trusted'] == 'true' ? "on" : "off" )."\"></span>
+ 						</td>
+ 						</tr>

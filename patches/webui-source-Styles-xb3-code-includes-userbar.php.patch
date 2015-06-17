@@ -1,0 +1,191 @@
+--- ./webui/source/Styles/xb3/code/includes/userbar.php
++++ ./webui/source/Styles/xb3/code/includes/userbar.php	2015-05-20 13:29:09.952850120 -0600
+@@ -1,12 +1,37 @@
+ <!--dynamic generate user bar icon and tips-->
+ 
+-<script type="text/javascript">
+-$(document).ready(function() {
+-	var a = parseInt("<?php echo getStr("Device.X_CISCO_COM_CableModem.Battery.RemainingCharge");?>");
+-	var b = parseInt("<?php echo getStr("Device.X_CISCO_COM_CableModem.Battery.ActualCapacity");?>");
+-	var sta_batt = (a<=b && a && b) ? Math.round(100*a/b) : 0;
+-	var sta_inet = "<?php echo ("OPERATIONAL"==getStr("Device.X_CISCO_COM_CableModem.CMStatus")) ? "true" : "false";?>";
+ 	<?php
++	$a = getStr("Device.X_CISCO_COM_MTA.Battery.RemainingCharge");
++	$b = getStr("Device.X_CISCO_COM_MTA.Battery.ActualCapacity");
++	$sta_batt = ($a<=$b && $a && $b) ? round(100*$a/$b) : 0;
++	
++	//$sta_batt = "61";
++	//find battery class manually	
++	if($sta_batt > 90) { $battery_class = "bat-100"; }
++	elseif($sta_batt > 60) { $battery_class = "bat-75"; }
++	elseif($sta_batt > 39) { $battery_class = "bat-50"; }
++	elseif($sta_batt > 18) { $battery_class = "bat-25"; }
++	elseif($sta_batt > 8) { $battery_class = "bat-10"; }
++	else { $battery_class = "bat-0"; }
++
++	$fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
++
++	$WANIPv4 = getStr($fistUSif."IPv4Address.1.IPAddress");
++
++	$ids = explode(",", getInstanceIds($fistUSif."IPv6Address."));
++	foreach ($ids as $i){
++		$val = getStr($fistUSif."IPv6Address.$i.IPAddress");
++		if (!strstr($val, "fe80::")){
++			$WANIPv6 = $val;
++			break;
++		}
++	}
++
++	$sta_inet = ($WANIPv4 != "0.0.0.0" || strlen($WANIPv6) > 0) ? "true" : "false";
++
++	//in Bridge mode > Internet connectivity status is always active
++	$sta_inet = ($_SESSION["lanMode"] == "bridge-static") ? "true" : $sta_inet ;
++
+ 		$sta_wifi = "false";
+ 		if("Disabled"==$_SESSION["psmMode"]){
+ 			$ssids = explode(",", getInstanceIds("Device.WiFi.SSID."));
+@@ -18,38 +43,28 @@
+ 				}
+ 			}	
+ 		}
++	
++	if("Disabled"==$_SESSION["psmMode"]) { $sta_moca = getStr("Device.MoCA.Interface.1.Enable"); }
++	$sta_dect = getStr("Device.X_CISCO_COM_MTA.Dect.Enable");
++	$sta_fire = getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");
++	
++	//$sta_batt = "58";
++	//$sta_inet = "true";
++	//$sta_wifi = "false";
++	//$sta_moca = "true"; //true
++	//$sta_dect = "false"; //false
++	//$sta_fire = "Low"; //Medium Low High
+ 	?>
++
++<script type="text/javascript">
++$(document).ready(function() {
++
++	var sta_batt = "<?php echo $sta_batt; ?>";
++	var sta_inet = "<?php echo $sta_inet; ?>";
+ 	var sta_wifi = "<?php echo $sta_wifi;?>";
+-	var sta_moca = "<?php if("Disabled"==$_SESSION["psmMode"]) echo getStr("Device.MoCA.Interface.1.Enable");?>";
+-	var sta_dect = "<?php echo getStr("Device.X_CISCO_COM_MTA.Dect.Enable");?>";
+-	var sta_fire = "<?php echo getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");?>";
+-	
+-	// sta_batt = "61";
+-	// sta_inet = "true";
+-	// sta_wifi = "false";
+-	// sta_moca = "true";
+-	// sta_dect = "false";
+-	// sta_fire = "Medium";
+-
+-	// $("#sta_batt").append(sta_batt+'%');
+-	$("#sta_batt a").text(sta_batt+'%');
+-	if ("true"==sta_inet) {
+-		$("#sta_inet").removeClass("off").find(".sprite_cont > img").attr("alt", "Internet Online");
+-	}
+-	if ("true"==sta_wifi) {
+-		$("#sta_wifi").removeClass("off").find(".sprite_cont > img").attr("alt", "WiFi Online");
+-	}
+-	if ("true"==sta_moca) {
+-		$("#sta_moca").removeClass("off").find(".sprite_cont > img").attr("alt", "MoCA Online");
+-	}
+-	if ("true"==sta_dect) {
+-		$("#sta_dect").removeClass("off").find(".sprite_cont > img").attr("alt", "DECT Online");
+-	}
+-	if (("High"==sta_fire) || ("Medium"==sta_fire)) {
+-		$("#sta_fire").removeClass("off").find(".sprite_cont > img").attr("alt", "Security On");
+-	}
+-	// $("#sta_fire>span:eq(1)").html(sta_fire+' Security');
+-	$("#sta_fire a span").text(sta_fire+' Security');
++	var sta_moca = "<?php echo $sta_moca; ?>";
++	var sta_dect = "<?php echo $sta_dect; ?>";
++	var sta_fire = "<?php echo $sta_fire; ?>";
+ 
+ 	/*
+ 	* get status when hover or tab focused one by one
+@@ -62,8 +77,8 @@
+ 		// var target = theObj.attr("id");
+ 		// var status = ("sta_fire"==target)? sta_fire : !(theObj.hasClass("off"));
+ 		// var jsConfig = '{"status":"'+status+'", "target":"'+target+'"}';
+-		var jsConfig = '{"target":"'+"sta_inet,sta_wifi,sta_moca,sta_dect,sta_fire"
+-		+'", "status":"'+sta_inet+','+sta_wifi+','+sta_moca+','+sta_dect+','+sta_fire+'"}';
++		var jsConfig = '{"target":"'+"sta_inet,sta_wifi,sta_moca,sta_fire"
++		+'", "status":"'+sta_inet+','+sta_wifi+','+sta_moca+','+sta_fire+'"}';
+ 
+ 		$.ajax({
+ 			type: "POST",
+@@ -146,37 +161,46 @@
+ <ul id="userToolbar" class="on">
+ 	<li class="first-child"> Hi <?php echo $_SESSION["loginuser"]; ?></li>
+ 	<li style="list-style:none outside none; margin-left:0">&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="home_loggedout.php" tabindex="0">Logout</a></li>
+-	<li style="list-style:none outside none; margin-left:0">&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="password_change.php" tabindex="0">Change Password</a></li>
++	<?php
++		if($_SESSION["loginuser"] == "admin")
++		echo '<li style="list-style:none outside none; margin-left:0">&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="password_change.php" tabindex="0">Change Password</a></li>';
++	?>
+ </ul>
+ 
+ <ul id="status">
+-	<li id="sta_batt" class="battery first-child">
+-		<div class="sprite_cont"><span><img src="./cmn/img/icn_battery.png"  alt="Battery icon" title="Battery icon" /></span></div><a role="toolbar" href="javascript: void(0);" tabindex="0">60%</a>
++	<?php
++	echo '<li id="sta_batt" class="battery first-child"><div class="sprite_cont"><span class="'.$battery_class.'" ><img src="./cmn/img/icn_battery.png"  alt="Battery icon" title="Battery icon" /></span></div><a role="toolbar" href="javascript: void(0);" tabindex="0">'.$sta_batt.'%</a>
+ 		<!-- NOTE: When this value changes JS will set the battery icon -->
+-	</li>
++	</li>';
++
++	if ("true"==$sta_inet) {
++		echo '<li id="sta_inet" class="internet"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Internet Online" /></span><a href="javascript: void(0);" tabindex="0">Internet<div class="tooltip">Loading...</div></a></li>';
++	} else {
++		echo '<li id="sta_inet" class="internet off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Internet Offline" /></span><a href="javascript: void(0);" tabindex="0">Internet<div class="tooltip">Loading...</div></a></li>';
++	}
+ 
+-	<li id="sta_inet" class="internet off">
+-		<span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Internet Offline" /></span><a href="javascript: void(0);" tabindex="0">Internet
+-		<div class="tooltip">Loading...</div></a>
+-	</li>
+-	
+-	<li id="sta_wifi" class="wifi off">
+-		<span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="WiFi Offline" /></span><a href="javascript: void(0);" tabindex="0">Wi-Fi
+-		<div class="tooltip">Loading...</div></a>
+-	</li>
+-	
+-	<li id="sta_moca" class="MoCA off">
+-		<span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="MoCA Offline" /></span><a href="javascript: void(0);" tabindex="0">MoCA
+-		<div class="tooltip">Loading...</div></a>
+-	</li>
+-	
+-	<li id="sta_dect" class="DECT off">
+-		<span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="DECT Offline" /></span><a href="javascript: void(0);" tabindex="0">DECT
+-		<div class="tooltip">Loading...</div></a>
+-	</li>
+-	
+-	<li id="sta_fire" class="security last off">
+-		<span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Security Off" /></span><a href="javascript: void(0);" tabindex="0"><span>Custom Security</span>
+-		<div class="tooltip">Loading...</div></a>
+-	</li>
++	if ("true"==$sta_wifi) {
++		echo '<li id="sta_wifi" class="wifi"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="WiFi Online" /></span><a href="javascript: void(0);" tabindex="0">Wi-Fi<div class="tooltip">Loading...</div></a></li>';
++	} else {
++		echo '<li id="sta_wifi" class="wifi off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="WiFi Offline" /></span><a href="javascript: void(0);" tabindex="0">Wi-Fi<div class="tooltip">Loading...</div></a></li>';
++	}
++	
++	if ("true"==$sta_moca) {
++		echo '<li id="sta_moca" class="MoCA"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="MoCA Online" /></span><a href="javascript: void(0);" tabindex="0">MoCA<div class="tooltip">Loading...</div></a></li>';
++	} else {
++		echo '<li id="sta_moca" class="MoCA off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="MoCA Offline" /></span><a href="javascript: void(0);" tabindex="0">MoCA<div class="tooltip">Loading...</div></a></li>';
++	}
++	
++	/*if ("true"==$sta_dect) {
++		echo '<li id="sta_dect" class="DECT"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="DECT Online" /></span><a href="javascript: void(0);" tabindex="0">DECT<div class="tooltip">Loading...</div></a></li>';
++	} else {
++		echo '<li id="sta_dect" class="DECT off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="DECT Offline" /></span><a href="javascript: void(0);" tabindex="0">DECT<div class="tooltip">Loading...</div></a></li>';
++	}*/
++	
++	if (("High"==$sta_fire) || ("Medium"==$sta_fire)) {
++		echo '<li id="sta_fire" class="security last"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Security On" /></span><a href="javascript: void(0);" tabindex="0"><span>'.$sta_fire.' Security</span><div class="tooltip">Loading...</div></a></li>';
++	} else {
++		echo '<li id="sta_fire" class="security last off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Security Off" /></span><a href="javascript: void(0);" tabindex="0"><span>'.$sta_fire.' Security</span><div class="tooltip">Loading...</div></a></li>';
++	}
++	?>
+ </ul>

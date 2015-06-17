@@ -1,0 +1,103 @@
+--- ./webui/source/Styles/xb3/code/actionHandler/ajax_managed_services.php
++++ ./webui/source/Styles/xb3/code/actionHandler/ajax_managed_services.php	2015-04-22 14:22:31.198839009 -0600
+@@ -17,6 +17,24 @@
+ 		return 0;
+ }
+ 
++function time_date_conflict($TD1, $TD2) {
++	$ret = false;
++	$days1 = explode(",", $TD1[2]);
++	$days2 = explode(",", $TD2[2]);
++
++	foreach ($days1 as &$value) {
++		if (in_array($value, $days2)) {
++			//deMorgan's law - to find if ranges are overlapping
++			//(StartA <= EndB)  and  (EndA >= StartB)
++			if((strtotime($TD1[0]) < strtotime($TD2[1])) and (strtotime($TD1[1]) > strtotime($TD2[0]))){
++	  			$ret = true;
++	  			break;
++			} 
++		}
++	}
++	return $ret;
++}
++
+ if (isset($_POST['set'])){
+ 	$UMSStatus=(($_POST['UMSStatus']=="Enabled")?"true":"false");
+ 	setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Enable",$UMSStatus,true);
+@@ -44,6 +62,9 @@
+ 	$startPort=$_POST['startPort'];
+ 	$endPort=$_POST['endPort'];
+ 	$block=$_POST['block'];
++	$startTime=$_POST['startTime'];
++	$endTime=$_POST['endTime'];
++	$blockDays=$_POST['days'];
+ 
+ 	if ($protocol == "TCP/UDP") 
+ 		$type = "BOTH";
+@@ -75,6 +96,10 @@
+ 			$stport = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.StartPort");
+ 			$edport = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.EndPort");
+ 			$ptcol_type = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.Protocol");
++			$always_Block = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.AlwaysBlock");
++			$start_Time = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.StartTime");
++			$end_Time = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.EndTime");
++			$block_Days = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.BlockDays");
+ 
+ 			if ($service == $serviceName) {
+ 				$result .= "Service Name has been used!\n";
+@@ -83,11 +108,16 @@
+ 			elseif ($type=="BOTH" || $ptcol_type=="BOTH" || $type==$ptcol_type) {
+ 				$porttest = PORTTEST($startPort, $endPort, $stport, $edport);
+ 				if ($porttest == 1) {
++					//Check for time and day conflicts
++					$TD1=array($startTime, $endTime, $blockDays);
++					$TD2=array($start_Time, $end_Time, $block_Days);
++					if(($always_Block == "true") || ($block == "true") || time_date_conflict($TD1, $TD2)){
+ 					$result .= "Conflict with other service. Please check your input!";
+ 					break;
+ 				}
+ 			}
+ 		}
++		}
+ 		
+ 		if ($result=="") {
+ 			addTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.");
+@@ -117,6 +147,9 @@
+ 	$startPort=$_POST['startPort'];
+ 	$endPort=$_POST['endPort'];
+ 	$block=$_POST['block'];
++	$startTime=$_POST['startTime'];
++	$endTime=$_POST['endTime'];
++	$blockDays=$_POST['days'];
+ 
+ 	if ($protocol == "TCP/UDP") 
+ 		$type = "BOTH";
+@@ -132,6 +165,10 @@
+ 		$stport = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.StartPort");
+ 		$edport = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.EndPort");
+ 		$ptcol_type = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.Protocol");
++		$always_Block = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.AlwaysBlock");
++		$start_Time = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.StartTime");
++		$end_Time = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.EndTime");
++		$block_Days = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.$j.BlockDays");
+ 
+ 		if ($service == $serviceName) {
+ 			$result .= "Service Name has been used!\n";
+@@ -140,11 +177,16 @@
+ 		elseif ($type=="BOTH" || $ptcol_type=="BOTH" || $type==$ptcol_type) {
+ 			$porttest = PORTTEST($startPort, $endPort, $stport, $edport);
+ 			if ($porttest == 1) {
++				//Check for time and day conflicts
++				$TD1=array($startTime, $endTime, $blockDays);
++				$TD2=array($start_Time, $end_Time, $block_Days);
++				if(($always_Block == "true") || ($block == "true") || time_date_conflict($TD1, $TD2)){
+ 				$result .= "Conflict with other service. Please check your input!";
+ 				break;
+ 			}
+ 		}
+ 	}
++	}
+ 	
+ 	if ($result=="") {
+ 		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Description",$service,false);

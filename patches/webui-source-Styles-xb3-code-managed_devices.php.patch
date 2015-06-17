@@ -1,0 +1,31 @@
+--- ./webui/source/Styles/xb3/code/managed_devices.php
++++ ./webui/source/Styles/xb3/code/managed_devices.php	2015-04-22 14:22:31.206843009 -0600
+@@ -184,8 +184,8 @@
+ 	<div  id="educational-tip">
+ 			<p class="tip">Manage access by specific devices on your network.</p>
+ 			<p class="hidden">Select <strong>Enable</strong> to manage network devices, or <strong>Disable</strong> to turn off.</p>
+-			<p class="hidden"><strong>Access Type:</strong> If most of your devices will not be restricted, select <strong>Allow All</strong>. Then select <strong>+ADD BLOCKED DEVICE</strong> to add only the devices you want to restrict.</p>
+-			<p class="hidden">If most of your computers will be restricted, select <strong>Block All.</strong> Click <strong>+ADD ALLOWED DEVICE</strong> to add devices you don't want to restrict.</p>
++			<p class="hidden"><strong>Access Type:</strong> If you don't want your devices to be restricted, select <strong>Allow All</strong>. Then select <strong>+ADD BLOCKED DEVICE</strong> to add only the device you want to restrict.</p>
++			<p class="hidden">If you want your devices to be restricted, select <strong>Block All.</strong> Click <strong>+ADD ALLOWED DEVICE</strong> to add the device you don't want to restrict.</p>
+ 	</div>
+ 	<div class="module forms enable">
+ 
+@@ -269,7 +269,7 @@
+ 						<td headers='allowed-mac-address'>".$arrayAllowMAC[$i]."</td>
+ 						<td headers='allowed-time'>".$arrayAllowStatus[$i]."</td>
+ 						<td headers='allowed-edit-button' class=\"edit\"><a tabindex='0' href=\"managed_devices_edit_allowed.php?id=$arrayAllowID[$i]\" class=\"btn\"  id=\"edit_$arrayAllowID[$i]\">Edit</a></td>
+-						<td headers='allowed-delete-button' class=\"delete\"><a tabindex='0' href=\"actionHandler/ajax_managed_devices.php?del=$arrayAllowID[$i]\" class=\"btn confirm\" title=\"delete this device for ".getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$arrayAllowID[$i].".Description")." \" id=\"delete_$arrayAllowID[$i]\">x</a></td>
++						<td headers='allowed-delete-button' class=\"delete\"><a tabindex='0' href=\"actionHandler/ajax_managed_devices.php?del=$arrayAllowID[$i]\" class=\"btn confirm\" title=\"Delete this device\" id=\"delete_$arrayAllowID[$i]\">x</a></td>
+ 					</tr>"; 
+ 				} 
+ 			?>
+@@ -312,7 +312,7 @@
+ 						<td headers='blocked-mac-address'>".$arrayBlockMAC[$i]."</td>
+ 						<td headers='blocked-time'>".$arrayBlockStatus[$i]."</td>
+ 						<td headers='blocked-edit-button' class=\"edit\"><a tabindex='0' href=\"managed_devices_edit_blocked.php?id=$arrayBlockID[$i]\" class=\"btn\"  id=\"edit_$arrayBlockID[$i]\">Edit</a></td>
+-						<td headers='blocked-delete-button' class=\"delete\"><a tabindex='0' href=\"actionHandler/ajax_managed_devices.php?del=$arrayBlockID[$i]\" class=\"btn confirm\" title=\"delete this device for ".getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$arrayBlockID[$i].".Description")." \" id=\"delete_$arrayBlockID[$i]\">x</a></td>
++						<td headers='blocked-delete-button' class=\"delete\"><a tabindex='0' href=\"actionHandler/ajax_managed_devices.php?del=$arrayBlockID[$i]\" class=\"btn confirm\" title=\"Delete this device\" id=\"delete_$arrayBlockID[$i]\">x</a></td>
+ 					</tr>"; 
+ 				} 
+ 			?>
