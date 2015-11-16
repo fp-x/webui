@@ -88,15 +88,15 @@
 		<ul>
 
 		<li>Login: <?php echo $_SESSION['loginuser']; ?> </li>
-		<li>Debug: <?php if (isset($_SESSION['_DEBUG'])) { echo "true"; } else { echo "false";} ?> </li>
-		<li>cosa.so found: <?php if (function_exists(getStr)) { echo "true"; } else { echo "false";} ?> </li>
-		<li>test: <?php if (function_exists(xxx_getStr)) { echo "true"; } else { echo "false";} ?> </li>
+		<li>Debug: <?php if ($_DEBUG) { echo "true"; } else { echo "false";} ?> </li>
+		<li>cosa.so found: <?php if (function_exists('getStr')) { echo "true"; } else { echo "false";} ?> </li>
+		<li>test: <?php if (function_exists('xxx_getStr')) { echo "true"; } else { echo "false";} ?> </li>
 
 		<li>
 		<?php 
 		if(isset($_GET["p"])) {
 			echo $_GET["p"]." found: ";
-			if (function_exists(getStr)) { 
+			if (function_exists('getStr')) { 
 				echo getStr($_GET["p"]); // "?p=Device.DeviceInfo.SupportedDataModel.1.URL"
 			} else {
 				echo "N/A";
@@ -106,6 +106,7 @@
 		</li>
 		
 		</ul>
+		<pre><?php print_r(get_loaded_extensions()); ?></pre>
 	</div>
 
 </div><!-- end #content -->
