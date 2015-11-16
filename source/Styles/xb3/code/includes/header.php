@@ -76,7 +76,7 @@
 
 
 <head>
-	<title>MAXX</title>
+	<title>TWC</title>
 
 	<!--CSS-->
 	<link rel="stylesheet" type="text/css" media="screen" href="./cmn/css/common-min.css?sid=<?php echo $_SESSION["sid"]; ?>" />
