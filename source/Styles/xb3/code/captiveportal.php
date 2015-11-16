@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<title>XFINITY Smart Internet</title>
+		<title>MAXX</title>
 		<link rel="stylesheet" href="cmn/css/styles.css">
 	</head>
 
@@ -1011,7 +1011,7 @@ $(document).ready(function(){
 				<input id="concent" type="checkbox" name="concent" checked>
 			    	<label for="concent" class="insertBox checkLabel"></label>
 			    	<div class="check-copy">
-					I agree to receive a text message from Comcast at<br/>
+					I agree to receive a text message from Time-Warner Cable at<br/>
 					the number above, containing my Wi-Fi network<br/>
 					name and password. Message and data rates apply.<br/>
 				</div>
@@ -1161,7 +1161,7 @@ $(document).ready(function(){
 		    	</div>
 			<hr>
 			<div>
-				<button id="visit_xfinity" style="text-align: center; width: 215px;">Visit XFINITY</button>
+				<button id="visit_xfinity" style="text-align: center; width: 215px;">Visit MAXX</button>
 			</div>
 			<br><br>
 			<a href="http://customer.xfinity.com/help-and-support/Wireless-Gateway/">Learn how to join your WiFi</a>

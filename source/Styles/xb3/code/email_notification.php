@@ -260,13 +260,13 @@ function button_save()
 				<div class="form-row"><label for="smtp_address">SMTP Server Address:</label>
 					<input type="text" id="smtp_address" name="smtp_address" value="<?php echo $smtp_address;?>" >
 				</div>
-				<div class="form-row odd"><label for="comcast_address">Comcast Email Address:</label>
+				<div class="form-row odd"><label for="comcast_address">Time-Warner Cable Email Address:</label>
 					<input type="text" id="comcast_address" name="comcast_address" value="<?php echo $comcast_address;?>" >
 				</div>
-				<div class="form-row"><label for="comcast_username">Comcast Username:</label>
+				<div class="form-row"><label for="comcast_username">Time-Warner Cable Username:</label>
 					<input type="text" id="comcast_username" name="comcast_username" value="<?php echo $comcast_username;?>" >
 				</div>
-				<div class="form-row odd"><label for="comcast_password">Comcast Password:</label>
+				<div class="form-row odd"><label for="comcast_password">Time-Warner Password:</label>
 					<input type="password" id="comcast_password" name="comcast_password" value="<?php echo $comcast_password;?>" >
 				</div>
 			</div> <!-- end .module -->

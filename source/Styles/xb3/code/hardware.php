@@ -33,7 +33,7 @@ $(document).ready(function() {
 	<h1>Gateway > Hardware > System Hardware</h1>
 	<div id="educational-tip">
 		<p class="tip">View information about the Gateway's hardware.</p>
-		<p class="hidden">You may need this information if you contact Comcast for troubleshooting assistance.</p>
+		<p class="hidden">You may need this information if you contact Time-Warner Cable for troubleshooting assistance.</p>
 	</div>
 	<div class="module forms">
 		<h2>System Hardware</h2>

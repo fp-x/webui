@@ -76,7 +76,7 @@
 
 
 <head>
-	<title>Xfinity</title>
+	<title>MAXX</title>
 
 	<!--CSS-->
 	<link rel="stylesheet" type="text/css" media="screen" href="./cmn/css/common-min.css?sid=<?php echo $_SESSION["sid"]; ?>" />
@@ -137,7 +137,7 @@
 				else
 					echo '<p style="margin: 0">&nbsp;</p>';
 			?>
-			<h2 id="logo" style="margin-top: 10px"><img src="./cmn/img/logo_xfinity.png" alt="Xfinity" title="Xfinity" /></h2>
+			<h2 id="logo" style="margin-top: 10px"><img src="./cmn/img/logo_twc.png" alt="MAXX" title="MAXX" /></h2>
 		</div> <!-- end #header -->
 
 		<div id='div-skip-to' style="display: none;">

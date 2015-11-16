@@ -24,7 +24,7 @@ Name: global.css
 Developed by: Carlos Porto, Schematic
 Date Created: Aug 10, 2009
 Last Updated: Aug 10, 2009
-Copyright: Comcast
+Copyright: Time-Warner Cable 
 ----------------------------------------*/
 
 /* Elements
@@ -145,7 +145,7 @@ small {
 #logo span {
 	position:absolute;
 	z-index: 15;
-	background: url(../img/logo_xfinity.png) no-repeat 0 0;
+	background: url(../img/logo_twc.png) no-repeat 0 0;
 	height:100%;
 	left:0;
 	top:0;

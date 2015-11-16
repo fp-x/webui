@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>XFINITY</title>
+    <title>MAXX</title>
 
 	<!--CSS-->
 	<link rel="stylesheet" type="text/css" media="screen" href="./cmn/css/common-min.css" />
@@ -56,7 +56,7 @@
 
 		<!--Header-->
 		<div id="header">
-			<h2 id="logo"><img src="./cmn/img/logo_xfinity.png" alt="Xfinity" title="Xfinity" /></h2>
+			<h2 id="logo"><img src="./cmn/img/logo_twc.png" alt="MAXX" title="MAXX" /></h2>
 		</div> <!-- end #header -->
 
 		<div id='div-skip-to' style="display: none;">

@@ -179,7 +179,7 @@ $(document).ready(function() {
 	<h1>Gateway > Connection > Status</h1>
 	<div id="educational-tip">
 			<p class="tip">View information about your network connections.</p>
-			<p class="hidden">View and manage the settings for your local IP, Wi-Fi, MoCA and XFINITY networks.</p>
+			<p class="hidden">View and manage the settings for your local IP, Wi-Fi, MoCA and MAXX networks.</p>
 	</div>
 
   <div style="width:360px;float:left;"><!-- contain local ip, xfinity network, Moca -->
@@ -305,7 +305,7 @@ $(document).ready(function() {
     </div><!-- end .module local ip network-->
 
     <div class="module forms block" style="margin-bottom:0px">
-        <h2>XFINITY Network</h2>
+        <h2>MAXX Network</h2>
         <p class="button"><a tabindex='0' href="comcast_network.php" class="btn">View</a></p>
         <div class="form-row">
         <span class="readonlyLabel">Internet:</span> <span class="value">
@@ -648,7 +648,7 @@ $(document).ready(function() {
 		echo '<div class="module forms block tr_hotspot" style="position:relative;top:0px;right:0px;">';
 		echo '<h2>Public Wi-Fi Network-'.$public_v[$j]['ssid_name'].'</h2>';
 		echo '<p class="button"><a class="btn" href="wireless_network_configuration_edit_public.php?id='.$public_v[$j]['ssid_id'].'">Edit</a></p>';
-		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">Xfinity Wi-Fi Capable:</span> <span class="value">'.("true"==$public_v[$j]['xf_capable']?"Yes":"No").'</span></div>';
+		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">MAXX Wi-Fi Capable:</span> <span class="value">'.("true"==$public_v[$j]['xf_capable']?"Yes":"No").'</span></div>';
 		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">Wireless Network (Wi-Fi '.$public_v[$j]['radio_freq'].' GHz):</span> <span class="value">'.("true"==$public_v[$j]['ssid_enable']?"Active":"Inactive").'</span></div>';
 		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">Time Since Last Status:</span> <span class="value">'.$public_v[$j]['time_last'].'</span></div>';
 		echo '<div class="form-row '.(($odd=!$odd)?'odd':'').'"><span class="readonlyLabel">WLAN Gateway:</span> <span class="value">'.$public_v[$j]['wlan_gw'].'</span></div>';

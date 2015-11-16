@@ -40,7 +40,7 @@ if($_FILES["file"]["error"]>0){
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>XFINITY</title>
+    <title>MAXX</title>
 </head>
 <body>
     <!--Main Container - Centers Everything-->
