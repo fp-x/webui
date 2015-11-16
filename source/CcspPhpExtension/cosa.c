@@ -42,9 +42,9 @@
 #include "ext/standard/info.h"
 #include "php_cosa.h"
 
-#define  COSA_PHP_EXT_LOG_FILE_NAME "/var/log/cosa_php_ext.log"
-#define  COSA_PHP_EXT_DEBUG_FILE    "/tmp/cosa_php_debug"
-#define  COSA_PHP_EXT_PCSIM         "/tmp/cosa_php_pcsim"
+#define  COSA_PHP_EXT_LOG_FILE_NAME "/var/tmp/logs/cosa_php_ext.log"
+#define  COSA_PHP_EXT_DEBUG_FILE    "/var/cosa_php_debug"
+#define  COSA_PHP_EXT_PCSIM         "/var/cosa_php_pcsim"
 #define  CosaPhpExtLog(msg ...)                                             \
          {                                                                  \   
              if (debugFlag)                                                 \

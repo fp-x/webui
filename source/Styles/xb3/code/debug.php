@@ -89,6 +89,9 @@
 
 		<li>Login: <?php echo $_SESSION['loginuser']; ?> </li>
 		<li>Debug: <?php if ($_DEBUG) { echo "true"; } else { echo "false";} ?> </li>
+		<li>/var/ui_dev_debug exists: <?php if (file_exists('/var/ui_dev_debug')) { echo "true"; } else { echo "false";} ?> </li>
+		<li>/var/cosa_php_debug: <?php if (file_exists('/var/cosa_php_debug')) { echo "true"; } else { echo "false";} ?> </li>
+		<li>/var/tmp/logs/cosa_php_ext.log exists: <?php if (file_exists('/var/tmp/logs/cosa_php_ext.log')) { echo "true"; } else { echo "false";} ?> </li>
 		<li>cosa.so found: <?php if (function_exists('getStr')) { echo "true"; } else { echo "false";} ?> </li>
 		<li>test: <?php if (function_exists('xxx_getStr')) { echo "true"; } else { echo "false";} ?> </li>
 
