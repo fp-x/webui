@@ -63,15 +63,15 @@ PHP_MSHUTDOWN_FUNCTION(cosa);
 PHP_RINIT_FUNCTION(cosa);
 PHP_RSHUTDOWN_FUNCTION(cosa);
 PHP_MINFO_FUNCTION(cosa);
-PHP_FUNCTION(ccsp_ext_getStr);
-PHP_FUNCTION(ccsp_ext_setStr);
-PHP_FUNCTION(ccsp_ext_getInstanceIds);
-PHP_FUNCTION(ccsp_ext_addTblObj);
-PHP_FUNCTION(ccsp_ext_delTblObj);
+PHP_FUNCTION(getStr);
+PHP_FUNCTION(setStr);
+PHP_FUNCTION(getInstanceIds);
+PHP_FUNCTION(addTblObj);
+PHP_FUNCTION(delTblObj);
 /* multi-get/set APIs */
-PHP_FUNCTION(ccsp_ext_getStrsWithRootObj); // DmExtGetStrsWithRootObj
-PHP_FUNCTION(ccsp_ext_setStrsWithRootObj); // DmExtSetStrsWithRootObj
-PHP_FUNCTION(ccsp_ext_getInstanceIds2); // DmExtGetInstanceIds
+PHP_FUNCTION(DmExtGetStrsWithRootObj);
+PHP_FUNCTION(DmExtSetStrsWithRootObj);
+PHP_FUNCTION(DmExtGetInstanceIds);
 
 /* Cosa specific stuff */
 #define DST_COMPONENTID "ccsp.pnm"
