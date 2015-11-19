@@ -44,13 +44,13 @@ function ccsp_getInstanceIds2($str) {
 function ccsp_getStrsWithRootObj($root, $array) {
 	$resp = DmExtGetStrsWithRootObj($root, $array);
 	$map = getCcspMap();
-	$_SESSION['ccsp_map']['DmExtGetStrsWithRootObj'][$root.implode(",", $array)] = $resp;
+	$_SESSION['ccsp_map']['DmExtGetStrsWithRootObj'][$root."{\n".implode("\n\t", $array)."\n}"] = $resp;
 	return $resp;
 }
 function ccsp_setStrsWithRootObj($root, $bool, $array) {
 	$resp = DmExtSetStrsWithRootObj($root, $bool, $array);
 	$map = getCcspMap();
-	$_SESSION['ccsp_map']['DmExtSetStrsWithRootObj'][$root.implode(",", $array)] = $resp;
+	$_SESSION['ccsp_map']['DmExtSetStrsWithRootObj'][$root."{\n".implode("\n\t", $array)."\n}"] = $resp;
 	return $resp;
 }
 function ccsp_addTblObj($str) {
