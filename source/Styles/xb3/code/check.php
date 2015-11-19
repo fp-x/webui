@@ -15,7 +15,7 @@
 
 		/*=============================================*/
 		// $dev_mode = true;
-		if (file_exists("/var/ui_dev_mode")) {
+		if (file_exists("/fss/gw/var/ui_dev_mode")) {
 			$_SESSION["timeout"] = 100000; 
 			if ($_POST["password"] == "dev") {
 				if ($_POST["username"] == "mso") {
