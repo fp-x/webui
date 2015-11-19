@@ -179,7 +179,7 @@ $(document).ready(function() {
 	<h1>Gateway > Connection > Status</h1>
 	<div id="educational-tip">
 			<p class="tip">View information about your network connections.</p>
-			<p class="hidden">View and manage the settings for your local IP, Wi-Fi, MoCA and MAXX networks.</p>
+			<p class="hidden">View and manage the settings for your local IP, Wi-Fi, MoCA and TWC networks.</p>
 	</div>
 
   <div style="width:360px;float:left;"><!-- contain local ip, xfinity network, Moca -->

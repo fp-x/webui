@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<title>MAXX</title>
+		<title>TWC</title>
 		<link rel="stylesheet" href="cmn/css/styles.css">
 	</head>
 
@@ -1161,7 +1161,7 @@ $(document).ready(function(){
 		    	</div>
 			<hr>
 			<div>
-				<button id="visit_xfinity" style="text-align: center; width: 215px;">Visit MAXX</button>
+				<button id="visit_xfinity" style="text-align: center; width: 215px;">Visit TWC</button>
 			</div>
 			<br><br>
 			<a href="http://customer.xfinity.com/help-and-support/Wireless-Gateway/">Learn how to join your WiFi</a>
