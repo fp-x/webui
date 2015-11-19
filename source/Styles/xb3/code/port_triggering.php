@@ -8,7 +8,7 @@
 
 <?php include('includes/nav.php'); ?>
 <?php
-$PTEnable=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable");
+$PTEnable=ccsp_getStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable");
 if ($_DEBUG) {
 	$PTEnable = "true";
 }
@@ -178,7 +178,7 @@ $(document).ready(function() {
 
 		    </tr>
 			<?php
-			if (getStr("Device.NAT.X_CISCO_COM_PortTriggers.TriggerNumberOfEntries")==0) {}
+			if (ccsp_getStr("Device.NAT.X_CISCO_COM_PortTriggers.TriggerNumberOfEntries")==0) {}
 			else{
                     $rootObjName    = "Device.NAT.X_CISCO_COM_PortTriggers.Trigger.";
                     $paramNameArray = array("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.");

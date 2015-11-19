@@ -120,22 +120,22 @@ function set_config(jsConfig)
 			</tr>
 			<tr>
 				<td>1</td>
-				<td><?php echo getStr("Device.X_CISCO_COM_MTA.LineTable.1.CALLP.LCState"); ?></td>
-				<td><?php echo getStr("Device.X_CISCO_COM_MTA.LineTable.1.CALLP.CallPState"); ?></td>
-				<td><?php echo getStr("Device.X_CISCO_COM_MTA.LineTable.1.CALLP.LoopCurrent"); ?></td>
+				<td><?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.LineTable.1.CALLP.LCState"); ?></td>
+				<td><?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.LineTable.1.CALLP.CallPState"); ?></td>
+				<td><?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.LineTable.1.CALLP.LoopCurrent"); ?></td>
 			</tr>
 			<tr class="odd">
 				<td>2</td>
-				<td><?php echo getStr("Device.X_CISCO_COM_MTA.LineTable.2.CALLP.LCState"); ?></td>
-				<td><?php echo getStr("Device.X_CISCO_COM_MTA.LineTable.2.CALLP.CallPState"); ?></td>
-				<td><?php echo getStr("Device.X_CISCO_COM_MTA.LineTable.2.CALLP.LoopCurrent"); ?></td>
+				<td><?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.LineTable.2.CALLP.LCState"); ?></td>
+				<td><?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.LineTable.2.CALLP.CallPState"); ?></td>
+				<td><?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.LineTable.2.CALLP.LoopCurrent"); ?></td>
 			</tr>
 		</table>
     </div> <!-- end .module -->
 
 	<div class="btn-group">
 		&nbsp;&nbsp;&nbsp;&nbsp;<input id="show_callsignallog" name="show_callsignallog" type="button"  value="Show Call Signalling Log" class="btn" />
-		<input id="switch_callsignallog" type="button" onClick="save_config('switch_callsignallog')"  value="<?php echo getStr('Device.X_CISCO_COM_MTA.CallSignallingLogEnable')!='true'?'Enable':'Disable'; ?> Logging" class="btn alt" />
+		<input id="switch_callsignallog" type="button" onClick="save_config('switch_callsignallog')"  value="<?php echo ccsp_getStr('Device.X_CISCO_COM_MTA.CallSignallingLogEnable')!='true'?'Enable':'Disable'; ?> Logging" class="btn alt" />
         <input id="clear_callsignallog"  type="submit" onClick="save_config('clear_callsignallog')"   value="Clear" class="btn" />
     </div>
 	
@@ -151,17 +151,17 @@ function set_config(jsConfig)
 				<th>Packets</th>
 			</tr>
 			<?php
-				$ids = array_filter(explode(",", getInstanceIds("Device.X_CISCO_COM_MTA.ServiceFlow.")));
+				$ids = array_filter(explode(",", ccsp_getInstanceIds("Device.X_CISCO_COM_MTA.ServiceFlow.")));
 				$odd = true;
 				foreach ($ids as $id)
 				{
 					echo '<tr class="'.(($odd = !$odd)?'odd':'').'" >';
-					echo '<td>'.getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.SFID").'</td>';
-					echo '<td>'.getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.ServiceClass").'</td>';
-					echo '<td>'.getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.Direction").'</td>';
-					echo '<td>'.getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.DefaultFlow").'</td>';
-					echo '<td>'.getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.TrafficType").'</td>';
-					echo '<td>'.getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.NumberOfPackets").'</td>';
+					echo '<td>'.ccsp_getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.SFID").'</td>';
+					echo '<td>'.ccsp_getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.ServiceClass").'</td>';
+					echo '<td>'.ccsp_getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.Direction").'</td>';
+					echo '<td>'.ccsp_getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.DefaultFlow").'</td>';
+					echo '<td>'.ccsp_getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.TrafficType").'</td>';
+					echo '<td>'.ccsp_getStr("Device.X_CISCO_COM_MTA.ServiceFlow.$id.NumberOfPackets").'</td>';
 					echo '</tr>';
 				}
 			?>
@@ -170,7 +170,7 @@ function set_config(jsConfig)
 
     <div class="btn-group">
 		&nbsp;&nbsp;&nbsp;&nbsp;<input id="show_DSXlog" name="show_DSXlog" type="button"   value="Show DSX Log" class="btn" />
-        <input id="switch_DSXlog" type="button" onClick="save_config('switch_DSXlog')" value="<?php echo getStr('Device.X_CISCO_COM_MTA.DSXLogEnable')!='true'?'Enable':'Disable'; ?> Logging" class="btn alt" />
+        <input id="switch_DSXlog" type="button" onClick="save_config('switch_DSXlog')" value="<?php echo ccsp_getStr('Device.X_CISCO_COM_MTA.DSXLogEnable')!='true'?'Enable':'Disable'; ?> Logging" class="btn alt" />
         <input id="clear_DSXlog"  type="submit" onClick="save_config('clear_DSXlog')"  value="Clear" class="btn" />
     </div>
 </div><!-- end #content -->

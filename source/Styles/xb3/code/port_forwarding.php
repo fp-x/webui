@@ -9,7 +9,7 @@
 <?php include('includes/nav.php'); ?>
 <?php include('includes/utility.php'); ?>
 <?php 
-$PFEnable = getStr("Device.NAT.X_Comcast_com_EnablePortMapping");
+$PFEnable = ccsp_getStr("Device.NAT.X_Comcast_com_EnablePortMapping");
 ?>
 
 <script type="text/javascript">
@@ -182,8 +182,8 @@ $(document).ready(function() {
 				$mapping_array  = array("LeaseDuration", "InternalPort", "Protocol", "Description",
 					                    "ExternalPort", "ExternalPortEndRange", "InternalClient", "X_CISCO_COM_InternalClientV6", "Enable");
 
-				//$EntryNums = getStr("Device.NAT.PortMappingNumberOfEntries");
-				$IndexArr  = DmExtGetInstanceIds("Device.NAT.PortMapping.");
+				//$EntryNums = ccsp_getStr("Device.NAT.PortMappingNumberOfEntries");
+				$IndexArr  = ccsp_getInstanceIds2("Device.NAT.PortMapping.");
 
 				if(0 == $IndexArr[0]){  
 				    // status code 0 = success   

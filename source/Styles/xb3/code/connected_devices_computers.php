@@ -11,8 +11,8 @@
 	$ret = init_psmMode("Connected Devices - Devices", "nav-cdevices");
 	if ("" != $ret){echo $ret;	return;}
 
-	$beginAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
-	$endAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
+	$beginAddr 	= ccsp_getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
+	$endAddr 	= ccsp_getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
 
 	$loginuser = $_SESSION["loginuser"];
 ?>
@@ -362,7 +362,7 @@ $(document).ready(function() {
 	$paramNameArray = array("Device.Hosts.Host.");
 	$mapping_array  = array("PhysAddress", "IPAddress", "Layer1Interface", "HostName", "Active", "AddressSource", "X_CISCO_COM_RSSI", "Comments", "IPv4Address.1.IPAddress", "IPv6Address.1.IPAddress", "IPv6Address.2.IPAddress");
 
-	$HostIndexArr = DmExtGetInstanceIds("Device.Hosts.Host.");
+	$HostIndexArr = ccsp_getInstanceIds2("Device.Hosts.Host.");
 	if(0 == $HostIndexArr[0]){  
 	    // status code 0 = success   
 		$HostNum = count($HostIndexArr) - 1;
@@ -618,7 +618,7 @@ $(document).ready(function() {
 	<!--Home Security part-->
 	<?php 
 		//home security ssid name
-		$xhsSSIDName = getStr("Device.WiFi.SSID.3.SSID"); 
+		$xhsSSIDName = ccsp_getStr("Device.WiFi.SSID.3.SSID"); 
 		(true === $_DEBUG) && ($xhsSSIDName = 'Security-2.4'); 
 	?>
 	<?php
@@ -825,12 +825,12 @@ $(document).ready(function() {
 		$mapping_array  = array("MACAddress", "Hostname", "RSSILevel", "IPv4Address", "DHCPv4Status", "IPv6Address", 
 							"IPv6Prefix", "DHCPv6Status", "IPv6LinkLocalAddress");
 
-		$Hotspot_1_idAr = DmExtGetInstanceIds($rootObjName);
+		$Hotspot_1_idAr = ccsp_getInstanceIds2($rootObjName);
 		if(0 == $Hotspot_1_idAr[0]){  
 		    // status code 0 = success   
 			$Hotspot_1_clientsNum = count($Hotspot_1_idAr) - 1;
 		}
-		//$Hotspot_1_clientsNum = getStr("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.1.AssociatedDeviceNumberOfEntries");
+		//$Hotspot_1_clientsNum = ccsp_getStr("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.1.AssociatedDeviceNumberOfEntries");
 	    if(!empty($Hotspot_1_clientsNum)){
 			$Hostspot_1_clients = getParaValues($rootObjName, $paramNameArray, $mapping_array);
 		}
@@ -838,12 +838,12 @@ $(document).ready(function() {
 		$rootObjName    = "Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.2.AssociatedDevice.";
 		$paramNameArray = array($rootObjName);
 
-		$Hotspot_2_idAr = DmExtGetInstanceIds($rootObjName);
+		$Hotspot_2_idAr = ccsp_getInstanceIds2($rootObjName);
 		if(0 == $Hotspot_2_idAr[0]){  
 		    // status code 0 = success   
 			$Hotspot_2_clientsNum = count($Hotspot_2_idAr) - 1;
 		}
-		//$Hotspot_2_clientsNum = getStr("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.2.AssociatedDeviceNumberOfEntries");
+		//$Hotspot_2_clientsNum = ccsp_getStr("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.2.AssociatedDeviceNumberOfEntries");
 		if(!empty($Hotspot_2_clientsNum)){
 			$Hostspot_2_clients = getParaValues($rootObjName, $paramNameArray, $mapping_array);
 		}

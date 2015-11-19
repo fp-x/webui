@@ -12,7 +12,7 @@
 $id		= isset($_GET['id']) ? $_GET['id'] : "5";
 $reset	= isset($_GET['reset']) ? $_GET['reset'] : "n";
 $rf		= (2 - intval($id)%2);	//1,3,5,7 == 1(2.4G); 2,4,6,8 == 2(5G)
-$hhs_enable 	= getStr("Device.DeviceInfo.X_COMCAST_COM_xfinitywifiEnable");
+$hhs_enable 	= ccsp_getStr("Device.DeviceInfo.X_COMCAST_COM_xfinitywifiEnable");
 
 $radio_freq = ($id%2)?"2.4":"5";
 

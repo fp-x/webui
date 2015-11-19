@@ -841,15 +841,15 @@ function remote_access_block(){
 			?>
 			Remote Management Address (IPv4): 
 			<?php 
-				$fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
-				echo getStr($fistUSif."IPv4Address.1.IPAddress");
+				$fistUSif = ccsp_getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+				echo ccsp_getStr($fistUSif."IPv4Address.1.IPAddress");
 			?>
 			<br/>
 			Remote Management Address (IPv6): 		
 			<?php
-				$ids = explode(",", getInstanceIds($fistUSif."IPv6Address."));
+				$ids = explode(",", ccsp_getInstanceIds($fistUSif."IPv6Address."));
 				foreach ($ids as $i){
-					$val = getStr($fistUSif."IPv6Address.$i.IPAddress");
+					$val = ccsp_getStr($fistUSif."IPv6Address.$i.IPAddress");
 					if (!strstr($val, "fe80::")){
 						echo $val;
 						break;
@@ -942,8 +942,8 @@ function remote_access_block(){
 			
 			if ("255.255.255.255"==$start_ip || "255.255.255.255"==$end_ip){
 				$start_ip = $end_ip = "...";
-				// $start_ip	= getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.iprange.1.StartIP");
-				// $end_ip		= getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.iprange.1.EndIP");
+				// $start_ip	= ccsp_getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.iprange.1.StartIP");
+				// $end_ip		= ccsp_getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.iprange.1.EndIP");
 			}
 			if ("x"==$start_ipv6 || "x"==$end_ipv6){
 				$start_ipv6 = $end_ipv6 = ":::::::";

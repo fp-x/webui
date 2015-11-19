@@ -10,21 +10,21 @@
 
 <?php
 	$dat = array();
-	$ids = array_trim(explode(",", getInstanceIds("Device.X_CISCO_COM_MTA.Dect.Handsets.")));
+	$ids = array_trim(explode(",", ccsp_getInstanceIds("Device.X_CISCO_COM_MTA.Dect.Handsets.")));
 
 	foreach ($ids as $i){
 		array_push($dat, array(
 			'hs_id'		=> $i,
-			'hs_name'	=> getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.HandsetName"),
-			'hs_otn'	=> getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.OperatingTN"),
-			'hs_stn'	=> getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.SupportedTN"),
-			'hs_time'	=> getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.LastActiveTime"),
-			'hs_stat'	=> getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.Status")
+			'hs_name'	=> ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.HandsetName"),
+			'hs_otn'	=> ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.OperatingTN"),
+			'hs_stn'	=> ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.SupportedTN"),
+			'hs_time'	=> ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.LastActiveTime"),
+			'hs_stat'	=> ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.Handsets.$i.Status")
 			));
 	}
 	
-	$cat_iq		= getStr("Device.X_CISCO_COM_MTA.Dect.Enable");
-	$cat_pin	= getStr("Device.X_CISCO_COM_MTA.Dect.PIN");
+	$cat_iq		= ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.Enable");
+	$cat_pin	= ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.PIN");
 		
 	$jsConfig = json_encode($dat);
 ?>

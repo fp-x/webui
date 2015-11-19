@@ -8,7 +8,7 @@
 
 <?php include('includes/nav.php'); ?>
 <?php
-$isManageEnabled = getStr("Device.X_Comcast_com_ParentalControl.ManagedSites.Enable");
+$isManageEnabled = ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedSites.Enable");
 if ($_DEBUG) {
 	$isManageEnabled = "true";
 }
@@ -467,7 +467,7 @@ $.validator.addMethod("no_space", function(value, element, param) {
 	
 	$blockedSitesInstance = getParaValues($rootObjName, $paramNameArray, $mapping_array);
 	
-	$blockedSitesInstanceArr = explode(",", getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
+	$blockedSitesInstanceArr = explode(",", ccsp_getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
 
 	//TrustedUser
 	$rootObjName    = "Device.X_Comcast_com_ParentalControl.ManagedSites.TrustedUser.";
@@ -484,7 +484,7 @@ $.validator.addMethod("no_space", function(value, element, param) {
 	$Host = getParaValues($rootObjName, $paramNameArray, $mapping_array);
 
    	// $blockedSitesNums = sizeof($blockedSitesInstanceArr);
-	$blockedSitesNums = getStr("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSiteNumberOfEntries");
+	$blockedSitesNums = ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSiteNumberOfEntries");
     	//dump($blockedSitesNums);
 	$blockedSitesURL = array();
 	$blockedSitesKeyWord = array();
@@ -636,10 +636,10 @@ $.validator.addMethod("no_space", function(value, element, param) {
 			<input  type="hidden"  name="update_trusted_computers"  value="true" />
 
 		<?php
-		$hostsInstance = getInstanceIds("Device.Hosts.Host.");
+		$hostsInstance = ccsp_getInstanceIds("Device.Hosts.Host.");
 		$hostsInstanceArr = explode(",", $hostsInstance);
 
-		$hostNums = getStr("Device.Hosts.HostNumberOfEntries");
+		$hostNums = ccsp_getStr("Device.Hosts.HostNumberOfEntries");
 
 		$ipAddrArr = array();
 		$HostNameArr = array();
@@ -656,7 +656,7 @@ $.validator.addMethod("no_space", function(value, element, param) {
 
 			$Host["$i"]['IPAddress'] = $Host[$i]["IPAddress"];
 			$IPAddress = $Host["$i"]['IPAddress'];
-			//$IPv4Address	= getStr("Device.Hosts.Host." .$hostsInstanceArr["$i"]. ".IPv4Address.1.IPAddress");
+			//$IPv4Address	= ccsp_getStr("Device.Hosts.Host." .$hostsInstanceArr["$i"]. ".IPv4Address.1.IPAddress");
 			$IPv6Address	= $Host[$i]["IPv6Address.1.IPAddress"];
 			
 			//"Device.Hosts.Host.'$i'.IPv4Address.1.IPAddress" is not updating on GW_IP Change

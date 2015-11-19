@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
+<?php include_once('ccsp.php'); ?>
 <?php
 	session_start();
 	
@@ -45,7 +46,7 @@
 		"Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode",
 		"Device.X_CISCO_COM_DeviceControl.PowerSavingModeStatus"
 	);
-	$header_value = DmExtGetStrsWithRootObj("Device.X_CISCO_COM_DeviceControl.", $header_param);
+	$header_value = ccsp_getStrsWithRootObj("Device.X_CISCO_COM_DeviceControl.", $header_param);
 
 	$lanMode 	= $header_value[1][1];
 	$psmMode 	= $header_value[2][1];
@@ -53,7 +54,7 @@
     /*
     ** is GW works in Bridge mode or not
     */
-	$lanMode = getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode");
+	$lanMode = ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode");
 	// $lanMode = 'bridge-static';
 	if ("bridge-static" != $lanMode && "router" != $lanMode){
 		$lanMode = "router";
@@ -64,7 +65,7 @@
     /*
     ** is GW works in PSM mode or not
     */
-	$psmMode = getStr("Device.X_CISCO_COM_DeviceControl.PowerSavingModeStatus");
+	$psmMode = ccsp_getStr("Device.X_CISCO_COM_DeviceControl.PowerSavingModeStatus");
 	// $psmMode = "Enabled";
 	if ("Enabled" != $psmMode && "Disabled" != $psmMode){
 		$psmMode = "Disabled";

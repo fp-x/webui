@@ -24,10 +24,10 @@ $v6_param = array(
 	);
     $v6_value = KeyExtGet("Device.DHCPv6.Server.", $v6_param);
 //add by yaosheng
-$LanGwIP 	= $devices_value["LanGwIP"]; //getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
-$LanSubnetMask 	= $devices_value["LanSubnetMask"]; //getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask");
-$beginAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
-$endAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
+$LanGwIP 	= $devices_value["LanGwIP"]; //ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
+$LanSubnetMask 	= $devices_value["LanSubnetMask"]; //ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask");
+$beginAddr 	= ccsp_getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
+$endAddr 	= ccsp_getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
 
 $i = $_GET['id'];
 
@@ -42,18 +42,18 @@ $portmapping_param = array(
     $portmapping_value = KeyExtGet("Device.NAT.PortMapping.", $portmapping_param);
 
 
-$service_name = $portmapping_value["service_name"]; //getStr("Device.NAT.PortMapping.$i.Description");
-$v6ServerIP = $portmapping_value["v6ServerIP"]; //getStr("Device.NAT.PortMapping.$i.X_CISCO_COM_InternalClientV6");
-$startport = $portmapping_value["startport"]; //getStr("Device.NAT.PortMapping.".$i.".ExternalPort"); 
-$endport   = $portmapping_value["endport"]; //getStr("Device.NAT.PortMapping.".$i.".ExternalPortEndRange");
+$service_name = $portmapping_value["service_name"]; //ccsp_getStr("Device.NAT.PortMapping.$i.Description");
+$v6ServerIP = $portmapping_value["v6ServerIP"]; //ccsp_getStr("Device.NAT.PortMapping.$i.X_CISCO_COM_InternalClientV6");
+$startport = $portmapping_value["startport"]; //ccsp_getStr("Device.NAT.PortMapping.".$i.".ExternalPort"); 
+$endport   = $portmapping_value["endport"]; //ccsp_getStr("Device.NAT.PortMapping.".$i.".ExternalPortEndRange");
 
-$DeviceMode = $devices_value["DeviceMode"]; //getStr("Device.X_CISCO_COM_DeviceControl.DeviceMode");
+$DeviceMode = $devices_value["DeviceMode"]; //ccsp_getStr("Device.X_CISCO_COM_DeviceControl.DeviceMode");
 //$DeviceMode = "IPv6";
-$state = $v6_value["state"]; //getStr("Device.DHCPv6.Server.X_CISCO_COM_Type");
+$state = $v6_value["state"]; //ccsp_getStr("Device.DHCPv6.Server.X_CISCO_COM_Type");
 //2040::/64, 2040:1::/64, 2040:1:2::/64 and 2040:1:2:3::/64
-$prefix_arr = explode('::/', getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix"));
-$v6_begin_addr = $v6_value["v6_begin_addr"]; //getStr("Device.DHCPv6.Server.Pool.1.PrefixRangeBegin");
-$v6_end_addr = $v6_value["v6_end_addr"]; //getStr("Device.DHCPv6.Server.Pool.1.PrefixRangeEnd");
+$prefix_arr = explode('::/', ccsp_getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix"));
+$v6_begin_addr = $v6_value["v6_begin_addr"]; //ccsp_getStr("Device.DHCPv6.Server.Pool.1.PrefixRangeBegin");
+$v6_end_addr = $v6_value["v6_end_addr"]; //ccsp_getStr("Device.DHCPv6.Server.Pool.1.PrefixRangeEnd");
 ?>
 
 <style type="text/css">

@@ -39,10 +39,10 @@ if($isEnabledDMZ == "true") {
 			array($rootObjName."IPv6Host", "string", $hostv6),
 			array($rootObjName."Enable", "bool", $isEnabledDMZ)
 		);
-	$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+	$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 }
 else if($isEnabledDMZ == "false") {
-	setStr($rootObjName."Enable", $isEnabledDMZ,true);
+	ccsp_setStr($rootObjName."Enable", $isEnabledDMZ,true);
 }
 
 ?>

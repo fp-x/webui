@@ -61,7 +61,7 @@
 	$network_name1	= $wifi_value['network_name1'];
 	$network_pass1	= $wifi_value['KeyPassphrase1'];
 
-	$ipv4_addr 	= getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
+	$ipv4_addr 	= ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
 
 	// logic to figure out LAN or WiFi from Connected Devices List
 	// get clients IP
@@ -125,7 +125,7 @@
 	$paramNameArray = array("Device.Hosts.Host.");
 	$mapping_array  = array("IPAddress", "Layer1Interface");
 
-	$HostIndexArr = DmExtGetInstanceIds("Device.Hosts.Host.");
+	$HostIndexArr = ccsp_getInstanceIds2("Device.Hosts.Host.");
 	if(0 == $HostIndexArr[0]){  
 	    // status code 0 = success   
 		$HostNum = count($HostIndexArr) - 1;

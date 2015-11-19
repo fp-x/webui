@@ -35,7 +35,7 @@ $(document).ready(function() {
 		</div>
 		<!--div class="form-row odd">
 			<span class="readonlyLabel">DECT Software Version:</span> <span class="value">
-			<?php //echo getStr("Device.X_CISCO_COM_MTA.Dect.SoftwareVersion"); ?></span>
+			<?php //echo ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.SoftwareVersion"); ?></span>
 		</div-->
 		<div class="form-row odd">
 			<span class="readonlyLabel">Software Image Name:</span> <span class="value">
@@ -47,7 +47,7 @@ $(document).ready(function() {
 		</div>
 		<div class="form-row odd">
 			<span class="readonlyLabel">Packet Cable:</span> <span class="value">
-			<?php echo getStr("Device.X_CISCO_COM_MTA.PCVersion"); ?></span>
+			<?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.PCVersion"); ?></span>
 		</div>
 	</div> <!-- end .module -->
 </div><!-- end #content -->

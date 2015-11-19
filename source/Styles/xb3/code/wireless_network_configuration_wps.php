@@ -9,7 +9,7 @@
 <?php include('includes/nav.php'); ?>
 
 <?php
-// $ssids			= explode(",", getInstanceIds("Device.WiFi.SSID."));
+// $ssids			= explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));
 $ssids		=array(1,2);	//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
 $wps_enabled	= "false";
 $wps_pin	= "";
@@ -57,8 +57,8 @@ foreach ($ssids as $i){
 		$wps_config	= "true";
 		$encrypt_mode	= $wifi_value['ModeEnabled'.$i];
 		$encrypt_method	= $wifi_value['EncrypMethod'.$i];
-		//$broadcastSSID	= getStr("Device.WiFi.AccessPoint.$i.SSIDAdvertisementEnabled");
-		//$filter_enable	= getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
+		//$broadcastSSID	= ccsp_getStr("Device.WiFi.AccessPoint.$i.SSIDAdvertisementEnabled");
+		//$filter_enable	= ccsp_getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
 		if (strstr($encrypt_mode, "WEP") || (strstr($encrypt_mode, "WPA") && $encrypt_method=="TKIP")){ //|| "false"==$broadcastSSID || "true"==$filter_enable){
 			$wps_config	= "false";
 			break;

@@ -16,8 +16,8 @@ function getPort4XHSEnabled() {
 
 	$multiLan = getParaValues($rootObjName, $paramNameArray, $mapping_array);
 	if (!empty($multiLan)) {
-		$pLanBridgeHSPortEnable = getStr($multiLan[0]["PrimaryLANBridge"].".Port.".$multiLan[0]["PrimaryLANBridgeHSPorts"].".Enable");
-		$HSBridgePortEnable = getStr($multiLan[0]["HomeSecurityBridge"].".Port.".$multiLan[0]["HomeSecurityBridgePorts"].".Enable");
+		$pLanBridgeHSPortEnable = ccsp_getStr($multiLan[0]["PrimaryLANBridge"].".Port.".$multiLan[0]["PrimaryLANBridgeHSPorts"].".Enable");
+		$HSBridgePortEnable = ccsp_getStr($multiLan[0]["HomeSecurityBridge"].".Port.".$multiLan[0]["HomeSecurityBridgePorts"].".Enable");
 		return ($pLanBridgeHSPortEnable === 'false' && $HSBridgePortEnable === 'true');
 	}
 
@@ -108,7 +108,7 @@ $(document).ready(function() {
 		}
 	}
 	
-	$ids = array_filter(explode(",",getInstanceIds("Device.Ethernet.Interface.")));
+	$ids = array_filter(explode(",",ccsp_getInstanceIds("Device.Ethernet.Interface.")));
 	if ($_DEBUG) {
 		$ids = array("1", "2", "3", "4");
 	}

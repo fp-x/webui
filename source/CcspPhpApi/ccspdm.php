@@ -35,7 +35,7 @@
 
 function DmGetStrsWithRootObj($rootObjName, $paramNameArray)
 {
-    return DmExtGetStrsWithRootObj($rootObjName, $paramNameArray);
+    return ccsp_getStrsWithRootObj($rootObjName, $paramNameArray);
 }
 
 /**********************************************************************
@@ -64,7 +64,7 @@ function DmGetStrsWithRootObj($rootObjName, $paramNameArray)
 
 function DmSetStrsWithRootObj($rootObjName, $bCommit = TRUE, $paramArray)
 {
-    return DmExtSetStrsWithRootObj($rootObjName, $bCommit, $paramArray);
+    return ccsp_setStrsWithRootObj($rootObjName, $bCommit, $paramArray);
 }
 
 /**********************************************************************
@@ -87,7 +87,7 @@ function DmSetStrsWithRootObj($rootObjName, $bCommit = TRUE, $paramArray)
 
 function DmGetInstanceIds($objTableName)
 {
-    return DmExtGetInstanceIds($objTableName);
+    return ccsp_getInstanceIds2($objTableName);
 }
 
 /**********************************************************************
@@ -111,7 +111,7 @@ function DmGetInstanceIds($objTableName)
 
 function DmAddObj($objTableName)
 {
-    return addTblObj($objTableName);
+    return ccsp_addTblObj($objTableName);
 }
 
 /**********************************************************************
@@ -132,7 +132,7 @@ function DmAddObj($objTableName)
 
 function DmDelObj($objName)
 {
-    return delTblObj($objName);
+    return ccsp_delTblObj($objName);
 }
 
 ?>

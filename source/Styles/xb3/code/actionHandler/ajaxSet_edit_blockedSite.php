@@ -43,7 +43,7 @@ $objPrefix = "Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite.";
 $rootObjName = $objPrefix;
 $index = $blockedSiteInfo['InstanceID'];
 
-$idArr = explode(",", getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
+$idArr = explode(",", ccsp_getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
 
 $block=$blockedSiteInfo['alwaysBlock'];
 $startTime=$blockedSiteInfo['StartTime'];
@@ -88,7 +88,7 @@ if( array_key_exists('URL', $blockedSiteInfo) ) {
 					array($objPrefix.$index.".AlwaysBlock", "bool", $blockedSiteInfo['alwaysBlock']),
 				);
 
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){
 				$result="Success!";
 			}	
@@ -96,8 +96,8 @@ if( array_key_exists('URL', $blockedSiteInfo) ) {
 				$result = 'Failed to add';
 			}
 
-			/*setStr($objPrefix.$index.".Site", $blockedSiteInfo['URL'], false);
-			setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], true);*/
+			/*ccsp_setStr($objPrefix.$index.".Site", $blockedSiteInfo['URL'], false);
+			ccsp_setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], true);*/
 		}
 		else{
 			$paramArray = 
@@ -109,7 +109,7 @@ if( array_key_exists('URL', $blockedSiteInfo) ) {
 					array($objPrefix.$index.".BlockDays", "string", $blockedSiteInfo['blockedDays']),
 				);
 	
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){
 				$result="Success!";
 			}	
@@ -118,12 +118,12 @@ if( array_key_exists('URL', $blockedSiteInfo) ) {
 			}
 
 	/*
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".Site", $blockedSiteInfo['URL'], false);
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
-			//setStr($objPrefix.$blockedSiteInfo['InstanceID'].".BlockMethod", "URL");
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".StartTime", $blockedSiteInfo['StartTime'], false);
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".EndTime", $blockedSiteInfo['EndTime'], false);
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".BlockDays", $blockedSiteInfo['blockedDays'], true);
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".Site", $blockedSiteInfo['URL'], false);
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
+			//ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".BlockMethod", "URL");
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".StartTime", $blockedSiteInfo['StartTime'], false);
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".EndTime", $blockedSiteInfo['EndTime'], false);
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".BlockDays", $blockedSiteInfo['blockedDays'], true);
 	*/	
 		}
 	}
@@ -162,7 +162,7 @@ else{
 					array($objPrefix.$index.".AlwaysBlock", "bool", $blockedSiteInfo['alwaysBlock']),
 				);
 
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){
 				$result="Success!";
 			}	
@@ -170,8 +170,8 @@ else{
 				$result = 'Failed to add';
 			}
 
-			/*setStr($objPrefix.$index.".Site", $blockedSiteInfo['Keyword'], false);
-			setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], true);*/
+			/*ccsp_setStr($objPrefix.$index.".Site", $blockedSiteInfo['Keyword'], false);
+			ccsp_setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], true);*/
 		}
 		else{
 
@@ -184,7 +184,7 @@ else{
 					array($objPrefix.$index.".BlockDays", "string", $blockedSiteInfo['blockedDays']),
 				);
 	
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){
 				$result="Success!";
 			}	
@@ -193,12 +193,12 @@ else{
 			}
 
 	/*
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".Site", $blockedSiteInfo['Keyword'], false);
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
-			//setStr($objPrefix.$blockedSiteInfo['InstanceID'].".BlockMethod", "Keyword");
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".StartTime", $blockedSiteInfo['StartTime'], false);
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".EndTime", $blockedSiteInfo['EndTime'], false);
-			setStr($objPrefix.$blockedSiteInfo['InstanceID'].".BlockDays", $blockedSiteInfo['blockedDays'], true);
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".Site", $blockedSiteInfo['Keyword'], false);
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
+			//ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".BlockMethod", "Keyword");
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".StartTime", $blockedSiteInfo['StartTime'], false);
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".EndTime", $blockedSiteInfo['EndTime'], false);
+			ccsp_setStr($objPrefix.$blockedSiteInfo['InstanceID'].".BlockDays", $blockedSiteInfo['blockedDays'], true);
 	*/	
 		}
 	}

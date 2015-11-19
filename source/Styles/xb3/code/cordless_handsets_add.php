@@ -13,7 +13,7 @@ $(document).ready(function() {
     comcast.page.init("Connected Devices > Cordless Handsets > Register Handset", "nav-cordless-handsets");
     $('#btn-save').focus();
 
-	if ("true" == "<?php echo getStr("Device.X_CISCO_COM_MTA.Dect.RegistrationMode"); ?>"){
+	if ("true" == "<?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.RegistrationMode"); ?>"){
 		$("#turn_on").show();
 		// $("#btn-save").attr("disabled", true);
 	}

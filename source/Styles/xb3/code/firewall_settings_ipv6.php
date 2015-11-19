@@ -146,14 +146,14 @@ $(document).ready(function() {
                 "block_ident"       => "Device.X_CISCO_COM_Security.Firewall.FilterIdentV6",
             );
             $firewall_value = KeyExtGet("Device.X_CISCO_COM_Security.Firewall.", $firewall_param);
-			$SecurityLevel = $firewall_value["SecurityLevel"]; //getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");	
+			$SecurityLevel = $firewall_value["SecurityLevel"]; //ccsp_getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");	
             $block_http = $firewall_value["block_http"];
             $block_icmp = $firewall_value["block_icmp"];
             $block_multicast = $firewall_value["block_multicast"];
             $block_peer = $firewall_value["block_peer"];
             $block_ident = $firewall_value["block_ident"];
 
-			//$SecurityLevel = getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevelV6");	
+			//$SecurityLevel = ccsp_getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevelV6");	
 		?>
 		<ul class="combo-group" id="security-level">
 			<li id="max">

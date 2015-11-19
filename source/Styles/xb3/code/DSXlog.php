@@ -26,7 +26,7 @@ $(document).ready(function() {
 	<div class="module forms data" id="event">
 	<?php
 		function del_blank($v){return (""==$v?false:true);}
-		$ids = array_filter(explode(",", getInstanceIds("Device.X_CISCO_COM_MTA.DSXLog.")));
+		$ids = array_filter(explode(",", ccsp_getInstanceIds("Device.X_CISCO_COM_MTA.DSXLog.")));
 		if (1 == count($ids))
 		{
 			echo '<h3 id="log_summary">There are currently no DSX Logs</h3>';

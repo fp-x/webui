@@ -15,7 +15,7 @@ $enableMoCA = "false";
 
 $APIDs=explode(",",getInstanceIDs("Device.WiFi.AccessPoint."));
 for($i=0;$i<count($APIDs);$i++) {
-	$enableWMM = getStr("Device.WiFi.AccessPoint.".$APIDs[$i].".WMMEnable"); 
+	$enableWMM = ccsp_getStr("Device.WiFi.AccessPoint.".$APIDs[$i].".WMMEnable"); 
 	if($enableWMM == "true") {
 		$enableWMM = "true";
 		break;
@@ -24,14 +24,14 @@ for($i=0;$i<count($APIDs);$i++) {
 	
 $MoCAIDs=explode(",",getInstanceIDs("Device.MoCA.Interface."));
 for($i=0;$i<count($MoCAIDs);$i++) {
-	$enableMoCA = getStr("Device.MoCA.Interface.".$MoCAIDs[$i].".QoS.X_CISCO_COM_Enabled"); 
+	$enableMoCA = ccsp_getStr("Device.MoCA.Interface.".$MoCAIDs[$i].".QoS.X_CISCO_COM_Enabled"); 
 	if($enableMoCA == "true") {
 		$enableMoCA = "true";
 		break;
 	}
 }
-//$enableLAN = getStr("Device.X_CISCO_COM_DDNS.Enable"); //? R3
-//$enableUPnP = getStr("Device.X_CISCO_COM_DDNS.Enable"); //? R3
+//$enableLAN = ccsp_getStr("Device.X_CISCO_COM_DDNS.Enable"); //? R3
+//$enableUPnP = ccsp_getStr("Device.X_CISCO_COM_DDNS.Enable"); //? R3
 
 //end by licha
 

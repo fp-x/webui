@@ -39,8 +39,8 @@
 	$net_password	= $MoCA_value['net_password'];
 
 	//$qos_enable 	= "true";
-	// $taboo_enable	= getStr("Device.MoCA.Interface.1.X_CISCO_COM_EnableTabooBit");
-	// $qos_enable 	= getStr("Device.MoCA.Interface.1.QoS.X_CISCO_COM_Enabled");
+	// $taboo_enable	= ccsp_getStr("Device.MoCA.Interface.1.X_CISCO_COM_EnableTabooBit");
+	// $qos_enable 	= ccsp_getStr("Device.MoCA.Interface.1.QoS.X_CISCO_COM_Enabled");
 
 	// $moca_enable	= "false";
 	// $scan_method	= "true";

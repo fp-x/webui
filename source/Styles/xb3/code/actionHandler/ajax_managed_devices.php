@@ -21,8 +21,8 @@
 
 if (isset($_POST['set'])){
 	$UMDStatus=(($_POST['UMDStatus']=="Enabled")?"true":"false");
-	setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable",$UMDStatus,true);
-	$UMDStatus=getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable");
+	ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable",$UMDStatus,true);
+	$UMDStatus=ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable");
 	$UMDStatus=($UMDStatus=="true")?"Enabled":"Disabled";
 	header("Content-Type: application/json");
 	echo json_encode($UMDStatus);
@@ -31,9 +31,9 @@ if (isset($_POST['set'])){
 
 if (isset($_POST['allow_block'])){
 	$AllowBlock=(($_POST['AllowBlock']=="allow_all")?"true":"false");
-	setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.AllowAll",$AllowBlock,true);
+	ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.AllowAll",$AllowBlock,true);
 
-	$AllowBlock=getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.AllowAll");
+	$AllowBlock=ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.AllowAll");
 	$AllowBlock=($AllowBlock=="true")?"Allow All":"Block All";
 	header("Content-Type: application/json");
 	echo json_encode($AllowBlock);
@@ -70,18 +70,18 @@ if (isset($_POST['add'])){
 	
 	$ids=explode(",",getInstanceIDs("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device."));
 	if (count($ids)==0) {	//no table, need test whether it equals 0
-		addTblObj("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.");
+		ccsp_addTblObj("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.");
 		$IDs=explode(",",getInstanceIDs("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device."));
 		$i=$IDs[count($IDs)-1];
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Type",$type,false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Description",$name,false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".MACAddress",$mac,false);		
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Type",$type,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Description",$name,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".MACAddress",$mac,false);		
 		if($block == "false") {
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".StartTime",$_POST['startTime'],false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".EndTime",$_POST['endTime'],false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".BlockDays",$_POST['days'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".StartTime",$_POST['startTime'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".EndTime",$_POST['endTime'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".BlockDays",$_POST['days'],false);
 		}
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".AlwaysBlock",$block,true);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".AlwaysBlock",$block,true);
 		header("Content-Type: application/json");
 		echo json_encode("Success!");
 	} 
@@ -115,18 +115,18 @@ if (isset($_POST['add'])){
 		}
 
 		if ($result=="") {
-			addTblObj("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.");
+			ccsp_addTblObj("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.");
 			$IDs=explode(",",getInstanceIDs("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device."));
 			$i=$IDs[count($IDs)-1];
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Type",$type,false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Description",$name,false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".MACAddress",$mac,false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Type",$type,false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Description",$name,false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".MACAddress",$mac,false);
 			if($block == "false") {
-				setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".StartTime",$_POST['startTime'],false);
-				setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".EndTime",$_POST['endTime'],false);
-				setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".BlockDays",$_POST['days'],false);
+				ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".StartTime",$_POST['startTime'],false);
+				ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".EndTime",$_POST['endTime'],false);
+				ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".BlockDays",$_POST['days'],false);
 			}
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".AlwaysBlock",$block,true);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".AlwaysBlock",$block,true);
 			$result="Success!";
 		}
 		header("Content-Type: application/json");
@@ -143,7 +143,7 @@ if (isset($_POST['edit'])){
 	$endTime=$_POST['endTime'];
 	$blockDays=$_POST['days'];
 
-	$type = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$i.Type");
+	$type = ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.$i.Type");
 	$result="";
 	
 	
@@ -174,14 +174,14 @@ if (isset($_POST['edit'])){
 	}
 
 	if ($result=="") {
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Description",$name,false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".MACAddress",$mac,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".Description",$name,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".MACAddress",$mac,false);
 		if($block == "false") {
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".StartTime",$_POST['startTime'],false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".EndTime",$_POST['endTime'],false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".BlockDays",$_POST['days'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".StartTime",$_POST['startTime'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".EndTime",$_POST['endTime'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".BlockDays",$_POST['days'],false);
 		}
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".AlwaysBlock",$block,true);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$i.".AlwaysBlock",$block,true);
 		$result="Success!";
 	}
 	header("Content-Type: application/json");
@@ -189,7 +189,7 @@ if (isset($_POST['edit'])){
 }
 
 if (isset($_GET['del'])){
-	delTblObj("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$_GET['del'].".");
+	ccsp_delTblObj("Device.X_Comcast_com_ParentalControl.ManagedDevices.Device.".$_GET['del'].".");
 	Header("Location:../managed_devices.php");
 	exit;
 }

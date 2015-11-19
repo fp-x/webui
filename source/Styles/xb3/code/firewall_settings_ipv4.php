@@ -10,7 +10,7 @@
  
 <script type="text/javascript" src="./cmn/js/lib/jquery.alerts.progress.js"></script>
 <script type="text/javascript">
-var o_disableFwForTSI = <?php echo (getStr('Device.X_CISCO_COM_Security.Firewall.TrueStaticIpEnable') === 'true') ? 'true' : 'false';?>;
+var o_disableFwForTSI = <?php echo (ccsp_getStr('Device.X_CISCO_COM_Security.Firewall.TrueStaticIpEnable') === 'true') ? 'true' : 'false';?>;
 $(document).ready(function() {
     comcast.page.init("Gateway > Firewall > IPv4", "nav-firewall-ipv4");
 
@@ -201,7 +201,7 @@ $(document).ready(function() {
                 "block_ident"       => "Device.X_CISCO_COM_Security.Firewall.FilterIdent",
             );
             $firewall_value = KeyExtGet("Device.X_CISCO_COM_Security.Firewall.", $firewall_param);
-			$SecurityLevel = $firewall_value["SecurityLevel"]; //getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");	
+			$SecurityLevel = $firewall_value["SecurityLevel"]; //ccsp_getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");	
             $block_http = $firewall_value["block_http"];
             $block_icmp = $firewall_value["block_icmp"];
             $block_multicast = $firewall_value["block_multicast"];

@@ -10,12 +10,12 @@
 
 <?php
 	$ft = array();
-	$id = array_filter(explode(",", getInstanceIds("Device.X_CISCO_COM_FileSharing.User.")));
+	$id = array_filter(explode(",", ccsp_getInstanceIds("Device.X_CISCO_COM_FileSharing.User.")));
 	for ($j=0; $j<count($id); $j++)
 	{
 		$ft[$j][0] = $id[$j];
-		$ft[$j][1] = getStr("Device.X_CISCO_COM_FileSharing.User.$id[$j].UserName");
-		$ft[$j][2] = getStr("Device.X_CISCO_COM_FileSharing.User.$id[$j].Password");
+		$ft[$j][1] = ccsp_getStr("Device.X_CISCO_COM_FileSharing.User.$id[$j].UserName");
+		$ft[$j][2] = ccsp_getStr("Device.X_CISCO_COM_FileSharing.User.$id[$j].Password");
 	}
 	$arConfig = array('ft'=>$ft);			
 	$jsConfig = json_encode($arConfig);

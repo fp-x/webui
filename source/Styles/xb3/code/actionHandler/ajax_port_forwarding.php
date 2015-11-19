@@ -40,9 +40,9 @@ function PORTTEST($sport,$eport,$arraySPort,$arrayEPort) {
 
 if (isset($_POST['set'])){
 	$UFWDStatus=(($_POST['UFWDStatus']=="Enabled")?"true":"false");
-	setStr("Device.NAT.X_Comcast_com_EnablePortMapping",$UFWDStatus,true);
-	while(getStr("Device.NAT.X_Comcast_com_EnablePortMapping")!=$UFWDStatus) sleep(2);
-	//$UFWDStatus=(getStr("Device.NAT.X_Comcast_com_EnablePortMapping")=="true"?"Enabled":"Disabled");
+	ccsp_setStr("Device.NAT.X_Comcast_com_EnablePortMapping",$UFWDStatus,true);
+	while(ccsp_getStr("Device.NAT.X_Comcast_com_EnablePortMapping")!=$UFWDStatus) sleep(2);
+	//$UFWDStatus=(ccsp_getStr("Device.NAT.X_Comcast_com_EnablePortMapping")=="true"?"Enabled":"Disabled");
 	//echo json_encode($UFWDStatus);
 }
 
@@ -56,8 +56,8 @@ if (isset($_POST['add'])){
 	$sport=$_POST['startport'];
 	$eport=$_POST['endport'];
 	
-	if (getStr("Device.NAT.PortMappingNumberOfEntries")==0) {	
-		addTblObj("Device.NAT.PortMapping.");
+	if (ccsp_getStr("Device.NAT.PortMappingNumberOfEntries")==0) {	
+		ccsp_addTblObj("Device.NAT.PortMapping.");
 		$IDs=explode(",",getInstanceIDs("Device.NAT.PortMapping."));
 		$i=$IDs[count($IDs)-1];
 
@@ -73,7 +73,7 @@ if (isset($_POST['add'])){
 				array("Device.NAT.PortMapping.".$i.".Protocol", "string", $type),
 				array("Device.NAT.PortMapping.".$i.".Description", "string", $name),
 			);
-		$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+		$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 		if (!$retStatus){$result="Success!";}
 	} 
 	else {
@@ -118,7 +118,7 @@ if (isset($_POST['add'])){
 		}
 		
 		if ($result=="") {
-			addTblObj("Device.NAT.PortMapping.");
+			ccsp_addTblObj("Device.NAT.PortMapping.");
 			$IDs=explode(",",getInstanceIDs("Device.NAT.PortMapping."));
 			$i=$IDs[count($IDs)-1];
 
@@ -134,7 +134,7 @@ if (isset($_POST['add'])){
 					array("Device.NAT.PortMapping.".$i.".Protocol", "string", $type),
 					array("Device.NAT.PortMapping.".$i.".Description", "string", $name),
 				);
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){$result="Success!";}	
 		}
 	}
@@ -206,7 +206,7 @@ if (isset($_POST['edit'])){
 				array("Device.NAT.PortMapping.".$i.".Protocol", "string", $type),
 				array("Device.NAT.PortMapping.".$i.".Description", "string", $name),
 			);
-		$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+		$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 		if (!$retStatus){$result="Success!";}
 	}
 }
@@ -215,14 +215,14 @@ if (isset($_POST['edit'])){
 if (isset($_POST['active'])){
 	$isChecked=$_POST['isChecked'];
 	$i=$_POST['id'];
-	if (setStr("Device.NAT.PortMapping.$i.Enable",$isChecked,true) === true) {
+	if (ccsp_setStr("Device.NAT.PortMapping.$i.Enable",$isChecked,true) === true) {
 		
 		$result="Success!";
 	}
 }
 
 if (isset($_REQUEST['del'])){
-	delTblObj("Device.NAT.PortMapping.".$_REQUEST['del'].".");
+	ccsp_delTblObj("Device.NAT.PortMapping.".$_REQUEST['del'].".");
 	
 	Header("Location:../port_forwarding.php");
 	
@@ -236,8 +236,8 @@ if ($result=="") {
 $ids=explode(",",getInstanceIDs("Device.NAT.PortMapping."));
 	foreach ($ids as $key=>$j) {
 
-        if (getStr("Device.NAT.PortMapping.$j.InternalClient") == "0.0.0.0") {
-        	delTblObj("Device.NAT.PortMapping.$j.");
+        if (ccsp_getStr("Device.NAT.PortMapping.$j.InternalClient") == "0.0.0.0") {
+        	ccsp_delTblObj("Device.NAT.PortMapping.$j.");
         }
 	} //end of foreach
 } //end of if

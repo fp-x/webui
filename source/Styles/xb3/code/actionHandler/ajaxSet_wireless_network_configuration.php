@@ -31,63 +31,63 @@ $i = $arConfig['ssid_number'];
 function MiniApplySSID($ssid) {
 	$apply_id = (1 << intval($ssid)-1);
 	$apply_rf = (2  - intval($ssid)%2);
-	setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySettingSSID", $apply_id, false);
-	setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySetting", "true", true);
+	ccsp_setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySettingSSID", $apply_id, false);
+	ccsp_setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySetting", "true", true);
 }
 
 if ("save_config" == $arConfig['target'])
 {
 	if ("save_basic" == $arConfig['sub_target'])
 	{
-		setStr("Device.WiFi.Radio.$i.TransmitPower", $arConfig['transmit_power'], false);
-		setStr("Device.WiFi.Radio.$i.AutoChannelEnable", $arConfig['channel_automatic'], false);	
+		ccsp_setStr("Device.WiFi.Radio.$i.TransmitPower", $arConfig['transmit_power'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.AutoChannelEnable", $arConfig['channel_automatic'], false);	
 	}
 	else if ("save_advance" == $arConfig['sub_target'])
 	{
-		setStr("Device.WiFi.Radio.$i.X_CISCO_COM_CTSProtectionMode", $arConfig['BG_protect_mode'], false);
-		setStr("Device.WiFi.Radio.$i.X_COMCAST_COM_IGMPSnoopingEnable", $arConfig['IGMP_Snooping'], false);
-		setStr("Device.WiFi.Radio.$i.OperatingChannelBandwidth", $arConfig['channel_bandwidth'], false);
-		setStr("Device.WiFi.Radio.$i.GuardInterval", $arConfig['guard_interval'], false);
-		setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ReverseDirectionGrant", $arConfig['reverse_enabled'], false);
-		setStr("Device.WiFi.Radio.$i.X_CISCO_COM_AggregationMSDU", $arConfig['MSDU_enabled'], false);
-		setStr("Device.WiFi.Radio.$i.X_CISCO_COM_AutoBlockAck", $arConfig['blockACK_enabled'], false);
-		setStr("Device.WiFi.Radio.$i.X_CISCO_COM_DeclineBARequest", $arConfig['blockBA_enabled'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_CTSProtectionMode", $arConfig['BG_protect_mode'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_COMCAST_COM_IGMPSnoopingEnable", $arConfig['IGMP_Snooping'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.OperatingChannelBandwidth", $arConfig['channel_bandwidth'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.GuardInterval", $arConfig['guard_interval'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ReverseDirectionGrant", $arConfig['reverse_enabled'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_AggregationMSDU", $arConfig['MSDU_enabled'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_AutoBlockAck", $arConfig['blockACK_enabled'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_DeclineBARequest", $arConfig['blockBA_enabled'], false);
 		
 		//DFS_Support1 1-supported 0-not supported
-		if (("2" == $i) && (getStr("Device.WiFi.Radio.$i.X_COMCAST_COM_DFSSupport") == 1)){
-			setStr("Device.WiFi.Radio.$i.X_COMCAST_COM_DFSEnable", $arConfig['DFS_Selection'], false);
+		if (("2" == $i) && (ccsp_getStr("Device.WiFi.Radio.$i.X_COMCAST_COM_DFSSupport") == 1)){
+			ccsp_setStr("Device.WiFi.Radio.$i.X_COMCAST_COM_DFSEnable", $arConfig['DFS_Selection'], false);
 		}
-		setStr("Device.WiFi.Radio.$i.X_COMCAST-COM_DCSEnable", $arConfig['DCS_Selection'], false);
-		setStr("Device.WiFi.Radio.$i.X_CISCO_COM_HTTxStream", $arConfig['HT_TxStream'], false);
-		setStr("Device.WiFi.Radio.$i.X_CISCO_COM_HTRxStream", $arConfig['HT_RxStream'], false);
-		setStr("Device.WiFi.Radio.$i.X_CISCO_COM_STBCEnable", $arConfig['STBC_enabled'], false);
-		setStr("Device.WiFi.AccessPoint.$i.UAPSDEnable", $arConfig['WMM_power_save'], true);	
+		ccsp_setStr("Device.WiFi.Radio.$i.X_COMCAST-COM_DCSEnable", $arConfig['DCS_Selection'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_HTTxStream", $arConfig['HT_TxStream'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_HTRxStream", $arConfig['HT_RxStream'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_STBCEnable", $arConfig['STBC_enabled'], false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.UAPSDEnable", $arConfig['WMM_power_save'], true);	
 	}
 	
 	//redio standards and green mode  must set together
-	setStr("Device.WiFi.Radio.$i.OperatingStandards", $arConfig['wireless_mode'], false);
-	setStr("Device.WiFi.Radio.$i.X_CISCO_COM_11nGreenfieldEnabled", $arConfig['operation_mode'], false);
+	ccsp_setStr("Device.WiFi.Radio.$i.OperatingStandards", $arConfig['wireless_mode'], false);
+	ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_11nGreenfieldEnabled", $arConfig['operation_mode'], false);
 
 	//primary channel and 2nd channel must set together
 	if ("false"==$arConfig['channel_automatic']){
-		setStr("Device.WiFi.Radio.$i.Channel", $arConfig['channel_number'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.Channel", $arConfig['channel_number'], false);
 	}
 	if (("2" != $i) && ("20MHz" != $arConfig['channel_bandwidth'])){
-		setStr("Device.WiFi.Radio.$i.ExtensionChannel", $arConfig['ext_channel'], false);	
+		ccsp_setStr("Device.WiFi.Radio.$i.ExtensionChannel", $arConfig['ext_channel'], false);	
 	}
 	
 	//apply once
-	// setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
+	// ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
 	MiniApplySSID($i);
 	echo $jsConfig;
 }
 else if ("wps_ssid" == $arConfig['target'])
 {
-	$wps_enabled =		getStr("Device.WiFi.AccessPoint.$i.WPS.Enable");
-	$wps_security =		getStr("Device.WiFi.AccessPoint.$i.Security.ModeEnabled");
-	$wps_encryption =	getStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_EncryptionMethod");
-	$wps_pin =			getStr("Device.WiFi.AccessPoint.$i.WPS.X_CISCO_COM_Pin");
-	$wps_method =		getStr("Device.WiFi.AccessPoint.$i.WPS.ConfigMethodsEnabled");
+	$wps_enabled =		ccsp_getStr("Device.WiFi.AccessPoint.$i.WPS.Enable");
+	$wps_security =		ccsp_getStr("Device.WiFi.AccessPoint.$i.Security.ModeEnabled");
+	$wps_encryption =	ccsp_getStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_EncryptionMethod");
+	$wps_pin =			ccsp_getStr("Device.WiFi.AccessPoint.$i.WPS.X_CISCO_COM_Pin");
+	$wps_method =		ccsp_getStr("Device.WiFi.AccessPoint.$i.WPS.ConfigMethodsEnabled");
 
 	// $wps_enabled =		"true";	
 	// $wps_security =		"WPA-WPA2-Personal";	
@@ -107,41 +107,41 @@ else if ("wps_ssid" == $arConfig['target'])
 else if ("save_enable" == $arConfig['target'])
 {
 	if ("radio_enable" == $arConfig['sub_target']) {
-		// setStr("Device.WiFi.SSID.$i.Enable", $arConfig['radio_enable'], true);
-		// setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);		// only primary SSID
+		// ccsp_setStr("Device.WiFi.SSID.$i.Enable", $arConfig['radio_enable'], true);
+		// ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);		// only primary SSID
 		//do not need this again, cause BWG has define a radio.enable
 		/*
-		$ssids = explode(",", getInstanceIds("Device.WiFi.SSID."));		// now, for ALL SSIDs so as to disable radio
+		$ssids = explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));		// now, for ALL SSIDs so as to disable radio
 		foreach ($ssids as $j){
 			if (intval($j)%2 == intval($i)%2){
-				setStr("Device.WiFi.SSID.$j.Enable", $arConfig['radio_enable'], true);			
+				ccsp_setStr("Device.WiFi.SSID.$j.Enable", $arConfig['radio_enable'], true);			
 			}
 		}
 		*/
-		setStr("Device.WiFi.Radio.$i.Enable", $arConfig['radio_enable'], false);
-		setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);		
+		ccsp_setStr("Device.WiFi.Radio.$i.Enable", $arConfig['radio_enable'], false);
+		ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);		
 		// MiniApplySSID($i);	// if enable or disable this radio, no need to assign an SSID
 	}
 	else if ("wps_enabled" == $arConfig['sub_target']) {
 		//enable or disable WPS in all SSID, GUI ensure that only change will be commit to backend
-		$ssids = explode(",", getInstanceIds("Device.WiFi.SSID."));
+		$ssids = explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));
 		foreach ($ssids as $i){
-			setStr("Device.WiFi.AccessPoint.$i.WPS.Enable", $arConfig['wps_enabled'], true);
-			// setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);	// all SSID, so don't put this in loop
+			ccsp_setStr("Device.WiFi.AccessPoint.$i.WPS.Enable", $arConfig['wps_enabled'], true);
+			// ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);	// all SSID, so don't put this in loop
 		}
-		// setStr("Device.WiFi.Radio.1.X_CISCO_COM_ApplySetting", "true", true);
-		// setStr("Device.WiFi.Radio.2.X_CISCO_COM_ApplySetting", "true", true);
+		// ccsp_setStr("Device.WiFi.Radio.1.X_CISCO_COM_ApplySetting", "true", true);
+		// ccsp_setStr("Device.WiFi.Radio.2.X_CISCO_COM_ApplySetting", "true", true);
 		MiniApplySSID(1);
 		MiniApplySSID(2);
 	}
 	else if ("wps_method" == $arConfig['sub_target']) {
-		$ssids = explode(",", getInstanceIds("Device.WiFi.SSID."));
+		$ssids = explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));
 		foreach ($ssids as $i){
-			setStr("Device.WiFi.AccessPoint.$i.WPS.ConfigMethodsEnabled", $arConfig['wps_method'], true);
-			// setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
+			ccsp_setStr("Device.WiFi.AccessPoint.$i.WPS.ConfigMethodsEnabled", $arConfig['wps_method'], true);
+			// ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
 		}
-		// setStr("Device.WiFi.Radio.1.X_CISCO_COM_ApplySetting", "true", true);
-		// setStr("Device.WiFi.Radio.2.X_CISCO_COM_ApplySetting", "true", true);
+		// ccsp_setStr("Device.WiFi.Radio.1.X_CISCO_COM_ApplySetting", "true", true);
+		// ccsp_setStr("Device.WiFi.Radio.2.X_CISCO_COM_ApplySetting", "true", true);
 		MiniApplySSID(1);
 		MiniApplySSID(2);
 	}
@@ -150,24 +150,24 @@ else if ("save_enable" == $arConfig['target'])
 }
 else if ("pair_client" == $arConfig['target'])
 {
-	// $pair_num = getStr("Device.WiFi.AccessPoint.$i.AssociatedDeviceNumberOfEntries");
+	// $pair_num = ccsp_getStr("Device.WiFi.AccessPoint.$i.AssociatedDeviceNumberOfEntries");
 	// $pair_res = "fail";
 	
 	if ("PushButton" == $arConfig['pair_method']) 
 	{
-		setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
-		setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
+		ccsp_setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
+		ccsp_setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
 	}
 	else 
 	{
-		setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
-		setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
+		ccsp_setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
+		ccsp_setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
 	}
 	
 	// for ($j=0; $j<16; $j++)
 	// {
 		// sleep(6);
-		// if (getStr("Device.WiFi.AccessPoint.$i.AssociatedDeviceNumberOfEntries") != $pair_num)
+		// if (ccsp_getStr("Device.WiFi.AccessPoint.$i.AssociatedDeviceNumberOfEntries") != $pair_num)
 		// {
 			// $pair_res = "success";
 			// break;
@@ -180,14 +180,14 @@ else if ("pair_client" == $arConfig['target'])
 }
 else if ("pair_cancel" == $arConfig['target'])
 {
-	setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_CancelSession", "true", true);
-	setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_CancelSession", "true", true);
+	ccsp_setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_CancelSession", "true", true);
+	ccsp_setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_CancelSession", "true", true);
 	echo $jsConfig;	
 }
 else if ("mac_ssid" == $arConfig['target'])
 {
-	$filter_enable = getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
-	$filter_block  = getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList");
+	$filter_enable = ccsp_getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
+	$filter_block  = ccsp_getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList");
 	
 	if ("true" == $filter_enable) {
 		if ("true" == $filter_block) {
@@ -202,7 +202,7 @@ else if ("mac_ssid" == $arConfig['target'])
 	}
 		
 	$ft = array();
-	$id = array_filter(explode(",",getInstanceIds("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.")));
+	$id = array_filter(explode(",",ccsp_getInstanceIds("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.")));
 
 	$rootObjName    = "Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.";
 	$paramNameArray = array("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.");
@@ -222,18 +222,18 @@ else if ("mac_ssid" == $arConfig['target'])
 	if ("5"==$i || "6"==$i)
 	{
 		$id = ("5"==$i)?"1":"2";
-		$clients = explode(",", getInstanceIds("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.$id.AssociatedDevice."));
+		$clients = explode(",", ccsp_getInstanceIds("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.$id.AssociatedDevice."));
 		//explode on empty string returns array count as 1 [with string(0) ""]
 		if($clients[0]){
 			foreach($clients as $v)
 			{
-				array_push($at, array(getStr("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.$id.AssociatedDevice.$v.Hostname"), getStr("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.$id.AssociatedDevice.$v.MACAddress")));
+				array_push($at, array(ccsp_getStr("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.$id.AssociatedDevice.$v.Hostname"), ccsp_getStr("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.$id.AssociatedDevice.$v.MACAddress")));
 			}
 		}
 	}
 	else
 	{
-		$id = array_filter(explode(",", getInstanceIds("Device.Hosts.Host.")));
+		$id = array_filter(explode(",", ccsp_getInstanceIds("Device.Hosts.Host.")));
 		$rootObjName    = "Device.Hosts.Host.";
 		$paramNameArray = array("Device.Hosts.Host.");
 		$mapping_array  = array("Layer1Interface", "HostName", "PhysAddress");
@@ -272,13 +272,13 @@ else if ("save_filter" == $arConfig['target'])
 	{
 		$ft		= $arConfig['ft'];
 		//get all old table instance
-		$old_id = array_filter(explode(",",getInstanceIds("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.")));
+		$old_id = array_filter(explode(",",ccsp_getInstanceIds("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.")));
 		
 		//for old table, delete which is not in new table, keep in place which is in it
 		foreach ($old_id as $j)
 		{
 			$del_mac = true;
-			$old_mac = getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.$j.MACAddress");
+			$old_mac = ccsp_getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.$j.MACAddress");
 			
 			for ($k=0; $k<count($ft); $k++)
 			{
@@ -292,7 +292,7 @@ else if ("save_filter" == $arConfig['target'])
 			if ($del_mac)
 			{
 				//if an old mac is not in new table, then delete it from old table
-				delTblObj("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.$j.");
+				ccsp_delTblObj("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.$j.");
 			}
 			else
 			{
@@ -304,11 +304,11 @@ else if ("save_filter" == $arConfig['target'])
 		//add enough new instance, but we can't tell which ID is added!!!
 		for ($j=0; $j<count($ft); $j++)
 		{
-			addTblObj("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.");
+			ccsp_addTblObj("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.");
 		}
 		
 		//get all instance IDs, perhaps contains old IDs
-		$new_id = array_filter(explode(",",getInstanceIds("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.")));
+		$new_id = array_filter(explode(",",ccsp_getInstanceIds("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.")));
 		
 		//find the IDs in new table, but not in old table
 		$id = array_diff($new_id, $old_id);
@@ -321,8 +321,8 @@ else if ("save_filter" == $arConfig['target'])
 		{
 			for ($j=0; $j<count($ft); $j++)
 			{
-				setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.$id[$j].DeviceName", $ft[$j][0], false);
-				setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.$id[$j].MACAddress", $ft[$j][1], true);
+				ccsp_setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.$id[$j].DeviceName", $ft[$j][0], false);
+				ccsp_setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MacFilterTable.$id[$j].MACAddress", $ft[$j][1], true);
 			}
 		}
 
@@ -340,28 +340,28 @@ else if ("save_filter" == $arConfig['target'])
 			$filter_block  = "false";
 		}
 		
-		$get_filter_enable = getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
-		$get_filter_block  = getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList");
+		$get_filter_enable = ccsp_getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
+		$get_filter_block  = ccsp_getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList");
 
 		/*------When changing from "allow_all" to "allow" go from "allow_all" to "deny" then to "allow" -----*/
 		if(($get_filter_enable == "false" && $get_filter_block == "false") && ($filter_enable == "true" && $filter_block == "false")){
 			//"allow_all" to "deny"
-			setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable", "true", false);
-			setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList", "true", true);
+			ccsp_setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable", "true", false);
+			ccsp_setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList", "true", true);
 			//"deny" to "allow"
-			setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable", "true", false);
-			setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList", "false", true);
+			ccsp_setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable", "true", false);
+			ccsp_setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList", "false", true);
 		}
 
-		setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable", $filter_enable, false);
-		setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList", $filter_block, true);	
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable", $filter_enable, false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.FilterAsBlackList", $filter_block, true);	
 		
 		//Saving ACL should not set ApplySetting
-		// setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
+		// ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
 		// echo $i;
 	}
 	//For WECB
-	setStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_SSID_Updated", "true", true);
+	ccsp_setStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_SSID_Updated", "true", true);
 	echo $jsConfig;	
 }
 

@@ -8,6 +8,9 @@
 				<li style="list-style:none outside none; margin-left:10px">&#8226;&nbsp;&nbsp;<a href="https://www.twcc.com/" target="_blank">TWC Central</a></li>
 				<li style="list-style:none outside none; margin-left:10px">&#8226;&nbsp;&nbsp;<a href="http://business.timewarnercable.com" target="_blank">Business Class</a></li>
 			</ul>
+			<pre>
+			<?php print_r(ccsp_getUseMap()); ?>
+			</pre>
 		</div> <!-- end #footer -->
 	</div> <!-- end #container -->
 <script type="text/javascript">

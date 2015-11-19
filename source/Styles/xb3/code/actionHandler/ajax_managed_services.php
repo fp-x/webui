@@ -56,8 +56,8 @@ function time_date_conflict($TD1, $TD2) {
 
 if (isset($_POST['set'])){
 	$UMSStatus=(($_POST['UMSStatus']=="Enabled")?"true":"false");
-	setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Enable",$UMSStatus,true);
-	$UMSStatus=getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Enable");
+	ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Enable",$UMSStatus,true);
+	$UMSStatus=ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Enable");
 	$UMSStatus=($UMSStatus=="true")?"Enabled":"Disabled";
 	header("Content-Type: application/json");
 	echo json_encode($UMSStatus);
@@ -66,8 +66,8 @@ if (isset($_POST['set'])){
 
 if (isset($_POST['trust_not'])){
 	$ID=$_POST['ID'];
-	setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser.".$ID.".Trusted",$_POST['status'],true);
-	$status=getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser.".$ID.".Trusted");
+	ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser.".$ID.".Trusted",$_POST['status'],true);
+	$status=ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser.".$ID.".Trusted");
 	$status=($status=="true")?"Trusted":"Not trusted";
 	header("Content-Type: application/json");
 	echo json_encode($status);
@@ -92,19 +92,19 @@ if (isset($_POST['add'])){
 	
 	$ids=explode(",",getInstanceIDs("Device.X_Comcast_com_ParentalControl.ManagedServices.Service."));
 	if (count($ids)==0) {	//no table, need test whether it equals 0
-		addTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.");
+		ccsp_addTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.");
 		$IDs=explode(",",getInstanceIDs("Device.X_Comcast_com_ParentalControl.ManagedServices.Service."));
 		$i=$IDs[count($IDs)-1];
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Description",$service,false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Protocol",$protocol,false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartPort",$startPort,false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndPort",$endPort,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Description",$service,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Protocol",$protocol,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartPort",$startPort,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndPort",$endPort,false);
 		if($block == "false") {
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartTime",$_POST['startTime'],false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndTime",$_POST['endTime'],false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".BlockDays",$_POST['days'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartTime",$_POST['startTime'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndTime",$_POST['endTime'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".BlockDays",$_POST['days'],false);
 		}
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".AlwaysBlock",$block,true);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".AlwaysBlock",$block,true);
 		header("Content-Type: application/json");
 		echo json_encode("Success!");
 	} 
@@ -146,19 +146,19 @@ if (isset($_POST['add'])){
 		}
 		
 		if ($result=="") {
-			addTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.");
+			ccsp_addTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.");
 			$IDs=explode(",",getInstanceIDs("Device.X_Comcast_com_ParentalControl.ManagedServices.Service."));
 			$i=$IDs[count($IDs)-1];
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Description",$service,false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Protocol",$protocol,false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartPort",$startPort,false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndPort",$endPort,false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Description",$service,false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Protocol",$protocol,false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartPort",$startPort,false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndPort",$endPort,false);
 			if($block == "false") {
-				setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartTime",$_POST['startTime'],false);
-				setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndTime",$_POST['endTime'],false);
-				setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".BlockDays",$_POST['days'],false);
+				ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartTime",$_POST['startTime'],false);
+				ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndTime",$_POST['endTime'],false);
+				ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".BlockDays",$_POST['days'],false);
 			}
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".AlwaysBlock",$block,true);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".AlwaysBlock",$block,true);
 			$result="Success!";
 		}
 		header("Content-Type: application/json");
@@ -221,16 +221,16 @@ if (isset($_POST['edit'])){
 	}
 	
 	if ($result=="") {
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Description",$service,false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Protocol",$protocol,false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartPort",$startPort,false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndPort",$endPort,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Description",$service,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".Protocol",$protocol,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartPort",$startPort,false);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndPort",$endPort,false);
 		if($block == "false") {
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartTime",$_POST['startTime'],false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndTime",$_POST['endTime'],false);
-			setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".BlockDays",$_POST['days'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".StartTime",$_POST['startTime'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".EndTime",$_POST['endTime'],false);
+			ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".BlockDays",$_POST['days'],false);
 		}
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".AlwaysBlock",$block,true);
+		ccsp_setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$i.".AlwaysBlock",$block,true);
 		$result="Success!";
 	}
 	header("Content-Type: application/json");
@@ -238,7 +238,7 @@ if (isset($_POST['edit'])){
 }
 
 if (isset($_GET['del'])){
-	delTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$_GET['del'].".");
+	ccsp_delTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.Service.".$_GET['del'].".");
 	Header("Location:../managed_services.php");
 	exit;
 }

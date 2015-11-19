@@ -30,32 +30,32 @@ $i = $arConfig['ssid_number'];	//when pair, select the first WPS enabled SSID
 function MiniApplySSID($ssid) {
 	$apply_id = (1 << intval($ssid)-1);
 	$apply_rf = (2  - intval($ssid)%2);
-	setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySettingSSID", $apply_id, false);
-	setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySetting", "true", true);
+	ccsp_setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySettingSSID", $apply_id, false);
+	ccsp_setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySetting", "true", true);
 }
 
 if ("wps_enabled" == $arConfig['target'])
 {
 	//enable or disable WPS in all SSID, GUI ensure that only change will be commit to backend
-	$ssids = explode(",", getInstanceIds("Device.WiFi.SSID."));
+	$ssids = explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));
 	foreach ($ssids as $i){
-		setStr("Device.WiFi.AccessPoint.$i.WPS.Enable", $arConfig['wps_enabled'], true);
-		// setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.WPS.Enable", $arConfig['wps_enabled'], true);
+		// ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
 	}
-	// setStr("Device.WiFi.Radio.1.X_CISCO_COM_ApplySetting", "true", true);
-	// setStr("Device.WiFi.Radio.2.X_CISCO_COM_ApplySetting", "true", true);
+	// ccsp_setStr("Device.WiFi.Radio.1.X_CISCO_COM_ApplySetting", "true", true);
+	// ccsp_setStr("Device.WiFi.Radio.2.X_CISCO_COM_ApplySetting", "true", true);
 	MiniApplySSID(1);
 	MiniApplySSID(2);	
 }
 else if("wps_method" == $arConfig['target'])
 {
-	$ssids = explode(",", getInstanceIds("Device.WiFi.SSID."));
+	$ssids = explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));
 	foreach ($ssids as $i){
-		setStr("Device.WiFi.AccessPoint.$i.WPS.ConfigMethodsEnabled", $arConfig['wps_method'], true);
-		// setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.WPS.ConfigMethodsEnabled", $arConfig['wps_method'], true);
+		// ccsp_setStr("Device.WiFi.Radio.$i.X_CISCO_COM_ApplySetting", "true", true);
 	}
-	// setStr("Device.WiFi.Radio.1.X_CISCO_COM_ApplySetting", "true", true);
-	// setStr("Device.WiFi.Radio.2.X_CISCO_COM_ApplySetting", "true", true);
+	// ccsp_setStr("Device.WiFi.Radio.1.X_CISCO_COM_ApplySetting", "true", true);
+	// ccsp_setStr("Device.WiFi.Radio.2.X_CISCO_COM_ApplySetting", "true", true);
 	MiniApplySSID(1);
 	MiniApplySSID(2);
 }
@@ -63,19 +63,19 @@ else if ("pair_client" == $arConfig['target'])
 {
 	if ("PushButton" == $arConfig['pair_method']) 
 	{
-		setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
-		setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
+		ccsp_setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
+		ccsp_setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ActivatePushButton", "true", true);
 	}
 	else 
 	{
-		setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
-		setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
+		ccsp_setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
+		ccsp_setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_ClientPin", $arConfig['pin_number'], true);
 	}
 }
 else if ("pair_cancel" == $arConfig['target'])
 {
-	setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_CancelSession", "true", true);
-	setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_CancelSession", "true", true);
+	ccsp_setStr("Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_CancelSession", "true", true);
+	ccsp_setStr("Device.WiFi.AccessPoint.2.WPS.X_CISCO_COM_CancelSession", "true", true);
 }
 sleep(1);
 echo $jsConfig;	

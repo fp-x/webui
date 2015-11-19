@@ -1,5 +1,5 @@
 <?php
-$CONFIGUREWIFI	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_ConfigureWiFi");
+$CONFIGUREWIFI	= ccsp_getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_ConfigureWiFi");
 if(strstr($CONFIGUREWIFI, "false"))	header('Location:index.php');
 ?>
 
@@ -10,12 +10,12 @@ if(strstr($CONFIGUREWIFI, "false"))	header('Location:index.php');
 
 <?php
 //WiFi Defaults are expected to be same for 2.4Ghz and 5Ghz
-$network_name	= getStr("Device.WiFi.SSID.1.SSID");
+$network_name	= ccsp_getStr("Device.WiFi.SSID.1.SSID");
 $network_name 	= explode('-2.4', $network_name);
 $network_name	= $network_name[0];
-$network_pass	= getStr("Device.WiFi.AccessPoint.1.Security.X_CISCO_COM_KeyPassphrase");
+$network_pass	= ccsp_getStr("Device.WiFi.AccessPoint.1.Security.X_CISCO_COM_KeyPassphrase");
 
-$ipv4_addr = getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
+$ipv4_addr = ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
 ?>
 
 <script type="text/javascript" src="cmn/js/lib/jquery.alerts.progress.js"></script>

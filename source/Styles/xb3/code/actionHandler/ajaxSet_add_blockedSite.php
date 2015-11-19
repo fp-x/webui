@@ -42,7 +42,7 @@ $blockedSiteInfo = json_decode($_REQUEST['BlockInfo'], true);
 $objPrefix = "Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite.";
 $rootObjName = $objPrefix;
 $exist = false;
-$idArr = explode(",", getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
+$idArr = explode(",", ccsp_getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
 
 $block=$blockedSiteInfo['alwaysBlock'];
 $startTime=$blockedSiteInfo['StartTime'];
@@ -78,8 +78,8 @@ if( array_key_exists('URL', $blockedSiteInfo) ) {
 
 	if ($result == ""){
 
-		addTblObj("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite.");
-		$idArr = explode(",", getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
+		ccsp_addTblObj("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite.");
+		$idArr = explode(",", ccsp_getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
 		$index = array_pop($idArr);
 
 		if ($blockedSiteInfo['alwaysBlock'] == 'true'){
@@ -91,7 +91,7 @@ if( array_key_exists('URL', $blockedSiteInfo) ) {
 				array($objPrefix.$index.".BlockMethod", "string", "URL"),
 			);
 
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){
 				$result="Success!";
 			}	
@@ -99,9 +99,9 @@ if( array_key_exists('URL', $blockedSiteInfo) ) {
 				$result = 'Failed to add';
 			}
 
-			/*setStr($objPrefix.$index.".Site", $blockedSiteInfo['URL'], false);
-			setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
-			setStr($objPrefix.$index.".BlockMethod", "URL", true);*/
+			/*ccsp_setStr($objPrefix.$index.".Site", $blockedSiteInfo['URL'], false);
+			ccsp_setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
+			ccsp_setStr($objPrefix.$index.".BlockMethod", "URL", true);*/
 		}
 		else{
 
@@ -115,7 +115,7 @@ if( array_key_exists('URL', $blockedSiteInfo) ) {
 					array($objPrefix.$index.".BlockDays", "string", $blockedSiteInfo['blockedDays']),
 				);
 		
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){
 				$result="Success!";
 			}	
@@ -123,12 +123,12 @@ if( array_key_exists('URL', $blockedSiteInfo) ) {
 				$result = 'Failed to add';
 			}
 /*
-			setStr($objPrefix.$index.".Site", $blockedSiteInfo['URL'], false);
-			setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
-			setStr($objPrefix.$index.".BlockMethod", "URL", false);
-			setStr($objPrefix.$index.".StartTime", $blockedSiteInfo['StartTime'], false);
-			setStr($objPrefix.$index.".EndTime", $blockedSiteInfo['EndTime'], false);
-			setStr($objPrefix.$index.".BlockDays", $blockedSiteInfo['blockedDays'], true);
+			ccsp_setStr($objPrefix.$index.".Site", $blockedSiteInfo['URL'], false);
+			ccsp_setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
+			ccsp_setStr($objPrefix.$index.".BlockMethod", "URL", false);
+			ccsp_setStr($objPrefix.$index.".StartTime", $blockedSiteInfo['StartTime'], false);
+			ccsp_setStr($objPrefix.$index.".EndTime", $blockedSiteInfo['EndTime'], false);
+			ccsp_setStr($objPrefix.$index.".BlockDays", $blockedSiteInfo['blockedDays'], true);
 */		
 		}
 	}
@@ -159,8 +159,8 @@ else{
 
 	if ($result == ""){
 
-		addTblObj("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite.");
-		$idArr = explode(",", getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
+		ccsp_addTblObj("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite.");
+		$idArr = explode(",", ccsp_getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedSites.BlockedSite."));
 		$index = array_pop($idArr);
 
 		if ($blockedSiteInfo['alwaysBlock'] == 'true'){
@@ -172,7 +172,7 @@ else{
 				array($objPrefix.$index.".BlockMethod", "string", "Keyword"),
 			);
 
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){
 				$result="Success!";
 			}	
@@ -180,9 +180,9 @@ else{
 				$result = 'Failed to add';
 			}
 
-			/*setStr($objPrefix.$index.".Site", $blockedSiteInfo['Keyword'], false);
-			setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
-			setStr($objPrefix.$index.".BlockMethod", "Keyword", true);*/
+			/*ccsp_setStr($objPrefix.$index.".Site", $blockedSiteInfo['Keyword'], false);
+			ccsp_setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
+			ccsp_setStr($objPrefix.$index.".BlockMethod", "Keyword", true);*/
 		}
 		else{
 
@@ -196,7 +196,7 @@ else{
 					array($objPrefix.$index.".BlockDays", "string", $blockedSiteInfo['blockedDays']),
 				);
 		
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){
 				$result="Success!";
 			}	
@@ -204,12 +204,12 @@ else{
 				$result = 'Failed to add';
 			}
 /*
-			setStr($objPrefix.$index.".Site", $blockedSiteInfo['Keyword'], false);
-			setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
-			setStr($objPrefix.$index.".BlockMethod", "Keyword", false);
-			setStr($objPrefix.$index.".StartTime", $blockedSiteInfo['StartTime'], false);
-			setStr($objPrefix.$index.".EndTime", $blockedSiteInfo['EndTime'], false);
-			setStr($objPrefix.$index.".BlockDays", $blockedSiteInfo['blockedDays'], true);
+			ccsp_setStr($objPrefix.$index.".Site", $blockedSiteInfo['Keyword'], false);
+			ccsp_setStr($objPrefix.$index.".AlwaysBlock", $blockedSiteInfo['alwaysBlock'], false);
+			ccsp_setStr($objPrefix.$index.".BlockMethod", "Keyword", false);
+			ccsp_setStr($objPrefix.$index.".StartTime", $blockedSiteInfo['StartTime'], false);
+			ccsp_setStr($objPrefix.$index.".EndTime", $blockedSiteInfo['EndTime'], false);
+			ccsp_setStr($objPrefix.$index.".BlockDays", $blockedSiteInfo['blockedDays'], true);
 */	
 		}
 	}

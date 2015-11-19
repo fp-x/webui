@@ -14,13 +14,13 @@
 </style>
 
 <?php
-$enableDMZ		= getStr("Device.NAT.X_CISCO_COM_DMZ.Enable");
-$host   		= getStr("Device.NAT.X_CISCO_COM_DMZ.InternalIP");
-$hostv6 		= getStr("Device.NAT.X_CISCO_COM_DMZ.IPv6Host");
+$enableDMZ		= ccsp_getStr("Device.NAT.X_CISCO_COM_DMZ.Enable");
+$host   		= ccsp_getStr("Device.NAT.X_CISCO_COM_DMZ.InternalIP");
+$hostv6 		= ccsp_getStr("Device.NAT.X_CISCO_COM_DMZ.IPv6Host");
 
-$LanSubnetMask	= getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask");
-$LanGwIP 		= getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
-$IPv6Prefix     = getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix");
+$LanSubnetMask	= ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask");
+$LanGwIP 		= ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
+$IPv6Prefix     = ccsp_getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix");
 
 ("" == $enableDMZ) && ($enableDMZ = "false");
 

@@ -10,7 +10,7 @@
 
 <?php  
 
-    $interface = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
+    $interface = ccsp_getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
     // $interface = "Device.IP.Interface.2.";
 	
 	// initial some variable to suppress some error
@@ -20,9 +20,9 @@
 	$DNSv6Index = "";
 
     /*local ipv6 address */
-    $idArr = explode(",", getInstanceIds($interface."IPv6Address."));
+    $idArr = explode(",", ccsp_getInstanceIds($interface."IPv6Address."));
     foreach ($idArr as $key => $value) {
-        $ipv6addr = getStr($interface."IPv6Address.$value.IPAddress");
+        $ipv6addr = ccsp_getStr($interface."IPv6Address.$value.IPAddress");
         if (stripos($ipv6addr, "fe80::") !== false) {
           $ipv6_local_addr = $ipv6addr;
         }
@@ -32,7 +32,7 @@
     }
 
 	/*ipv6 dns*/
-	$idArr = explode(",", getInstanceIds("Device.DNS.Client.Server."));
+	$idArr = explode(",", ccsp_getInstanceIds("Device.DNS.Client.Server."));
     foreach ($idArr as $key => $value) {
         if ( !strcasecmp(php_getstr("Device.DNS.Client.Server.$value.Type"), "DHCPv6") ) {
             $DNSv6Index = $value;

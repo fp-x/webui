@@ -35,12 +35,12 @@ $dhcpv6_param = array(
 $LanGwIP    = $device_ctrl_value["LanGwIP"];
 $DHCPTime   = $dhcpv4_value["DHCPTime"];
 $DHCPV6Time = $dhcpv6_value["DHCPV6Time"];
-$ipv6_prefix = getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix");
-$interface = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
+$ipv6_prefix = ccsp_getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix");
+$interface = ccsp_getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
 $DeviceMode = $device_ctrl_value["DeviceMode"];
 
 //CM GW IP Address
-$CM_GW_IP_Address = getStr("Device.X_CISCO_COM_CableModem.Gateway");
+$CM_GW_IP_Address = ccsp_getStr("Device.X_CISCO_COM_CableModem.Gateway");
 //WAN GW IP Address (IPv4)
 $WAN_GW_IPv4_Address = $dhcpv4_value["WAN_GW_IPv4_Address"];
 
@@ -59,9 +59,9 @@ foreach ($out as $v){
 // initial some variable to suppress some error
 $ipv6_local_addr = "";
 $ipv6_global_addr = "";
-$idArr = explode(",", getInstanceIds($interface."IPv6Address."));
+$idArr = explode(",", ccsp_getInstanceIds($interface."IPv6Address."));
 foreach ($idArr as $key => $value) {
-  $ipv6addr = getStr($interface."IPv6Address.$value.IPAddress");
+  $ipv6addr = ccsp_getStr($interface."IPv6Address.$value.IPAddress");
   if (stripos($ipv6addr, "fe80::") !== false) {
   	$ipv6_local_addr = $ipv6addr;
   }
@@ -1237,7 +1237,7 @@ $('#restore_ipv6').click(function(e) {
 				
 			    <?php  
 			      //2040::/64, 2040:1::/64, 2040:1:2::/64 and 2040:1:2:3::/64
-                  $prefix_arr = explode('::/', getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix"));
+                  $prefix_arr = explode('::/', ccsp_getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix"));
                   $ipv6_prefix_arr = explode(':', $prefix_arr[0]);
                   $ipa_size = count($ipv6_prefix_arr);
 

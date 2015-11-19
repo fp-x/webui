@@ -1,3 +1,4 @@
+<?php include_once('ccsp.php'); ?>
 <?php
 // enable _SESSION var
 // session_start();		// already start in head.php
@@ -14,7 +15,7 @@ function php_getstr($str)
 			return "";
 		}
 	}
-	return getStr($str);
+	return ccsp_getStr($str);
 }
 
 //wrap for PSM mode
@@ -29,13 +30,13 @@ function php_getinstanceids($str)
 			return "";
 		}
 	}
-	return getInstanceIds($str);
+	return ccsp_getInstanceIds($str);
 }
 
 //now you can use key to index the array
 function KeyExtGet($root, $param)
 {
-	$raw_ret = DmExtGetStrsWithRootObj($root, $param);
+	$raw_ret = ccsp_getStrsWithRootObj($root, $param);
 	$key_ret = array();
 	for ($i=1; $i<count($raw_ret); $i++)
 	{
@@ -154,7 +155,7 @@ function getParaValues($root, $paramArray, $mapping_array, $includeId=false) {
 	$pId = NULL;
 	$mapping_array_size = count($mapping_array);
 
-	$raw_ret = DmExtGetStrsWithRootObj($root, $paramArray);
+	$raw_ret = ccsp_getStrsWithRootObj($root, $paramArray);
 	if(isset($raw_ret)){
 		foreach ($raw_ret as $key => $value) {
 

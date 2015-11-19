@@ -228,15 +228,15 @@ $mmmmmm = array(
 ,"--"
 );
 
-// $line = array_filter(explode(",", getInstanceIds("Device.X_CISCO_COM_MTA.LineTable.")));
+// $line = array_filter(explode(",", ccsp_getInstanceIds("Device.X_CISCO_COM_MTA.LineTable.")));
 // $line = array(1,2);
 
 // for ($i=0; $i<count($line); $i++)
 if ("display" == $action)
 {
 	$dmroot	= "Device.X_CISCO_COM_MTA.LineTable.$line.VQM.Calls.";
-	$dmval	= DmExtGetStrsWithRootObj($dmroot, array($dmroot));
-	$call	= array_filter(explode(",", getInstanceIds($dmroot)));
+	$dmval	= ccsp_getStrsWithRootObj($dmroot, array($dmroot));
+	$call	= array_filter(explode(",", ccsp_getInstanceIds($dmroot)));
 	// sleep(3);
 	$t		= 66;					//total parameters number in a call
 	

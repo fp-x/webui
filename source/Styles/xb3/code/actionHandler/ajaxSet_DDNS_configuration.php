@@ -39,21 +39,21 @@ $isEnabled = $ddnsInfo['IsEnabled'];
 $spName = $ddnsInfo['SpName'];
 	
 if($isEnabled == "true") {
-	setStr("Device.X_CISCO_COM_DDNS.Enable", $isEnabled, false);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Enable", $isEnabled, false);
 	if($spName == "dyndns.org") {
 		$index = 1;
-		setStr("Device.X_CISCO_COM_DDNS.Service.2.Enable", "false", false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.2.Enable", "false", false);
 	} else {
 		$index = 2;
-		setStr("Device.X_CISCO_COM_DDNS.Service.1.Enable", "false", false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.1.Enable", "false", false);
 	}
-	setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".ServiceName", $ddnsInfo['SpName'], false);
-	setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".Username", $ddnsInfo['User'], false);	
-	setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".Password", $ddnsInfo['Passwd'], false);	
-	setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".Domain", $ddnsInfo['Host'],false);
-	setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".Enable", $isEnabled, true);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".ServiceName", $ddnsInfo['SpName'], false);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".Username", $ddnsInfo['User'], false);	
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".Password", $ddnsInfo['Passwd'], false);	
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".Domain", $ddnsInfo['Host'],false);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service."."$index".".Enable", $isEnabled, true);
 } else if($isEnabled == "false") {
-	setStr("Device.X_CISCO_COM_DDNS.Enable", $isEnabled, false);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Enable", $isEnabled, false);
 }
 
 

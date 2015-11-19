@@ -168,8 +168,8 @@ button.onclick=add1
 				<?php
 					$ids=explode(",",getInstanceIDs("Device.X_CISCO_COM_DDNS.Service."));
 					foreach ($ids as $key=>$j) {
-						$spName		=getStr("Device.X_CISCO_COM_DDNS.Service.".$j.".ServiceName");
-						$serviceStatus	=getStr("Device.X_CISCO_COM_DDNS.Service.".$j.".Enable");
+						$spName		=ccsp_getStr("Device.X_CISCO_COM_DDNS.Service.".$j.".ServiceName");
+						$serviceStatus	=ccsp_getStr("Device.X_CISCO_COM_DDNS.Service.".$j.".Enable");
 						if(strcasecmp($sp,$spName) == 0) echo '<option value="'.$spName.'">'.$spName.'</option>';
 						else if(strcasecmp($serviceStatus,"false") == 0) echo '<option value="'.$spName.'">'.$spName.'</option>';
 					}

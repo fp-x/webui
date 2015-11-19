@@ -34,18 +34,18 @@ $r = (2 - intval($i)%2);	//1,3,5,7 == 1(2.4G); 2,4,6,8 == 2(5G)
 function MiniApplySSID($ssid) {
 	$apply_id = (1 << intval($ssid)-1);
 	$apply_rf = (2  - intval($ssid)%2);
-	setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySettingSSID", $apply_id, false);
-	setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySetting", "true", true);
+	ccsp_setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySettingSSID", $apply_id, false);
+	ccsp_setStr("Device.WiFi.Radio.$apply_rf.X_CISCO_COM_ApplySetting", "true", true);
 }
 
 //change SSID status first, if disable, no need to configure following
-setStr("Device.WiFi.SSID.$i.Enable", $arConfig['radio_enable'], true);
+ccsp_setStr("Device.WiFi.SSID.$i.Enable", $arConfig['radio_enable'], true);
 
 if ("true" == $arConfig['radio_enable']) 
 {
 	// check if the LowerLayers radio is enabled
-	if ("false" == getStr("Device.WiFi.Radio.$r.Enable")){
-		setStr("Device.WiFi.Radio.$r.Enable", "true", true);
+	if ("false" == ccsp_getStr("Device.WiFi.Radio.$r.Enable")){
+		ccsp_setStr("Device.WiFi.Radio.$r.Enable", "true", true);
 	}
 	
 	switch ($arConfig['security'])
@@ -89,50 +89,50 @@ if ("true" == $arConfig['radio_enable'])
 
 	// User "mso" have another page to configure this
 	if ("mso" != $thisUser){
-		setStr("Device.WiFi.Radio.$i.OperatingStandards", $arConfig['wireless_mode'], true);
-		setStr("Device.WiFi.Radio.$i.AutoChannelEnable", $arConfig['channel_automatic'], true);
+		ccsp_setStr("Device.WiFi.Radio.$i.OperatingStandards", $arConfig['wireless_mode'], true);
+		ccsp_setStr("Device.WiFi.Radio.$i.AutoChannelEnable", $arConfig['channel_automatic'], true);
 		if ("false"==$arConfig['channel_automatic']){
-			setStr("Device.WiFi.Radio.$i.Channel", $arConfig['channel_number'], true);
+			ccsp_setStr("Device.WiFi.Radio.$i.Channel", $arConfig['channel_number'], true);
 		}
 	}
 	
 	if ("None" == $arConfig['security']) {
-		setStr("Device.WiFi.AccessPoint.$i.Security.ModeEnabled", $encrypt_mode, true);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.ModeEnabled", $encrypt_mode, true);
 	}
 	else if ("WEP_64" == $arConfig['security']) {
-		setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey64Bit.1.WEPKey",  $arConfig['network_password'], false);
-		setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey64Bit.2.WEPKey",  $arConfig['network_password'], false);
-		setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey64Bit.3.WEPKey",  $arConfig['network_password'], false);
-		setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey64Bit.4.WEPKey",  $arConfig['network_password'], false);
-		setStr("Device.WiFi.AccessPoint.$i.Security.ModeEnabled", $encrypt_mode, true);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey64Bit.1.WEPKey",  $arConfig['network_password'], false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey64Bit.2.WEPKey",  $arConfig['network_password'], false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey64Bit.3.WEPKey",  $arConfig['network_password'], false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey64Bit.4.WEPKey",  $arConfig['network_password'], false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.ModeEnabled", $encrypt_mode, true);
 	}
 	else if("WEP_128" == $arConfig['security']) {
-		setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey128Bit.1.WEPKey", $arConfig['network_password'], false);
-		setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey128Bit.2.WEPKey", $arConfig['network_password'], false);
-		setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey128Bit.3.WEPKey", $arConfig['network_password'], false);
-		setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey128Bit.4.WEPKey", $arConfig['network_password'], false);
-		setStr("Device.WiFi.AccessPoint.$i.Security.ModeEnabled", $encrypt_mode, true);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey128Bit.1.WEPKey", $arConfig['network_password'], false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey128Bit.2.WEPKey", $arConfig['network_password'], false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey128Bit.3.WEPKey", $arConfig['network_password'], false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_WEPKey128Bit.4.WEPKey", $arConfig['network_password'], false);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.ModeEnabled", $encrypt_mode, true);
 	}
 	else {	//no open, no wep
 		//bCommit false->true still do validation each, have to group set this...
-		DmExtSetStrsWithRootObj("Device.WiFi.", true, array(
+		ccsp_setStrsWithRootObj("Device.WiFi.", true, array(
 			array("Device.WiFi.AccessPoint.$i.Security.ModeEnabled", "string", $encrypt_mode), 
 			array("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_EncryptionMethod", "string", $encrypt_method)));
-		setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_KeyPassphrase", $arConfig['network_password'], true);
+		ccsp_setStr("Device.WiFi.AccessPoint.$i.Security.X_CISCO_COM_KeyPassphrase", $arConfig['network_password'], true);
 	}
 
-	setStr("Device.WiFi.SSID.$i.SSID", $arConfig['network_name'], true);
-	setStr("Device.WiFi.AccessPoint.$i.SSIDAdvertisementEnabled", $arConfig['broadcastSSID'], true);
+	ccsp_setStr("Device.WiFi.SSID.$i.SSID", $arConfig['network_name'], true);
+	ccsp_setStr("Device.WiFi.AccessPoint.$i.SSIDAdvertisementEnabled", $arConfig['broadcastSSID'], true);
 
 	if ("mso" == $thisUser){
 		// if ("false" == $arConfig['enableWMM']){
-			// setStr("Device.WiFi.AccessPoint.$i.UAPSDEnable", "false", true);
+			// ccsp_setStr("Device.WiFi.AccessPoint.$i.UAPSDEnable", "false", true);
 		// }
-		// setStr("Device.WiFi.AccessPoint.$i.WMMEnable", $arConfig['enableWMM'], true);
+		// ccsp_setStr("Device.WiFi.AccessPoint.$i.WMMEnable", $arConfig['enableWMM'], true);
 
 		//when disable WMM, make sure UAPSD is disabled as well, have to use group set		
-		if (getStr("Device.WiFi.AccessPoint.$i.WMMEnable") != $arConfig['enableWMM']) {
-			DmExtSetStrsWithRootObj("Device.WiFi.", true, array(
+		if (ccsp_getStr("Device.WiFi.AccessPoint.$i.WMMEnable") != $arConfig['enableWMM']) {
+			ccsp_setStrsWithRootObj("Device.WiFi.", true, array(
 				array("Device.WiFi.AccessPoint.$i.UAPSDEnable", "bool", "false"),
 				array("Device.WiFi.AccessPoint.$i.WMMEnable",   "bool", $arConfig['enableWMM'])));			
 		}
@@ -140,7 +140,7 @@ if ("true" == $arConfig['radio_enable'])
 }
 
 
-// setStr("Device.WiFi.Radio.$r.X_CISCO_COM_ApplySetting", "true", true);
+// ccsp_setStr("Device.WiFi.Radio.$r.X_CISCO_COM_ApplySetting", "true", true);
 MiniApplySSID($i);
 
 echo $jsConfig;

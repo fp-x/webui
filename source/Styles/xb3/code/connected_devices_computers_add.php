@@ -9,8 +9,8 @@
 <?php include('includes/nav.php'); ?>
 
 <?php
-$beginAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
-$endAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
+$beginAddr 	= ccsp_getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
+$endAddr 	= ccsp_getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
 ?>
 
 <script type="text/javascript">

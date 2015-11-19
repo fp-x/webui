@@ -12,8 +12,20 @@
 	else {
 		$_DEBUG = $_SESSION['_DEBUG'];
 	}
+	
 	// disable timeout when debug mode
 
+		$_SESSION['ccsp_map'] = array();
+		$map = $_SESSION['ccsp_map'];
+		$_SESSION['ccsp_map']['useMapDisplayCount'] = 0;
+		$_SESSION['ccsp_map']['getStr'] = array();
+		$_SESSION['ccsp_map']['setStr'] = array();
+		$_SESSION['ccsp_map']['getInstanceIds'] = array();
+		$_SESSION['ccsp_map']['DmExtGetInstanceIds'] = array();
+		$_SESSION['ccsp_map']['DmExtGetStrsWithRootObj'] = array();
+		$_SESSION['ccsp_map']['DmExtSetStrsWithRootObj'] = array();
+		$_SESSION['ccsp_map']['addTblObj'] = array();
+		$_SESSION['ccsp_map']['delTblObj'] = array();
 
 ?>
 
@@ -93,15 +105,15 @@
 		<li>/fss/gw/var/ui_dev_mode exists: <?php if (file_exists('/fss/gw/var/ui_dev_mode')) { echo "true"; } else { echo "false";} ?> </li>
 		<li>/fss/gw/var/cosa_php_debug: <?php if (file_exists('/fss/gw/var/cosa_php_debug')) { echo "true"; } else { echo "false";} ?> </li>
 		<li>/fss/gw/var/tmp/logs/cosa_php_ext.log exists: <?php if (file_exists('/fss/gw/var/tmp/logs/cosa_php_ext.log')) { echo "true"; } else { echo "false";} ?> </li>
-		<li>cosa.so found: <?php if (function_exists('getStr')) { echo "true"; } else { echo "false";} ?> </li>
+		<li>cosa.so found: <?php if (function_exists('ccsp_getStr')) { echo "true"; } else { echo "false";} ?> </li>
 		<li>test: <?php if (function_exists('xxx_getStr')) { echo "true"; } else { echo "false";} ?> </li>
   
 		<li>
 		<?php 
 		if(isset($_GET["p"])) {
 			echo $_GET["p"]." found: ";
-			if (function_exists('getStr')) { 
-				echo getStr($_GET["p"]); // "?p=Device.DeviceInfo.SupportedDataModel.1.URL"
+			if (function_exists('ccsp_getStr')) { 
+				echo ccsp_getStr($_GET["p"]); // "?p=Device.DeviceInfo.SupportedDataModel.1.URL"
 			} else {
 				echo "N/A";
 			}

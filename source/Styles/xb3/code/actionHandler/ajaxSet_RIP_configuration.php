@@ -24,40 +24,40 @@ function setRIPconfig($ripInfo){
 
 	$authType = $ripInfo['AuthType'];
 
-	setStr("Device.Routing.RIP.Enable", "true", false);
-	setStr("Device.Routing.RIP.InterfaceSetting.1.Enable", "true", false);	
+	ccsp_setStr("Device.Routing.RIP.Enable", "true", false);
+	ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.Enable", "true", false);	
 
-	setStr("Device.Routing.RIP.InterfaceSetting.1.Interface", $ripInfo['IfName'], false);	
+	ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.Interface", $ripInfo['IfName'], false);	
 
 	if($ripInfo['SendVer'] == "NA") {
-		setStr("Device.Routing.RIP.InterfaceSetting.1.SendRA", "false", false);	
+		ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.SendRA", "false", false);	
 	} 
 	else {
-		setStr("Device.Routing.RIP.InterfaceSetting.1.SendRA", "true", false);	
-		setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_SendVersion", $ripInfo['SendVer'], false);	
+		ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.SendRA", "true", false);	
+		ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_SendVersion", $ripInfo['SendVer'], false);	
 	}
 
 	if($ripInfo['RecVer'] == "NA") {
-		setStr("Device.Routing.RIP.InterfaceSetting.1.AcceptRA", "false", false);	
+		ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.AcceptRA", "false", false);	
 	} 
 	else {
-		setStr("Device.Routing.RIP.InterfaceSetting.1.AcceptRA", "true", false);	
-		setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_ReceiveVersion", $ripInfo['RecVer'], false);	
+		ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.AcceptRA", "true", false);	
+		ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_ReceiveVersion", $ripInfo['RecVer'], false);	
 	}
 	
-	setStr("Device.Routing.RIP.X_CISCO_COM_UpdateInterval", $ripInfo['Interval'], false);
-	setStr("Device.Routing.RIP.X_CISCO_COM_DefaultMetric", $ripInfo['Metric'], false);
+	ccsp_setStr("Device.Routing.RIP.X_CISCO_COM_UpdateInterval", $ripInfo['Interval'], false);
+	ccsp_setStr("Device.Routing.RIP.X_CISCO_COM_DefaultMetric", $ripInfo['Metric'], false);
 
 	if(!strcasecmp($authType, "SimplePassword")) {
-		setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_SimplePassword", $ripInfo['auth_key'], false);
+		ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_SimplePassword", $ripInfo['auth_key'], false);
 	}
 	elseif (!strcasecmp($authType, "MD5")) {
-		setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_Md5KeyValue", $ripInfo['auth_key'], false);
-		setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_Md5KeyID", $ripInfo['auth_id'], false);		//doesn't work?
+		ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_Md5KeyValue", $ripInfo['auth_key'], false);
+		ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_Md5KeyID", $ripInfo['auth_id'], false);		//doesn't work?
 	}
 
-	setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_AuthenticationType", $ripInfo['AuthType'], false);
-	setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_Neighbor", $ripInfo['NeighborIP'], true);
+	ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_AuthenticationType", $ripInfo['AuthType'], false);
+	ccsp_setStr("Device.Routing.RIP.InterfaceSetting.1.X_CISCO_COM_Neighbor", $ripInfo['NeighborIP'], true);
 
 }
 

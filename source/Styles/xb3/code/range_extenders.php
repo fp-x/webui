@@ -18,12 +18,12 @@
 //Fetch enabled SSID (no more than 4) per radio
 $radio_2G = array();
 $radio_5G = array();
-$ids = explode(",", getInstanceIds("Device.WiFi.SSID."));
+$ids = explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));
 foreach ($ids as $i)
 {
-	if ("true" == getStr("Device.WiFi.SSID.$i.Enable"))
+	if ("true" == ccsp_getStr("Device.WiFi.SSID.$i.Enable"))
 	{
-		if ("Device.WiFi.Radio.1." == getStr("Device.WiFi.SSID.$i.LowerLayers"))
+		if ("Device.WiFi.Radio.1." == ccsp_getStr("Device.WiFi.SSID.$i.LowerLayers"))
 		{
 			if (count($radio_2G) < 5)
 			{
@@ -41,8 +41,8 @@ foreach ($ids as $i)
 }
 
 //Fetch all online device (include disconnect device), MAC of comma separated string
-$online_client		= array_trim(explode(",", getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_ONLINE_CLIENT")));
-$disconnect_client	= array_trim(explode(",", getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_DISCONNECT_CLIENT")));
+$online_client		= array_trim(explode(",", ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_ONLINE_CLIENT")));
+$disconnect_client	= array_trim(explode(",", ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_DISCONNECT_CLIENT")));
 // $online_client		= array_trim(explode(",", "  00:11:22:33:44:11  ,  00:11:22:33:44:99  ,  00:11:22:33:44:bb    "));
 // $disconnect_client	= array_trim(explode(",", "  00:11:22:33:44:11  ,  00:11:22:33:44:22  ,  00:11:22:33:44:33, 00:11:22:33:44:44, 00:11:22:33:44:55, 00:11:22:33:44:66, 00:11:22:33:44:77, 00:11:22:33:44:88 "));
 // var_dump($disconnect_client);
@@ -61,11 +61,11 @@ for ($i=0; $i<count($online_client); $i++)
 		{
 			array_push($dat[$i]['ssid_info'], array(
 				// 'id'		=> $radio_2G[$j],
-				'ssid'		=> getStr("Device.WiFi.SSID.$radio_2G[$j].SSID"),
+				'ssid'		=> ccsp_getStr("Device.WiFi.SSID.$radio_2G[$j].SSID"),
 				'bssid'		=> $online_client[$i],
 				'freq'		=> "2.4 GHz",
-				'channel'	=> getStr("Device.WiFi.Radio.1.Channel"),
-				'secur'		=> encrypt_map(getStr("Device.WiFi.AccessPoint.$radio_2G[$j].Security.ModeEnabled"), getStr("Device.WiFi.AccessPoint.$radio_2G[$j].Security.X_CISCO_COM_EncryptionMethod"))			
+				'channel'	=> ccsp_getStr("Device.WiFi.Radio.1.Channel"),
+				'secur'		=> encrypt_map(ccsp_getStr("Device.WiFi.AccessPoint.$radio_2G[$j].Security.ModeEnabled"), ccsp_getStr("Device.WiFi.AccessPoint.$radio_2G[$j].Security.X_CISCO_COM_EncryptionMethod"))			
 				));
 		}
 		
@@ -73,11 +73,11 @@ for ($i=0; $i<count($online_client); $i++)
 		{
 			array_push($dat[$i]['ssid_info'], array(
 				// 'id'		=> $radio_5G[$j],
-				'ssid'		=> getStr("Device.WiFi.SSID.$radio_5G[$j].SSID"),
+				'ssid'		=> ccsp_getStr("Device.WiFi.SSID.$radio_5G[$j].SSID"),
 				'bssid'		=> substr($online_client[$i], 0, 16).dechex(hexdec(substr($online_client[$i], -1, 1)) + 1),
 				'freq'		=> "5 GHz",
-				'channel'	=> getStr("Device.WiFi.Radio.2.Channel"),
-				'secur'		=> encrypt_map(getStr("Device.WiFi.AccessPoint.$radio_5G[$j].Security.ModeEnabled"), getStr("Device.WiFi.AccessPoint.$radio_5G[$j].Security.X_CISCO_COM_EncryptionMethod"))			
+				'channel'	=> ccsp_getStr("Device.WiFi.Radio.2.Channel"),
+				'secur'		=> encrypt_map(ccsp_getStr("Device.WiFi.AccessPoint.$radio_5G[$j].Security.ModeEnabled"), ccsp_getStr("Device.WiFi.AccessPoint.$radio_5G[$j].Security.X_CISCO_COM_EncryptionMethod"))			
 				));
 		}
 	}
@@ -114,28 +114,28 @@ $jsConfig = json_encode($arConfig);
 
 /************************************!!!Backend Design Changed!!!**********************************************/
 $online_client		= array();
-$disconnect_client	= array_trim(explode(",", getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_DISCONNECT_CLIENT")));
+$disconnect_client	= array_trim(explode(",", ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_DISCONNECT_CLIENT")));
 
 // get all wired attached MoCA extender (including connected/disconnected(just disable radio))
 $dat	= array();
-$exts	= explode(",", getInstanceIds("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice."));
+$exts	= explode(",", ccsp_getInstanceIds("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice."));
 // $exts	= explode(",", "");
 $exts	= array_trim($exts);
 
 foreach ($exts as $i){
-	$dat[$i]['ext_name']	= getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.DeviceName");
-	$dat[$i]['ext_ip']		= trim(getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.IPAddress"));
+	$dat[$i]['ext_name']	= ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.DeviceName");
+	$dat[$i]['ext_ip']		= trim(ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.IPAddress"));
 	$dat[$i]['ext_action']	= in_array($dat[$i]['ext_ip'], $disconnect_client) ? "Connect" : "Disconnect";
 	$dat[$i]['ssid_info']	= array();
 	
-	$ssids = explode(",", getInstanceIds("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID."));
+	$ssids = explode(",", ccsp_getInstanceIds("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID."));
 	foreach ($ssids as $j){
 		array_push($dat[$i]['ssid_info'], array(
-			'ssid'		=> getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.SSID"),
-			'bssid'		=> getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.BSSID"),
-			'freq'		=> getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.Band"),
-			'channel'	=> getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.Channel"),
-			'secur'		=> encrypt_map(getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.SecurityMode"), getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.Encryption"))			
+			'ssid'		=> ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.SSID"),
+			'bssid'		=> ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.BSSID"),
+			'freq'		=> ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.Band"),
+			'channel'	=> ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.Channel"),
+			'secur'		=> encrypt_map(ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.SecurityMode"), ccsp_getStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.ExtenderDevice.$i.SSID.$j.Encryption"))			
 		));
 	}
 	

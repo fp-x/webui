@@ -62,16 +62,16 @@ function setWifi24gCfg(configuration){
     <div class="module forms">
     <h2> Edit Range Extenders</h2>
     <div class="form-row odd">
-        <label for="ssid">SSID:</label> <input type="text"  size="25"  name="ssid" id="ssid" value="<?php echo getStr("Device.WiFi.SSID.1.SSID"); ?>"/>
+        <label for="ssid">SSID:</label> <input type="text"  size="25"  name="ssid" id="ssid" value="<?php echo ccsp_getStr("Device.WiFi.SSID.1.SSID"); ?>"/>
     </div>
     <div class="form-row">
-            <span class="readonlyLabel">MAC:</span> <span class="value"><?php echo getStr("Device.WiFi.SSID.1.MACAddress"); ?></span>
+            <span class="readonlyLabel">MAC:</span> <span class="value"><?php echo ccsp_getStr("Device.WiFi.SSID.1.MACAddress"); ?></span>
             </div>
 
     <div class="form-row odd">
             <label for="channel" class="readonlyLabel">Channel:</label>
             <?php
-                $channel = getStr("Device.WiFi.Radio.1.Channel");
+                $channel = ccsp_getStr("Device.WiFi.Radio.1.Channel");
             ?>
             
             <select id="channel">
@@ -92,7 +92,7 @@ function setWifi24gCfg(configuration){
             <div class="form-row">
                     <label for="security-mode" class="readonlyLabel">Security Mode:</label>
                     <?php
-                        $secMode = getStr("Device.WiFi.AccessPoint.1.Security.ModeEnabled");
+                        $secMode = ccsp_getStr("Device.WiFi.AccessPoint.1.Security.ModeEnabled");
                     ?>
             
                     <select id="security-mode">
@@ -109,7 +109,7 @@ function setWifi24gCfg(configuration){
             </div>
             <div class="form-row odd">
                     <label for="network_password">Network Password:</label>
-                    <input type="password" size="23" value="<?php echo getStr("Device.WiFi.AccessPoint.1.Security.KeyPassphrase"); ?>" id="network_password" name="network_password" />
+                    <input type="password" size="23" value="<?php echo ccsp_getStr("Device.WiFi.AccessPoint.1.Security.KeyPassphrase"); ?>" id="network_password" name="network_password" />
 
             </div>
             <div class="form-row form-btn">

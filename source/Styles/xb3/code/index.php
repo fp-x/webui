@@ -21,8 +21,8 @@ $Cloud_Enabled	= $DeviceInfo_value["CloudUIEnable"];
 $Cloud_WebURL	= $DeviceInfo_value["CloudUIWebURL"];
 
 $url = $_SERVER['HTTP_HOST'];
-$Wan_IPv4 = getStr("Device.X_CISCO_COM_CableModem.IPAddress");
-$Wan_IPv6 = getStr("Device.X_CISCO_COM_CableModem.IPv6Address");
+$Wan_IPv4 = ccsp_getStr("Device.X_CISCO_COM_CableModem.IPAddress");
+$Wan_IPv6 = ccsp_getStr("Device.X_CISCO_COM_CableModem.IPv6Address");
 
 //if user is entering literal IPv6 address then remove "[" and "]"
 $url = str_replace("[","",$url);
@@ -43,10 +43,10 @@ $psmMode = $DeviceControl_value['psmMode'];
 	$LanGwIPv4 = $DeviceControl_value['LanGwIPv4'];
 
 	//$LanGwIPv6
-	$interface = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
-	$idArr = explode(",", getInstanceIds($interface."IPv6Address."));
+	$interface = ccsp_getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
+	$idArr = explode(",", ccsp_getInstanceIds($interface."IPv6Address."));
 	foreach ($idArr as $key => $value) {
-		$ipv6addr = getStr($interface."IPv6Address.$value.IPAddress");
+		$ipv6addr = ccsp_getStr($interface."IPv6Address.$value.IPAddress");
 		if (stripos($ipv6addr, "fe80::") !== false) {
 			$LanGwIPv6 = $ipv6addr;
 		}
@@ -56,7 +56,7 @@ $psmMode = $DeviceControl_value['psmMode'];
 	}
 
 if(!$isMSO) {
-        setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_access",true);
+        ccsp_setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_access",true);
 	//If Cloud redirection is set, then everything through local GW should be redirected
 	if(strstr($Cloud_Enabled, "true"))	
 	{
@@ -179,8 +179,8 @@ $_SESSION["psmMode"] = $psmMode;
 	<!--dynamic generate user bar icon and tips-->
 
 	<?php
-	$a = getStr("Device.X_CISCO_COM_MTA.Battery.RemainingCharge");
-	$b = getStr("Device.X_CISCO_COM_MTA.Battery.ActualCapacity");
+	$a = ccsp_getStr("Device.X_CISCO_COM_MTA.Battery.RemainingCharge");
+	$b = ccsp_getStr("Device.X_CISCO_COM_MTA.Battery.ActualCapacity");
 	$sta_batt = ($a<=$b && $a && $b) ? round(100*$a/$b) : 0;
 
 	//$sta_batt = "61";
@@ -192,13 +192,13 @@ $_SESSION["psmMode"] = $psmMode;
 	elseif($sta_batt > 8) { $battery_class = "bat-10"; }
 	else { $battery_class = "bat-0"; }
 
-	$fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+	$fistUSif = ccsp_getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
 
-	$WANIPv4 = getStr($fistUSif."IPv4Address.1.IPAddress");
+	$WANIPv4 = ccsp_getStr($fistUSif."IPv4Address.1.IPAddress");
 
-	$ids = explode(",", getInstanceIds($fistUSif."IPv6Address."));
+	$ids = explode(",", ccsp_getInstanceIds($fistUSif."IPv6Address."));
 	foreach ($ids as $i){
-		$val = getStr($fistUSif."IPv6Address.$i.IPAddress");
+		$val = ccsp_getStr($fistUSif."IPv6Address.$i.IPAddress");
 		if (!strstr($val, "fe80::")){
 			$WANIPv6 = $val;
 			break;
@@ -212,19 +212,19 @@ $_SESSION["psmMode"] = $psmMode;
 
 	$sta_wifi = "false";
 	if("Disabled"==$_SESSION["psmMode"]){
-		$ssids = explode(",", getInstanceIds("Device.WiFi.SSID."));
+		$ssids = explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));
 		foreach ($ssids as $i){
 			$r = (2 - intval($i)%2);	//1,3,5,7==1(2.4G); 2,4,6,8==2(5G)
-			if ("true" == getStr("Device.WiFi.Radio.$r.Enable") && "true" == getStr("Device.WiFi.SSID.$i.Enable")){	//bwg has radio.enable, active status is “at least one SSID and its Radio is enabled”
+			if ("true" == ccsp_getStr("Device.WiFi.Radio.$r.Enable") && "true" == ccsp_getStr("Device.WiFi.SSID.$i.Enable")){	//bwg has radio.enable, active status is “at least one SSID and its Radio is enabled”
 				$sta_wifi = "true";
 				break;
 			}
 		}
 	}
 
-	if("Disabled"==$_SESSION["psmMode"]) { $sta_moca = getStr("Device.MoCA.Interface.1.Enable"); }
-	//$sta_dect = getStr("Device.X_CISCO_COM_MTA.Dect.Enable");
-	$sta_fire = getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");
+	if("Disabled"==$_SESSION["psmMode"]) { $sta_moca = ccsp_getStr("Device.MoCA.Interface.1.Enable"); }
+	//$sta_dect = ccsp_getStr("Device.X_CISCO_COM_MTA.Dect.Enable");
+	$sta_fire = ccsp_getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");
 
 	$_SESSION['sta_inet'] = $sta_inet;
 	$_SESSION['sta_wifi'] = $sta_wifi;
@@ -541,9 +541,9 @@ function f()
 			echo '<h2>Home Network</h2>';
 			if ("Disabled"==$_SESSION["psmMode"]) {
 				/*
-				$InterfaceNumber=getStr("Device.Ethernet.InterfaceNumberOfEntries");$InterfaceEnable=0;
+				$InterfaceNumber=ccsp_getStr("Device.Ethernet.InterfaceNumberOfEntries");$InterfaceEnable=0;
 				for($i=1;$i<=$InterfaceNumber;$i++){
-					$EthernetEnable=getStr("Device.Ethernet.Interface.".$i.".Enable");
+					$EthernetEnable=ccsp_getStr("Device.Ethernet.Interface.".$i.".Enable");
 					$InterfaceEnable+=($EthernetEnable=="true"?1:0);
 				}
 				if ($InterfaceEnable==$InterfaceNumber) {
@@ -552,11 +552,11 @@ function f()
 					echo "<div class=\"form-row off\"><span class=\"on-off\">Off</span> <span class=\"readonlyLabel\">Ethernet</span></div>";
 				}*/
 
-				$ids = explode(",", getInstanceIds("Device.Ethernet.Interface."));
+				$ids = explode(",", ccsp_getInstanceIds("Device.Ethernet.Interface."));
 				$ethEnable = false;
 
 				foreach ($ids as $i){
-					if ("true" == getStr("Device.Ethernet.Interface.".$i.".Enable")){
+					if ("true" == ccsp_getStr("Device.Ethernet.Interface.".$i.".Enable")){
 						$ethEnable = true;
 						break;
 					}
@@ -568,14 +568,14 @@ function f()
 					echo "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='Ethernet Off' /></span> <span class=\"readonlyLabel\">Ethernet</span></div>";
 				}
 
-				// if (getStr("Device.WiFi.SSID.1.Enable")=="true" || getStr("Device.WiFi.SSID.2.Enable")=="true") {
+				// if (ccsp_getStr("Device.WiFi.SSID.1.Enable")=="true" || ccsp_getStr("Device.WiFi.SSID.2.Enable")=="true") {
 				if ("true" == $sta_wifi) {		// define in userhar, should have defined every componet status in userbar
 					echo "<div class=\"form-row odd\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='Wi-Fi On' /></span> <span class=\"readonlyLabel\">Wi-Fi</span></div>";
 				} else {
 					echo "<div class=\"form-row odd off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='Wi-Fi Off' /></span> <span class=\"readonlyLabel\">Wi-Fi</span></div>";
 				}
 
-				if (getStr("Device.MoCA.Interface.1.Enable")=="true") {
+				if (ccsp_getStr("Device.MoCA.Interface.1.Enable")=="true") {
 					echo "<div class=\"form-row\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA On' /></span> <span class=\"readonlyLabel\">MoCA</span></div>";
 				} else {
 					echo "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA Off' /></span> <span class=\"readonlyLabel\">MoCA</span></div>";
@@ -588,7 +588,7 @@ function f()
 			}
 			?>
 			<div class="form-row odd">
-				<span class="readonlyLabel">Firewall Security Level:</span> <span class="value"><?php echo getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel")?></span>
+				<span class="readonlyLabel">Firewall Security Level:</span> <span class="value"><?php echo ccsp_getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel")?></span>
 			</div>
 		</div>
 	</div> <!-- end .module -->
@@ -640,7 +640,7 @@ function f()
 			$paramNameArray = array("Device.Hosts.Host.");
 			$mapping_array  = array("PhysAddress", "HostName", "Active", "Layer1Interface");
 
-			$HostIndexArr = DmExtGetInstanceIds("Device.Hosts.Host.");
+			$HostIndexArr = ccsp_getInstanceIds2("Device.Hosts.Host.");
 			if(0 == $HostIndexArr[0]){
 				// status code 0 = success
 				$HostNum = count($HostIndexArr) - 1;
@@ -700,7 +700,7 @@ function f()
 		<div class="select-row">
 			<span class="readonlyLabel label">IGMP Snooping:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
 			<?php
-			//$IGMP_mode=getStr("Device.X_CISCO_COM_DeviceControl.IGMPSnoopingEnable");
+			//$IGMP_mode=ccsp_getStr("Device.X_CISCO_COM_DeviceControl.IGMPSnoopingEnable");
 			$IGMP_mode = "false";
 			if ($IGMP_mode=="true") { //or Enabled
 			?>

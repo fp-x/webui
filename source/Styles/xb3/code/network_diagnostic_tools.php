@@ -425,9 +425,9 @@ function showTracerouteDialog() {
 
 	<form method="post" id="pageForm3">
 <?php 
-	// $interface = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
-	// $ipv6InsArr = explode(",", getInstanceIds($interface . 'IPv6Address.'));
-	// $ipv6Brlan0 = getStr($interface . "IPv6Address.".$ipv6InsArr['0'].".IPAddress");
+	// $interface = ccsp_getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
+	// $ipv6InsArr = explode(",", ccsp_getInstanceIds($interface . 'IPv6Address.'));
+	// $ipv6Brlan0 = ccsp_getStr($interface . "IPv6Address.".$ipv6InsArr['0'].".IPAddress");
 	// fe80::223:beff:fe75:9db6/64 
 ?>
 	<div class="module forms">

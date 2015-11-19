@@ -10,11 +10,11 @@
 
 <?php
 //start by licha
-$enableUPnP = getStr("Device.UPnP.Device.UPnPIGD");
-$adPeriod = getStr("Device.UPnP.Device.X_CISCO_COM_IGD_AdvertisementPeriod");
-$timeToLive = getStr("Device.UPnP.Device.X_CISCO_COM_IGD_TTL");
-$enableZero = getStr("Device.X_CISCO_COM_DeviceControl.EnableZeroConfig");
-//$qosUPnP = getStr("Device.X_CISCO_COM_DDNS.Enable"); //? R3
+$enableUPnP = ccsp_getStr("Device.UPnP.Device.UPnPIGD");
+$adPeriod = ccsp_getStr("Device.UPnP.Device.X_CISCO_COM_IGD_AdvertisementPeriod");
+$timeToLive = ccsp_getStr("Device.UPnP.Device.X_CISCO_COM_IGD_TTL");
+$enableZero = ccsp_getStr("Device.X_CISCO_COM_DeviceControl.EnableZeroConfig");
+//$qosUPnP = ccsp_getStr("Device.X_CISCO_COM_DDNS.Enable"); //? R3
 
 //end by licha
 

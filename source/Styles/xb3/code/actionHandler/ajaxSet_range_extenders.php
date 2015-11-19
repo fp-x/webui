@@ -24,7 +24,7 @@ $jsConfig = $_REQUEST['configInfo'];
 $arConfig = json_decode($jsConfig, true);
 //print_r($arConfig);
 
-setStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_DISCONNECT_CLIENT", $arConfig['dis_mac'], true);
+ccsp_setStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_DISCONNECT_CLIENT", $arConfig['dis_mac'], true);
 
 echo $jsConfig;	
 

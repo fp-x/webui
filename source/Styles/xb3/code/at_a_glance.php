@@ -21,7 +21,7 @@ $(document).ready(function() {
     	$('.div-bridge').remove();
     }*/
 
-	<?php $bridge_mode = getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode"); ?>
+	<?php $bridge_mode = ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode"); ?>
 
 	$("#bridge_switch").radioswitch({
 		id: "at-a-glance-switch",
@@ -221,9 +221,9 @@ function popUp(URL) {
 			<?php
 			if ("Disabled"==$_SESSION["psmMode"]) {
 				/*
-				$InterfaceNumber=getStr("Device.Ethernet.InterfaceNumberOfEntries");$InterfaceEnable=0;
+				$InterfaceNumber=ccsp_getStr("Device.Ethernet.InterfaceNumberOfEntries");$InterfaceEnable=0;
 				for($i=1;$i<=$InterfaceNumber;$i++){
-					$EthernetEnable=getStr("Device.Ethernet.Interface.".$i.".Enable");
+					$EthernetEnable=ccsp_getStr("Device.Ethernet.Interface.".$i.".Enable");
 					$InterfaceEnable+=($EthernetEnable=="true"?1:0);
 				}
 				if ($InterfaceEnable==$InterfaceNumber) {
@@ -232,11 +232,11 @@ function popUp(URL) {
 					echo "<div class=\"form-row off\"><span class=\"on-off\">Off</span> <span class=\"readonlyLabel\">Ethernet</span></div>";
 				}*/
 
-				$ids = explode(",", getInstanceIds("Device.Ethernet.Interface."));
+				$ids = explode(",", ccsp_getInstanceIds("Device.Ethernet.Interface."));
 				$ethEnable = false;
 
 				foreach ($ids as $i){
-					if ("true" == getStr("Device.Ethernet.Interface.".$i.".Enable")){
+					if ("true" == ccsp_getStr("Device.Ethernet.Interface.".$i.".Enable")){
 						$ethEnable = true;
 						break;
 					}
@@ -248,14 +248,14 @@ function popUp(URL) {
 					echo "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='Ethernet Off' /></span> <span class=\"readonlyLabel\">Ethernet</span></div>";
 				}
 
-				// if (getStr("Device.WiFi.SSID.1.Enable")=="true" || getStr("Device.WiFi.SSID.2.Enable")=="true") {
+				// if (ccsp_getStr("Device.WiFi.SSID.1.Enable")=="true" || ccsp_getStr("Device.WiFi.SSID.2.Enable")=="true") {
 				if ("true" == $sta_wifi) {		// define in userhar, should have defined every componet status in userbar
 					echo "<div class=\"form-row odd\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='WiFi On' /></span> <span class=\"readonlyLabel\">Wi-Fi</span></div>";
 				} else {
 					echo "<div class=\"form-row odd off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='WiFi Off' /></span> <span class=\"readonlyLabel\">Wi-Fi</span></div>";
 				}
 
-				if (getStr("Device.MoCA.Interface.1.Enable")=="true") {
+				if (ccsp_getStr("Device.MoCA.Interface.1.Enable")=="true") {
 					echo "<div class=\"form-row\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA On' /></span> <span class=\"readonlyLabel\">MoCA</span></div>";
 				} else {
 					echo "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA Off' /></span> <span class=\"readonlyLabel\">MoCA</span></div>";
@@ -268,7 +268,7 @@ function popUp(URL) {
 			}
 			?>
 			<div class="form-row odd">
-				<span class="readonlyLabel">Firewall Security Level:</span> <span class="value"><?php echo getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel")?></span>
+				<span class="readonlyLabel">Firewall Security Level:</span> <span class="value"><?php echo ccsp_getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel")?></span>
 			</div>
 		</div>
 	</div> <!-- end .module -->
@@ -282,7 +282,7 @@ function popUp(URL) {
 			$paramNameArray = array("Device.Hosts.Host.");
 			$mapping_array  = array("PhysAddress", "HostName", "Active");
 
-			$HostIndexArr = DmExtGetInstanceIds("Device.Hosts.Host.");
+			$HostIndexArr = ccsp_getInstanceIds2("Device.Hosts.Host.");
 			if(0 == $HostIndexArr[0]){
 				// status code 0 = success
 				$HostNum = count($HostIndexArr) - 1;
@@ -334,7 +334,7 @@ function popUp(URL) {
 		<div class="select-row">
 			<span class="readonlyLabel label">IGMP Snooping:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
 			<?php
-			//$IGMP_mode=getStr("Device.X_CISCO_COM_DeviceControl.IGMPSnoopingEnable");
+			//$IGMP_mode=ccsp_getStr("Device.X_CISCO_COM_DeviceControl.IGMPSnoopingEnable");
 			$IGMP_mode = "false";
 			if ($IGMP_mode=="true") { //or Enabled
 			?>

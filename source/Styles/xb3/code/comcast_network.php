@@ -56,18 +56,18 @@ function sec2dhms($sec)
 	return "D: $day H: $hor M: $min S: $tmp[1]";
 }
 
-	$fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+	$fistUSif = ccsp_getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
 
-	$WANIPv4 = getStr($fistUSif."IPv4Address.1.IPAddress");
+	$WANIPv4 = ccsp_getStr($fistUSif."IPv4Address.1.IPAddress");
 
-	$ids = explode(",", getInstanceIds($fistUSif."IPv6Address."));
+	$ids = explode(",", ccsp_getInstanceIds($fistUSif."IPv6Address."));
 	foreach ($ids as $i){
-		$val = getStr($fistUSif."IPv6Address.$i.IPAddress");
+		$val = ccsp_getStr($fistUSif."IPv6Address.$i.IPAddress");
 		if (!strstr($val, "fe80::")){
 			$WANIPv6 = $val;
 				//DHCP Lease Expire Time (IPv6):
 				// echo $fistUSif."IPv6Address.$i.X_Comcast_com_LeaseTime";
-				$sec = getStr($fistUSif."IPv6Address.$i.X_CISCO_COM_PreferredLifetime");
+				$sec = ccsp_getStr($fistUSif."IPv6Address.$i.X_CISCO_COM_PreferredLifetime");
 				$tmp = div_mod($sec, 24*60*60);
 				$day = $tmp[0];
 				$tmp = div_mod($tmp[1], 60*60);
@@ -105,13 +105,13 @@ function sec2dhms($sec)
 	</div>
 	<div class="form-row odd">
 		<span class="readonlyLabel">Local time:</span>
-		<span class="value"><?php echo getStr("Device.Time.CurrentLocalTime");?></span>
+		<span class="value"><?php echo ccsp_getStr("Device.Time.CurrentLocalTime");?></span>
 	</div>
 	<div class="form-row ">
 		<span class="readonlyLabel">System Uptime:</span>
 		<span class="value">
 		<?php
-			$sec = getStr("Device.DeviceInfo.UpTime");
+			$sec = ccsp_getStr("Device.DeviceInfo.UpTime");
 			$tmp = div_mod($sec, 24*60*60);
 			$day = $tmp[0];
 			$tmp = div_mod($tmp[1], 60*60);
@@ -129,9 +129,9 @@ function sec2dhms($sec)
 	<div class="form-row ">
 		<span class="readonlyLabel">WAN Default Gateway Address (IPv4):</span> <span class="value">
 		<?php
-			//echo getStr("Device.Routing.Router.1.IPv4Forwarding.1.GatewayIPAddress");
+			//echo ccsp_getStr("Device.Routing.Router.1.IPv4Forwarding.1.GatewayIPAddress");
 			/* For BWG, we just use the DHCP GW received from upstream as the wan side GW */
-			echo getStr("Device.DHCPv4.Client.1.IPRouters");
+			echo ccsp_getStr("Device.DHCPv4.Client.1.IPRouters");
 		?>
 		</span>
 	</div>		
@@ -145,12 +145,12 @@ function sec2dhms($sec)
 	<div class="form-row ">
 		<span class="readonlyLabel">WAN Default Gateway Address (IPv6):</span> <span class="value">
 		<?php
-		$ids = explode(",", getInstanceIds("Device.Routing.Router.1.IPv6Forwarding."));
+		$ids = explode(",", ccsp_getInstanceIds("Device.Routing.Router.1.IPv6Forwarding."));
 		foreach ($ids as $i){
-			$val1 = getStr("Device.Routing.Router.1.IPv6Forwarding.$i.DestIPPrefix");
-			$val2 = getStr("Device.Routing.Router.1.IPv6Forwarding.$i.Interface");
+			$val1 = ccsp_getStr("Device.Routing.Router.1.IPv6Forwarding.$i.DestIPPrefix");
+			$val2 = ccsp_getStr("Device.Routing.Router.1.IPv6Forwarding.$i.Interface");
 			if ("::/0"==$val1 && $fistUSif.""==$val2){
-				echo getStr("Device.Routing.Router.1.IPv6Forwarding.$i.NextHop");
+				echo ccsp_getStr("Device.Routing.Router.1.IPv6Forwarding.$i.NextHop");
 				break;
 			}
 		}
@@ -160,19 +160,19 @@ function sec2dhms($sec)
 	<div class="form-row odd">
 		<span class="readonlyLabel">Delegated prefix (IPv6):</span> <span class="value">
 		<?php
-		$ids = explode(",", getInstanceIds($fistUSif."IPv6Prefix."));
-		echo getStr($fistUSif."IPv6Prefix.$ids[0].Prefix");
+		$ids = explode(",", ccsp_getInstanceIds($fistUSif."IPv6Prefix."));
+		echo ccsp_getStr($fistUSif."IPv6Prefix.$ids[0].Prefix");
 		?>		
 		</span>
 	</div>			
 	<div class="form-row ">
 		<span class="readonlyLabel">Primary DNS Server (IPv4):</span> <span class="value">
 		<?php
-		$ids    = explode(",", getInstanceIds("Device.DNS.Client.Server."));
+		$ids    = explode(",", ccsp_getInstanceIds("Device.DNS.Client.Server."));
 		$dns_v4 = array();
 		$dns_v6 = array();
 		foreach ($ids as $i){
-			$val = getStr("Device.DNS.Client.Server.$i.DNSServer");
+			$val = ccsp_getStr("Device.DNS.Client.Server.$i.DNSServer");
 			if (strstr($val, ".")){
 				if(strstr($val, "127.0.0.1")) continue;
 				array_push($dns_v4, $val);
@@ -204,18 +204,18 @@ function sec2dhms($sec)
 	</div>
 	<div class="form-row odd">
 		<span class="readonlyLabel">DHCP Client (IPv4):</span>
-		<span class="value"><?php echo ("DHCP"==getStr("Device.X_CISCO_COM_DeviceControl.WanAddressMode")) ? "Enabled" : "Disabled";?></span>
+		<span class="value"><?php echo ("DHCP"==ccsp_getStr("Device.X_CISCO_COM_DeviceControl.WanAddressMode")) ? "Enabled" : "Disabled";?></span>
 	</div>
 	<div class="form-row ">
 		<span class="readonlyLabel">DHCP Client (IPv6):</span> <span class="value">
-		<?php echo ("true"==getStr("Device.DHCPv6.Client.1.Enable")) ? "Enabled" : "Disabled";?>
+		<?php echo ("true"==ccsp_getStr("Device.DHCPv6.Client.1.Enable")) ? "Enabled" : "Disabled";?>
 		</span>
 	</div>	
 	<div class="form-row odd">
 		<span class="readonlyLabel">DHCP Lease Expire Time (IPv4):</span>
 		<span class="value">
 		<?php
-			$sec = getStr("Device.DHCPv4.Client.1.LeaseTimeRemaining");
+			$sec = ccsp_getStr("Device.DHCPv4.Client.1.LeaseTimeRemaining");
 			$tmp = div_mod($sec, 24*60*60);
 			$day = $tmp[0];
 			$tmp = div_mod($tmp[1], 60*60);
@@ -236,12 +236,12 @@ function sec2dhms($sec)
 	<div class="form-row odd">
 		<span class="readonlyLabel">WAN MAC:</span>
 		<span class="value">
-			<?php echo strtoupper(getStr(getStr(getStr($fistUSif."LowerLayers").".LowerLayers").".MACAddress")); ?>
+			<?php echo strtoupper(ccsp_getStr(ccsp_getStr(ccsp_getStr($fistUSif."LowerLayers").".LowerLayers").".MACAddress")); ?>
 		</span>
 	</div>
 	<div class="form-row odd">
 		<span class="readonlyLabel">eMTA MAC:</span>
-		<span class="value"><?php echo strtoupper(getStr("Device.X_CISCO_COM_MTA.MACAddress"));?></span>
+		<span class="value"><?php echo strtoupper(ccsp_getStr("Device.X_CISCO_COM_MTA.MACAddress"));?></span>
 	</div>
 	<?php
 		$CM_param = array(
@@ -548,15 +548,15 @@ $mta_value = KeyExtGet("Device.X_CISCO_COM_MTA.", $mta_param);
 	// );
 // $device_value = KeyExtGet("Device.DeviceInfo.", $device_param);
 
-// there are bugs in native DmExtGetStrsWithRootObj when geting DeviceInfo, have to get one by one
-$device_value["HardwareVersion"] 			= getStr("Device.DeviceInfo.HardwareVersion");
-$device_value["Manufacturer"] 				= getStr("Device.DeviceInfo.Manufacturer");
-$device_value["BootloaderVersion"] 			= getStr("Device.DeviceInfo.X_CISCO_COM_BootloaderVersion");
-$device_value["ModelName"] 					= getStr("Device.DeviceInfo.ModelName");
-$device_value["ProductClass"] 				= getStr("Device.DeviceInfo.ProductClass");
-$device_value["Hardware"] 					= getStr("Device.DeviceInfo.Hardware");
-$device_value["AdditionalSoftwareVersion"] 	= getStr("Device.DeviceInfo.AdditionalSoftwareVersion");
-$device_value["SerialNumber"] 				= getStr("Device.DeviceInfo.SerialNumber");
+// there are bugs in native ccsp_getStrsWithRootObj when geting DeviceInfo, have to get one by one
+$device_value["HardwareVersion"] 			= ccsp_getStr("Device.DeviceInfo.HardwareVersion");
+$device_value["Manufacturer"] 				= ccsp_getStr("Device.DeviceInfo.Manufacturer");
+$device_value["BootloaderVersion"] 			= ccsp_getStr("Device.DeviceInfo.X_CISCO_COM_BootloaderVersion");
+$device_value["ModelName"] 					= ccsp_getStr("Device.DeviceInfo.ModelName");
+$device_value["ProductClass"] 				= ccsp_getStr("Device.DeviceInfo.ProductClass");
+$device_value["Hardware"] 					= ccsp_getStr("Device.DeviceInfo.Hardware");
+$device_value["AdditionalSoftwareVersion"] 	= ccsp_getStr("Device.DeviceInfo.AdditionalSoftwareVersion");
+$device_value["SerialNumber"] 				= ccsp_getStr("Device.DeviceInfo.SerialNumber");
 
 ?>
 
@@ -602,8 +602,8 @@ $device_value["SerialNumber"] 				= getStr("Device.DeviceInfo.SerialNumber");
 
 <?php
 $ds_obj = "Device.X_CISCO_COM_CableModem.DownstreamChannel.";
-$ds_val = DmExtGetStrsWithRootObj($ds_obj, array($ds_obj));
-$ds_ids = DmExtGetInstanceIds($ds_obj);
+$ds_val = ccsp_getStrsWithRootObj($ds_obj, array($ds_obj));
+$ds_ids = ccsp_getInstanceIds2($ds_obj);
 $ds_tab = array();
 for ($i=1, $j=1; $i<count($ds_ids); $i++)
 {
@@ -658,8 +658,8 @@ for ($i=1, $j=1; $i<count($ds_ids); $i++)
 
 <?php
 $us_obj = "Device.X_CISCO_COM_CableModem.UpstreamChannel.";
-$us_val = DmExtGetStrsWithRootObj($us_obj, array($us_obj));
-$us_ids = DmExtGetInstanceIds($us_obj);
+$us_val = ccsp_getStrsWithRootObj($us_obj, array($us_obj));
+$us_ids = ccsp_getInstanceIds2($us_obj);
 $us_tab = array();
 for ($i=1, $j=1; $i<count($us_ids); $i++)
 {
@@ -716,8 +716,8 @@ for ($i=1, $j=1; $i<count($us_ids); $i++)
 
 <?php
 $ec_obj = "Device.X_CISCO_COM_CableModem.CMErrorCodewords.";
-$ec_val = DmExtGetStrsWithRootObj($ec_obj, array($ec_obj));
-$ec_ids = DmExtGetInstanceIds($ec_obj);
+$ec_val = ccsp_getStrsWithRootObj($ec_obj, array($ec_obj));
+$ec_ids = ccsp_getInstanceIds2($ec_obj);
 $ec_tab = array();
 for ($i=1, $j=1; $i<count($ec_ids); $i++)
 {

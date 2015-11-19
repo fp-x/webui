@@ -32,13 +32,13 @@ $i = $arConfig['instanceNum'];
 
 $p_status = "MisMatch";
 
-if (getStr("Device.Users.User.$i.X_CISCO_COM_Password") ==  $arConfig['oldPassword']) 
+if (ccsp_getStr("Device.Users.User.$i.X_CISCO_COM_Password") ==  $arConfig['oldPassword']) 
 {
 	if($arConfig['ChangePassword']){
-		setStr("Device.Users.User.3.X_CISCO_COM_Password", $arConfig['newPassword'], true);
+		ccsp_setStr("Device.Users.User.3.X_CISCO_COM_Password", $arConfig['newPassword'], true);
 	}
 	$p_status = "Match";
-	//setStr("Device.Users.User.$i.X_CISCO_COM_Password", $arConfig['newPassword'], true);	
+	//ccsp_setStr("Device.Users.User.$i.X_CISCO_COM_Password", $arConfig['newPassword'], true);	
 }
 
 $arConfig = array('p_status'=>$p_status);

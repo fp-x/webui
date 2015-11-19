@@ -173,7 +173,7 @@ $DFS_Support1 = "false" ; //Remove/disable DFS channels, DFS_Support1 1-supporte
 $support_mode_5g = $wifi_value['support_mode_5g'];
 
 /**********************get WPS status, manual-disabled or auto-disabled?*******************************/
-// $ssidsWPS			= explode(",", getInstanceIds("Device.WiFi.SSID."));
+// $ssidsWPS			= explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));
 $ssidsWPS			= explode(",", "1,2");	//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
 $wps_enabled	= "false";
 $wps_pin		= "";
@@ -200,7 +200,7 @@ foreach ($ssidsWPS as $i){
 		$wps_encrypt_mode	= $wifi_value['ModeEnabled'.$i];
 		$wps_encrypt_method	= $wifi_value['EncrypMethod'.$i];
 		$wps_broadcastSSID	= $wifi_value['SSIDAdvert'.$i];
-		//$wps_filter_enable	= getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
+		//$wps_filter_enable	= ccsp_getStr("Device.WiFi.AccessPoint.$i.X_CISCO_COM_MACFilter.Enable");
 		// do not detect ACL for WPS at this time 0509
 		$wps_filter_enable	= "false";
 		if (strstr($wps_encrypt_mode, "WEP") || (strstr($wps_encrypt_mode, "WPA") && $wps_encrypt_method=="TKIP") || "false"==$wps_broadcastSSID || "true"==$wps_filter_enable){
@@ -272,7 +272,7 @@ if ("1-11"==$possible_channels)
 $possible_channels = "1,2,3,4,5,6,7,8,9,10,11";
 
 // SSID 1,2 for Private, 3,4 for Home Security, 5,6 for Hot Spot, HotSpot share the same SSID as a service set
-//$ssids 		= explode(",", getInstanceIds("Device.WiFi.SSID.")); this will return all 16
+//$ssids 		= explode(",", ccsp_getInstanceIds("Device.WiFi.SSID.")); this will return all 16
 
 // Hardcoded for XB3-1.6
 if ("mso" != $_SESSION["loginuser"]) {
@@ -281,7 +281,7 @@ if ("mso" != $_SESSION["loginuser"]) {
 else {
 	$ssids	= explode(",", "1,2,3,4,5,6");
 	/*- if xfinitywifi XHS AccessPoint is not up don't show in GUI -*/
-	if(strstr(getStr("Device.DeviceInfo.X_COMCAST_COM_xfinitywifiEnable"), "false")){
+	if(strstr(ccsp_getStr("Device.DeviceInfo.X_COMCAST_COM_xfinitywifiEnable"), "false")){
 		unset($ssids[5]);
 		unset($ssids[4]);
 	}
@@ -1171,7 +1171,7 @@ function pair_cancel()
 		</tr>
 
 		<?php
-		//$ssids 		= explode(",", getInstanceIds("Device.WiFi.SSID."));
+		//$ssids 		= explode(",", ccsp_getInstanceIds("Device.WiFi.SSID."));
 		$public_v	= array();
 		$odd 		= true;
 
@@ -1627,7 +1627,7 @@ function pair_cancel()
 			<option value="2" ><?php //echo $network_name1;?></option-->
 			<?php
 				foreach ($ssids as $i) {
-					echo '<option value="'.$i.'" '.(("1"==$i)?'selected="selected"':"").'>'.getStr("Device.WiFi.SSID.$i.SSID").'</option>';
+					echo '<option value="'.$i.'" '.(("1"==$i)?'selected="selected"':"").'>'.ccsp_getStr("Device.WiFi.SSID.$i.SSID").'</option>';
 				}
 			?>		
 		</select>

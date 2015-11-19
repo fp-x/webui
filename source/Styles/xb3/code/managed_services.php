@@ -14,7 +14,7 @@
 ?>
 
 <?php
-$enableMS = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Enable");
+$enableMS = ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Enable");
 if ($_DEBUG) {
 	$enableMS = "true";
 }
@@ -235,7 +235,7 @@ $(document).ready(function() {
 				$HostParam = getParaValues($rootObjName, $paramNameArray, $mapping_array);
 
 
-				$num=getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.ServiceNumberOfEntries");
+				$num=ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.ServiceNumberOfEntries");
 				if($num!=0) {
 					$MSIDs=explode(",",getInstanceIDs("Device.X_Comcast_com_ParentalControl.ManagedServices.Service."));
 					$iclass="even";
@@ -297,10 +297,10 @@ $(document).ready(function() {
 			<input  type="hidden"  name="update_trusted_computers"  value="true" />
 
 		<?php
-			$hostsInstance = getInstanceIds("Device.Hosts.Host.");
+			$hostsInstance = ccsp_getInstanceIds("Device.Hosts.Host.");
 			$hostsInstanceArr = explode(",", $hostsInstance);
 
-			$hostNums = getStr("Device.Hosts.HostNumberOfEntries");
+			$hostNums = ccsp_getStr("Device.Hosts.HostNumberOfEntries");
 
 			$ipAddrArr = array();
 			$HostNameArr = array();
@@ -317,7 +317,7 @@ $(document).ready(function() {
 
 			$Host["$i"]['IPAddress'] = $HostParam[$i]["IPAddress"];
 			$IPAddress = $HostParam["$i"]['IPAddress'];
-			//$IPv4Address	= getStr("Device.Hosts.Host." .$hostsInstanceArr["$i"]. ".IPv4Address.1.IPAddress");
+			//$IPv4Address	= ccsp_getStr("Device.Hosts.Host." .$hostsInstanceArr["$i"]. ".IPv4Address.1.IPAddress");
 			$IPv6Address	= $HostParam[$i]["IPv6Address.1.IPAddress"];
 			
 			//for now as "Device.Hosts.Host.'$i'.IPv4Address.1.IPAddress" is not updating on GW_IP Change

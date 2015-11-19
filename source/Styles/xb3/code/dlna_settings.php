@@ -7,7 +7,7 @@
 <?php include('includes/nav.php'); ?>
 
 <?php 
-    $dlnaEnable = getStr("Device.DLNA.X_CISCO_COM_DMS.Enable");
+    $dlnaEnable = ccsp_getStr("Device.DLNA.X_CISCO_COM_DMS.Enable");
     if ($_DEBUG) {
         $dlnaEnable = 'true';
     }

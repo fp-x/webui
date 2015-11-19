@@ -28,19 +28,19 @@ $APIDs=explode(",",getInstanceIDs("Device.WiFi.AccessPoint."));
 for($i=0;$i<count($APIDs);$i++)
 {
 	if ("false" == $qosInfo['IsEnabledWMM']) {
-		setStr("Device.WiFi.AccessPoint.".$APIDs[$i].".UAPSDEnable", "false", true);
+		ccsp_setStr("Device.WiFi.AccessPoint.".$APIDs[$i].".UAPSDEnable", "false", true);
 	}	
-	setStr("Device.WiFi.AccessPoint.".$APIDs[$i].".WMMEnable", $qosInfo['IsEnabledWMM'],true);
-	setStr("Device.WiFi.Radio.".$APIDs[$i].".X_CISCO_COM_ApplySetting", "true", true);
+	ccsp_setStr("Device.WiFi.AccessPoint.".$APIDs[$i].".WMMEnable", $qosInfo['IsEnabledWMM'],true);
+	ccsp_setStr("Device.WiFi.Radio.".$APIDs[$i].".X_CISCO_COM_ApplySetting", "true", true);
 }	
 
 
 $MoCAIDs=explode(",",getInstanceIDs("Device.MoCA.Interface."));
 for($i=0;$i<count($MoCAIDs);$i++)
 {
-	setStr("Device.MoCA.Interface.".$MoCAIDs[$i].".QoS.X_CISCO_COM_Enabled", $qosInfo['IsEnabledMoCA'],true);
+	ccsp_setStr("Device.MoCA.Interface.".$MoCAIDs[$i].".QoS.X_CISCO_COM_Enabled", $qosInfo['IsEnabledMoCA'],true);
 }	
-//setStr("", $qosInfo['IsEnabledLAN']);
-//setStr("", $qosInfo['IsEnabledUPnP']);
+//ccsp_setStr("", $qosInfo['IsEnabledLAN']);
+//ccsp_setStr("", $qosInfo['IsEnabledUPnP']);
 
 ?>

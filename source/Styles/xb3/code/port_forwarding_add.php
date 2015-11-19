@@ -27,14 +27,14 @@ $v6_param = array(
 
 $LanGwIP 	= $devices_value["LanGwIP"];
 $LanSubnetMask 	= $devices_value["LanSubnetMask"];
-$beginAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
-$endAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
+$beginAddr 	= ccsp_getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
+$endAddr 	= ccsp_getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
 
 $DeviceMode = $devices_value["DeviceMode"];
 //$DeviceMode = "IPv6";
 $state = $v6_value["state"];
 //2040::/64, 2040:1::/64, 2040:1:2::/64 and 2040:1:2:3::/64
-$prefix_arr = explode('::/', getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix"));
+$prefix_arr = explode('::/', ccsp_getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix"));
 //$prefix_arr = explode('::/', "2040:1:2:3::/64");
 $v6_begin_addr = $v6_value["v6_begin_addr"];
 $v6_end_addr = $v6_value["v6_end_addr"];
@@ -464,7 +464,7 @@ $('#device').click(function(){
 
 		<?php  
 	      		//2040::/64, 2040:1::/64, 2040:1:2::/64 and 2040:1:2:3::/64
-                  	$prefix_arr = explode('::/', getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix"));
+                  	$prefix_arr = explode('::/', ccsp_getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix"));
 			//$prefix_arr = explode('::/', "2040:1:2:3::/64");
 			$ipv6_prefix_arr = explode(':', $prefix_arr[0]);
                   	$ipa_size = count($ipv6_prefix_arr);
@@ -521,25 +521,25 @@ $('#device').click(function(){
 	</tr>
 
 	<?php 
-		$hostsInstance = getInstanceIds("Device.Hosts.Host.");
+		$hostsInstance = ccsp_getInstanceIds("Device.Hosts.Host.");
 		$hostsInstanceArr = explode(",", $hostsInstance);
-		$hostNums = getStr("Device.Hosts.HostNumberOfEntries");
+		$hostNums = ccsp_getStr("Device.Hosts.HostNumberOfEntries");
 		if ($_DEBUG) {
 			$hostNums = "2";
 		}
 
 		for ($i=0; $i < $hostNums; $i++) { 
 
-			$HostName  = getStr("Device.Hosts.Host.$hostsInstanceArr[$i].HostName");
-			$IPAddress = getStr("Device.Hosts.Host.$hostsInstanceArr[$i].IPAddress");
-			$Active    = getStr("Device.Hosts.Host.$hostsInstanceArr[$i].Active");
+			$HostName  = ccsp_getStr("Device.Hosts.Host.$hostsInstanceArr[$i].HostName");
+			$IPAddress = ccsp_getStr("Device.Hosts.Host.$hostsInstanceArr[$i].IPAddress");
+			$Active    = ccsp_getStr("Device.Hosts.Host.$hostsInstanceArr[$i].Active");
 			$IPv6Addr = "";
-			$IPv6Num = getStr("Device.Hosts.Host.$hostsInstanceArr[$i].IPv6AddressNumberOfEntries");
+			$IPv6Num = ccsp_getStr("Device.Hosts.Host.$hostsInstanceArr[$i].IPv6AddressNumberOfEntries");
 			if (((int)$IPv6Num) > 0) {
-				$ids = explode(",", getInstanceIds("Device.Hosts.Host.$hostsInstanceArr[$i].IPv6Address."));
+				$ids = explode(",", ccsp_getInstanceIds("Device.Hosts.Host.$hostsInstanceArr[$i].IPv6Address."));
 				foreach ($ids as $j) {
 					if ($j === '') break;
-					$val = getStr("Device.Hosts.Host.$hostsInstanceArr[$i].IPv6Address.$j.IPAddress");
+					$val = ccsp_getStr("Device.Hosts.Host.$hostsInstanceArr[$i].IPv6Address.$j.IPAddress");
 					if (stripos($val, "fe80:") === 0) continue;
 					$IPv6Addr = $val;
 					break;

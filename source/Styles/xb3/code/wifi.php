@@ -22,7 +22,7 @@ $wifi_param = array(
 	"2_Enable"	=> "Device.WiFi.Radio.2.Enable",
 	"2_BSSID"	=> "Device.WiFi.SSID.2.BSSID",
 
-	//getStr
+	//ccsp_getStr
 	"1_RadioUpTime"	=> "Device.WiFi.Radio.1.X_COMCAST_COM_RadioUpTime",
 	"2_RadioUpTime"	=> "Device.WiFi.Radio.2.X_COMCAST_COM_RadioUpTime",
 	);

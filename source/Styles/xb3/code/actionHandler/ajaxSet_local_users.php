@@ -28,22 +28,22 @@ $id = $arConfig['idex'];
 
 if ("Edit" == $arConfig['dest'])
 {
-	setStr("Device.X_CISCO_COM_FileSharing.User.$id.UserName", $arConfig['name'], false);
-	setStr("Device.X_CISCO_COM_FileSharing.User.$id.Password", $arConfig['pass'], true);
+	ccsp_setStr("Device.X_CISCO_COM_FileSharing.User.$id.UserName", $arConfig['name'], false);
+	ccsp_setStr("Device.X_CISCO_COM_FileSharing.User.$id.Password", $arConfig['pass'], true);
 }
 else if ("Add" == $arConfig['dest'])
 {
-	addTblObj("Device.X_CISCO_COM_FileSharing.User.");
+	ccsp_addTblObj("Device.X_CISCO_COM_FileSharing.User.");
 
-	$ids = array_filter(explode(",", getInstanceIds("Device.X_CISCO_COM_FileSharing.User.")));
+	$ids = array_filter(explode(",", ccsp_getInstanceIds("Device.X_CISCO_COM_FileSharing.User.")));
 	$id	 = $ids[count($ids)-1];
 
-	setStr("Device.X_CISCO_COM_FileSharing.User.$id.UserName", $arConfig['name'], false);
-	setStr("Device.X_CISCO_COM_FileSharing.User.$id.Password", $arConfig['pass'], true);	
+	ccsp_setStr("Device.X_CISCO_COM_FileSharing.User.$id.UserName", $arConfig['name'], false);
+	ccsp_setStr("Device.X_CISCO_COM_FileSharing.User.$id.Password", $arConfig['pass'], true);	
 }
 else if ("Delete" == $arConfig['dest'])
 {
-	delTblObj("Device.X_CISCO_COM_FileSharing.User.$id.");
+	ccsp_delTblObj("Device.X_CISCO_COM_FileSharing.User.$id.");
 }
 
 sleep(6);

@@ -8,7 +8,7 @@
 <?php include('includes/nav.php'); ?>
 
 <?php
-$enable = getStr("Device.X_CISCO_COM_DDNS.Enable");
+$enable = ccsp_getStr("Device.X_CISCO_COM_DDNS.Enable");
 ?>
 
 <script type="text/javascript">
@@ -152,22 +152,22 @@ $(document).ready(function() {
 			</tr>
 					
 			<?php 
-				$num=getStr("Device.X_CISCO_COM_DDNS.ServiceNumberOfEntries");
+				$num=ccsp_getStr("Device.X_CISCO_COM_DDNS.ServiceNumberOfEntries");
 				if($num!=0) {
 					$IDs=explode(",",getInstanceIDs("Device.X_CISCO_COM_DDNS.Service."));
 					$iclass="";
 					foreach ($IDs as $key=>$i) {
-						$enableSrv = getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".Enable");
+						$enableSrv = ccsp_getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".Enable");
 						if($enableSrv == "true") {
 							if ($iclass=="") {$iclass="odd";} else {$iclass="";}
-							$name = getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".ServiceName");
-							$username = getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".Username");
-							$password = getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".Password");
+							$name = ccsp_getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".ServiceName");
+							$username = ccsp_getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".Username");
+							$password = ccsp_getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".Password");
 							$passwordStr = "";
 							for($j=0;$j<strlen($password);$j++) {
 								$passwordStr = $passwordStr . "*";
 							}
-							$hostname = getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".Domain");
+							$hostname = ccsp_getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".Domain");
 							echo "
 							<tr class=$iclass>
 								<td>".$name."</td>
@@ -175,7 +175,7 @@ $(document).ready(function() {
 								<td >".$passwordStr."</td>
 								<td>".$hostname."</td>
 								<td class=\"edit\"><a  tabindex='0' href=\"dynamic_dns_edit.php?id=$i\" class=\"btn\" id=\"edit_$i\">Edit</a></td>
-								<td class=\"delete\"><a tabindex='0' href=\"actionHandler/ajax_ddns.php?del=$i\" class=\"btn confirm\" title=\"delete this service for ".getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".ServiceName")." \"id=\"delete_$i\">x</a></td>
+								<td class=\"delete\"><a tabindex='0' href=\"actionHandler/ajax_ddns.php?del=$i\" class=\"btn confirm\" title=\"delete this service for ".ccsp_getStr("Device.X_CISCO_COM_DDNS.Service."."$i".".ServiceName")." \"id=\"delete_$i\">x</a></td>
 							</tr>"; 
 						}
 					} 

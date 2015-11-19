@@ -22,7 +22,7 @@ $(document).ready(function() {
 	</div>
 
 	<?php
-	$ids = array_filter(explode(",", getInstanceIds("Device.USB.USBHosts.Host.1.Device.")));
+	$ids = array_filter(explode(",", ccsp_getInstanceIds("Device.USB.USBHosts.Host.1.Device.")));
 	// print_r($ids);
 	
 	foreach ($ids as $id)
@@ -42,7 +42,7 @@ $(document).ready(function() {
 		{
 			echo '<div class="form-row '.(($m++ % 2)?'odd':'').'" >';
 			echo '<span class="readonlyLabel">'.$dm[$i][0].'</span>';
-			echo '<span class="value">'.getStr($dm[$i][1]).$dm[$i][2].'</span>';
+			echo '<span class="value">'.ccsp_getStr($dm[$i][1]).$dm[$i][2].'</span>';
 			echo '</div>';
 		}
 		echo '</div>';

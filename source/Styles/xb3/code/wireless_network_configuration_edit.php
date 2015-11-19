@@ -23,7 +23,7 @@ if( $_SESSION["loginuser"] == "mso" ) {
 
 function KeyExtGet($root, $param)
 {
-	$raw_ret = DmExtGetStrsWithRootObj($root, $param);
+	$raw_ret = ccsp_getStrsWithRootObj($root, $param);
 	$key_ret = array();
 	for ($i=1; $i<count($raw_ret); $i++)
 	{

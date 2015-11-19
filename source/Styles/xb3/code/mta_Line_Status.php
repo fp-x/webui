@@ -21,11 +21,11 @@ $(document).ready(function() {
 		<h2>MTA Line Status</h2>
 		<div class="form-row">
 			<span class="readonlyLabel">Line 1 Status:</span> 
-			<span class="value"><?php echo getStr("Device.X_CISCO_COM_MTA.LineTable.1.Status");?></span>
+			<span class="value"><?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.LineTable.1.Status");?></span>
 		</div>
 		<div class="form-row odd">
 			<span class="readonlyLabel">Line 2 Status:</span>
-			<span class="value"><?php echo getStr("Device.X_CISCO_COM_MTA.LineTable.2.Status");?></span>
+			<span class="value"><?php echo ccsp_getStr("Device.X_CISCO_COM_MTA.LineTable.2.Status");?></span>
 		</div>
 	</div>
 </div> <!-- end .module -->

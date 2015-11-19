@@ -9,9 +9,9 @@
 <?php 
 
 	$dms = array(
-		'AllowedTypes' => getStr("Device.DLNA.X_CISCO_COM_DMS.AllowedMediaTypes"),
-		'AllowedSource' => getStr("Device.DLNA.X_CISCO_COM_DMS.AllowMediaSource"),
-		'MediaIndexPath' => getStr("Device.DLNA.X_CISCO_COM_DMS.MediaIndexPath"),
+		'AllowedTypes' => ccsp_getStr("Device.DLNA.X_CISCO_COM_DMS.AllowedMediaTypes"),
+		'AllowedSource' => ccsp_getStr("Device.DLNA.X_CISCO_COM_DMS.AllowMediaSource"),
+		'MediaIndexPath' => ccsp_getStr("Device.DLNA.X_CISCO_COM_DMS.MediaIndexPath"),
 
 	);
 

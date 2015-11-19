@@ -14,8 +14,8 @@
 ?>
 
 <?php
-$enableMD = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable");
-$allowAll = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.AllowAll");
+$enableMD = ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable");
+$allowAll = ccsp_getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.AllowAll");
 if ($_DEBUG) {
 	$enableMD = 'true';
 	$allowAll = 'true';

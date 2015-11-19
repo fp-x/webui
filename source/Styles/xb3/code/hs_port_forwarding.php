@@ -8,7 +8,7 @@
 <?php include('includes/nav.php'); ?>
 <?php include('includes/utility.php'); ?>
 <?php 
-	$HPEnable = getStr("Device.NAT.X_Comcast_com_EnableHSPortMapping");
+	$HPEnable = ccsp_getStr("Device.NAT.X_Comcast_com_EnableHSPortMapping");
 	if ($_DEBUG) {
 		$HPEnable = 'true';
 	}
@@ -226,15 +226,15 @@ $(document).ready(function() {
 				}//end of empty
 
 				/*foreach($HPIDs as $key=>$i) {
-					if (getStr("Device.NAT.PortMapping.".$i.".LeaseDuration")==0 && getStr("Device.NAT.PortMapping.".$i.".InternalPort")!=0){
+					if (ccsp_getStr("Device.NAT.PortMapping.".$i.".LeaseDuration")==0 && ccsp_getStr("Device.NAT.PortMapping.".$i.".InternalPort")!=0){
 						if ($iclass=="") {$iclass="odd";} else {$iclass="";}
-						$Protocol=getStr("Device.NAT.PortMapping.".$i.".Protocol");
+						$Protocol=ccsp_getStr("Device.NAT.PortMapping.".$i.".Protocol");
 						if ($Protocol=="BOTH") $Protocol="TCP/UDP";
 						echo "
 						'<tr class=$iclass>';
-						<td headers='service-name'>".getStr("Device.NAT.PortMapping.".$i.".Description")."</td>
+						<td headers='service-name'>".ccsp_getStr("Device.NAT.PortMapping.".$i.".Description")."</td>
 						<td headers='service-type'>".$Protocol."</td>";
-						if (($startPort=getStr("Device.NAT.PortMapping.".$i.".ExternalPort"))==($endPort=getStr("Device.NAT.PortMapping.".$i.".ExternalPortEndRange"))) {
+						if (($startPort=ccsp_getStr("Device.NAT.PortMapping.".$i.".ExternalPort"))==($endPort=ccsp_getStr("Device.NAT.PortMapping.".$i.".ExternalPortEndRange"))) {
 							echo "
 							<td headers='public-port'>".$startPort."</td>";
 						} else {
@@ -242,10 +242,10 @@ $(document).ready(function() {
 							<td headers='public-port'>".$startPort."~".$endPort."</td>";
 						}
 						echo "
-						<td headers='private-port'>".getStr("Device.NAT.PortMapping.".$i.".InternalPort")."</td>
-						<td headers='server-ip'>".getStr("Device.NAT.PortMapping.".$i.".InternalClient")."</td>";
+						<td headers='private-port'>".ccsp_getStr("Device.NAT.PortMapping.".$i.".InternalPort")."</td>
+						<td headers='server-ip'>".ccsp_getStr("Device.NAT.PortMapping.".$i.".InternalClient")."</td>";
 
-						if (getStr("Device.NAT.PortMapping.".$i.".Enable")=="true") {
+						if (ccsp_getStr("Device.NAT.PortMapping.".$i.".Enable")=="true") {
 							echo "
 							<td headers='active'><input tabindex='0' type=\"checkbox\" id=\"PortActive_$i\" name=\"PortActive\" checked=\"checked\" />
 							<label for=\"PortActive_$i\"></label></td>";

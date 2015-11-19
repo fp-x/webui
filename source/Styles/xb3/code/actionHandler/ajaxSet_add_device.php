@@ -28,8 +28,8 @@ function isIPValid($IP, $MAC){
 
     $ret        = TRUE;
     $msg 		= '';
-    $LanSubMask = getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask");
-    $LanGwIP    = getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
+    $LanSubMask = ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask");
+    $LanGwIP    = ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
     $gwIP       = explode('.', $LanGwIP);
     $hostIP     = explode('.', $IP); 
 
@@ -66,9 +66,9 @@ function isIPValid($IP, $MAC){
 		$MDIDs=explode(",",getInstanceIDs("Device.Hosts.Host."));
 		$arrayDHCPMAC=array();
 		foreach ($MDIDs as $key=>$i) {
-			$type = getStr("Device.Hosts.Host.".$i.".AddressSource");
+			$type = ccsp_getStr("Device.Hosts.Host.".$i.".AddressSource");
 			if($type == "DHCP") {
-				array_push($arrayDHCPMAC, strtoupper(getStr("Device.Hosts.Host.".$i.".PhysAddress")));
+				array_push($arrayDHCPMAC, strtoupper(ccsp_getStr("Device.Hosts.Host.".$i.".PhysAddress")));
 			}
 		}
 
@@ -78,9 +78,9 @@ function isIPValid($IP, $MAC){
 		}
         
 		//if above check pass, then check whether the IP have been used or not in Online DHCP/ReservedIP     
-		$idArr = explode(",", getInstanceIds("Device.Hosts.Host."));
+		$idArr = explode(",", ccsp_getInstanceIds("Device.Hosts.Host."));
 		foreach ($idArr as $key => $value) {
-			if ( !strcasecmp(getStr("Device.Hosts.Host.$value.IPv4Address.1.IPAddress"), $IP) ) {
+			if ( !strcasecmp(ccsp_getStr("Device.Hosts.Host.$value.IPv4Address.1.IPAddress"), $IP) ) {
 				$msg = "IP has already been reserved for another device.\nPlease try using another IP address!";
 				$ret = FALSE;
 				break;
@@ -89,10 +89,10 @@ function isIPValid($IP, $MAC){
 
 		//for ReservedIP >> in "Server Pool-1"
 		//if above check pass, then check whether the IP have been used or not in "Server Pool-1"
-		$idArr = explode(",", getInstanceIds("Device.DHCPv4.Server.Pool.1.StaticAddress."));
+		$idArr = explode(",", ccsp_getInstanceIds("Device.DHCPv4.Server.Pool.1.StaticAddress."));
 		foreach ($idArr as $key => $value) {
-		    	if ( !strcasecmp(getStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$value.Yiaddr"), $IP) ) {
-				if ( !strcasecmp(getStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$value.Chaddr"), $MAC) ) {
+		    	if ( !strcasecmp(ccsp_getStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$value.Yiaddr"), $IP) ) {
+				if ( !strcasecmp(ccsp_getStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$value.Chaddr"), $MAC) ) {
 					//if device is there with same mac and ip then its an EDIT of comments of ReservedIP
 					return array(TRUE, $msg);
 					break;
@@ -126,9 +126,9 @@ if( !array_key_exists('delFlag', $deviceInfo) ) {
     if (array_key_exists('UpdateComments', $deviceInfo)){
         //from edit device page scenario: DHCP ==> DHCP
         //only update comments for this device connected via DHCP
-        $idArr = explode(",", getInstanceIds("Device.Hosts.Host."));
+        $idArr = explode(",", ccsp_getInstanceIds("Device.Hosts.Host."));
         foreach ($idArr as $key => $value) {
-            $macArr["$value"] =  getStr("Device.Hosts.Host.$value.PhysAddress");
+            $macArr["$value"] =  ccsp_getStr("Device.Hosts.Host.$value.PhysAddress");
         }
         foreach ($macArr as $key => $value) {
             if ( !strcasecmp($value, $macAddr) ) {
@@ -137,7 +137,7 @@ if( !array_key_exists('delFlag', $deviceInfo) ) {
             }
         }
         if( isSet($index) ){
-           setStr("Device.Hosts.Host.$index.Comments", $deviceInfo['Comments'], true);
+           ccsp_setStr("Device.Hosts.Host.$index.Comments", $deviceInfo['Comments'], true);
         }    
 
         $result = "success";        
@@ -149,9 +149,9 @@ if( !array_key_exists('delFlag', $deviceInfo) ) {
     }
     else{
 
-        $idArr = explode(",", getInstanceIds("Device.DHCPv4.Server.Pool.1.StaticAddress."));
+        $idArr = explode(",", ccsp_getInstanceIds("Device.DHCPv4.Server.Pool.1.StaticAddress."));
         foreach ($idArr as $key => $value) {
-            if ( !strcasecmp(getStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$value.Chaddr"), $macAddr) ) {
+            if ( !strcasecmp(ccsp_getStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$value.Chaddr"), $macAddr) ) {
                 $exist = true;
                 $existIndex = $value;
                 break;
@@ -164,17 +164,17 @@ if( !array_key_exists('delFlag', $deviceInfo) ) {
             *  1. DHCP ==> ReservedIP, add entry, update host comments
             *  2. ReservedIP ==> ReservedIP, mac address changed, modify this static entry, update host comments meanwhile
             */
-            addTblObj("Device.DHCPv4.Server.Pool.1.StaticAddress.");
-            $IDs  = getInstanceIds("Device.DHCPv4.Server.Pool.1.StaticAddress.");
+            ccsp_addTblObj("Device.DHCPv4.Server.Pool.1.StaticAddress.");
+            $IDs  = ccsp_getInstanceIds("Device.DHCPv4.Server.Pool.1.StaticAddress.");
 
             $idArr = explode(",", $IDs);
             $instanceid = array_pop($idArr);
 
-            setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$instanceid.X_CISCO_COM_DeviceName", $deviceInfo['hostName'], false);
-            setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$instanceid.Chaddr", $deviceInfo['macAddress'], false);
-            setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$instanceid.Yiaddr", $deviceInfo['reseverd_ipAddr'], false);
+            ccsp_setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$instanceid.X_CISCO_COM_DeviceName", $deviceInfo['hostName'], false);
+            ccsp_setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$instanceid.Chaddr", $deviceInfo['macAddress'], false);
+            ccsp_setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$instanceid.Yiaddr", $deviceInfo['reseverd_ipAddr'], false);
             
-            if(setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$instanceid.X_CISCO_COM_Comment", $deviceInfo['Comments'], true)){
+            if(ccsp_setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$instanceid.X_CISCO_COM_Comment", $deviceInfo['Comments'], true)){
                 $result = "success";
             }
 
@@ -183,10 +183,10 @@ if( !array_key_exists('delFlag', $deviceInfo) ) {
             }
             else{
                 //this post is from edit device page, set Host talbe comments as well.
-                $idArr = explode(",", getInstanceIds("Device.Hosts.Host."));
+                $idArr = explode(",", ccsp_getInstanceIds("Device.Hosts.Host."));
                 $macArr = array();
                 foreach ($idArr as $key => $value) {
-                    $macArr["$value"] =  getStr("Device.Hosts.Host.$value.PhysAddress");
+                    $macArr["$value"] =  ccsp_getStr("Device.Hosts.Host.$value.PhysAddress");
                 }
                 foreach ($macArr as $key => $value) {
                     if ( !strcasecmp($value, $macAddr) ) {
@@ -195,7 +195,7 @@ if( !array_key_exists('delFlag', $deviceInfo) ) {
                     }
                 }
                 if( isSet($index) ){
-                   setStr("Device.Hosts.Host.$index.Comments", $deviceInfo['Comments'], true);
+                   ccsp_setStr("Device.Hosts.Host.$index.Comments", $deviceInfo['Comments'], true);
                 }
             }//end of else
         } //end of exist
@@ -207,16 +207,16 @@ if( !array_key_exists('delFlag', $deviceInfo) ) {
                 /* 
                 * From edit device scenario: ReservedIP  ==> ReservedIP, only update static table entry, and host comments
                 */
-                setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$existIndex.Chaddr", $deviceInfo['macAddress'], false);
-                setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$existIndex.Yiaddr", $deviceInfo['reseverd_ipAddr'], false);
-                if(setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$existIndex.X_CISCO_COM_Comment", $deviceInfo['Comments'], true)){
+                ccsp_setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$existIndex.Chaddr", $deviceInfo['macAddress'], false);
+                ccsp_setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$existIndex.Yiaddr", $deviceInfo['reseverd_ipAddr'], false);
+                if(ccsp_setStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$existIndex.X_CISCO_COM_Comment", $deviceInfo['Comments'], true)){
                     $result = "success";
                 }
 
-                $idArr = explode(",", getInstanceIds("Device.Hosts.Host."));
+                $idArr = explode(",", ccsp_getInstanceIds("Device.Hosts.Host."));
                 $macArr = array();
                 foreach ($idArr as $key => $value) {
-                    $macArr["$value"] =  getStr("Device.Hosts.Host.$value.PhysAddress");
+                    $macArr["$value"] =  ccsp_getStr("Device.Hosts.Host.$value.PhysAddress");
                 }
                 foreach ($macArr as $key => $value) {
                     if ( !strcasecmp($value, $macAddr) ) {
@@ -225,7 +225,7 @@ if( !array_key_exists('delFlag', $deviceInfo) ) {
                     }
                 }
                 if( isSet($index) ){
-                   setStr("Device.Hosts.Host.$index.Comments", $deviceInfo['Comments'], true);
+                   ccsp_setStr("Device.Hosts.Host.$index.Comments", $deviceInfo['Comments'], true);
                 }
 
             }// end of else
@@ -236,10 +236,10 @@ else{
     //from edit page scenario: Reserved IP => DHCP
     //this is going to remove the corresponding reserved ip in static address table 
     $macAddr = $deviceInfo['macAddress'];
-    $idArr = explode(",", getInstanceIds("Device.DHCPv4.Server.Pool.1.StaticAddress."));
+    $idArr = explode(",", ccsp_getInstanceIds("Device.DHCPv4.Server.Pool.1.StaticAddress."));
 
     foreach ($idArr as $key => $value) {
-        $macArr["$value"] =  getStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$value.Chaddr");
+        $macArr["$value"] =  ccsp_getStr("Device.DHCPv4.Server.Pool.1.StaticAddress.$value.Chaddr");
     }
 
     foreach ($macArr as $key => $value) {
@@ -250,13 +250,13 @@ else{
     }
 
     if( isSet($index) ){
-       delTblObj("Device.DHCPv4.Server.Pool.1.StaticAddress.$index.");    
+       ccsp_delTblObj("Device.DHCPv4.Server.Pool.1.StaticAddress.$index.");    
     }
 
-    $idArr = explode(",", getInstanceIds("Device.Hosts.Host."));
+    $idArr = explode(",", ccsp_getInstanceIds("Device.Hosts.Host."));
     unset($macArr); // this is very important 
     foreach ($idArr as $key => $value) {
-        $macArr["$value"] =  getStr("Device.Hosts.Host.$value.PhysAddress");
+        $macArr["$value"] =  ccsp_getStr("Device.Hosts.Host.$value.PhysAddress");
     }
     foreach ($macArr as $key => $value) {
         if ( !strcasecmp($value, $macAddr) ) {
@@ -265,8 +265,8 @@ else{
         }
     }
     if( isSet($i) ){
-       setStr("Device.Hosts.Host.$i.Comments", $deviceInfo['Comments'], true);
-       setStr("Device.Hosts.Host.$i.AddressSource", "DHCP", true);
+       ccsp_setStr("Device.Hosts.Host.$i.Comments", $deviceInfo['Comments'], true);
+       ccsp_setStr("Device.Hosts.Host.$i.AddressSource", "DHCP", true);
     }
 
     $result = "success";

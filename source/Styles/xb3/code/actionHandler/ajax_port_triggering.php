@@ -32,9 +32,9 @@ function PORTTEST($sp,$ep,$arraySp,$arrayEp){
 
 if (isset($_POST['set'])){
 	$UPTRStatus=(($_POST['UPTRStatus']=="Enabled")?"true":"false");
-	setStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable",$UPTRStatus,true);
-	while(getStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable")!=$UPTRStatus) sleep(2);
-	//$UPTRStatus=((getStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable")=="true")?"Enabled":"Disabled");
+	ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable",$UPTRStatus,true);
+	while(ccsp_getStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable")!=$UPTRStatus) sleep(2);
+	//$UPTRStatus=((ccsp_getStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable")=="true")?"Enabled":"Disabled");
 	//echo json_encode($UPTRStatus);
 }
 
@@ -48,18 +48,18 @@ if (isset($_POST['add'])){
 	$tsp=$_POST['tsp'];
 	$tep=$_POST['tep'];
 	
-	if (getStr("Device.NAT.X_CISCO_COM_PortTriggers.TriggerNumberOfEntries")==0) { //need to test
-		addTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.");
+	if (ccsp_getStr("Device.NAT.X_CISCO_COM_PortTriggers.TriggerNumberOfEntries")==0) { //need to test
+		ccsp_addTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.");
 		$IDs=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
 		$i=$IDs[count($IDs)-1];
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortStart",$fsp,false);//from start port
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortEnd",$fep,false);
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerProtocol",$type,false);
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardProtocol",$type,false);//need to ask wu
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortStart",$tsp,false);//to start port
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortEnd",$tep,false);
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Description",$name,false);
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable","true",true);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortStart",$fsp,false);//from start port
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortEnd",$fep,false);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerProtocol",$type,false);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardProtocol",$type,false);//need to ask wu
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortStart",$tsp,false);//to start port
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortEnd",$tep,false);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Description",$name,false);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable","true",true);
 		
 		$rootObjName ="Device.NAT.X_CISCO_COM_PortTriggers.Trigger.";
 		$paramArray = 
@@ -73,7 +73,7 @@ if (isset($_POST['add'])){
 				array("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Description",      "string", $name),
 				array("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable",           "bool",   "true"),
 			);
-		$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+		$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 		if (!$retStatus){$result="Success!";}
 		
 		// echo json_encode("Success!");
@@ -113,10 +113,10 @@ if (isset($_POST['add'])){
 			*/
 			$ids=explode(",",getInstanceIDs("Device.NAT.PortMapping."));
 			foreach ($ids as $key=>$j) {
-				if (getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0 && getStr("Device.NAT.PortMapping.".$j.".InternalPort")==0){
-					$portMappingType=getStr("Device.NAT.PortMapping.".$j.".Protocol");
-					$arraySPort=getStr("Device.NAT.PortMapping.".$j.".ExternalPort");
-					$arrayEPort=getStr("Device.NAT.PortMapping.".$j.".ExternalPortEndRange");
+				if (ccsp_getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0 && ccsp_getStr("Device.NAT.PortMapping.".$j.".InternalPort")==0){
+					$portMappingType=ccsp_getStr("Device.NAT.PortMapping.".$j.".Protocol");
+					$arraySPort=ccsp_getStr("Device.NAT.PortMapping.".$j.".ExternalPort");
+					$arrayEPort=ccsp_getStr("Device.NAT.PortMapping.".$j.".ExternalPortEndRange");
 					
 					if($type=="BOTH" || $portMappingType=="BOTH" || $type==$portMappingType){
 						$porttest=PORTTEST($tsp,$tep,$arraySPort,$arrayEPort);
@@ -130,17 +130,17 @@ if (isset($_POST['add'])){
 		}
 
 		if ($result=="") {
-			addTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.");
+			ccsp_addTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.");
 			$IDs=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
 			$i=$IDs[count($IDs)-1];
-			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortStart",$fsp,false);//from start port
-			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortEnd",$fep,false);
-			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerProtocol",$type,false);
-			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardProtocol",$type,false);//need to ask wu
-			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortStart",$tsp,false);//to start port
-			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortEnd",$tep,false);
-			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Description",$name,false);
-			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable","true",true);
+			// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortStart",$fsp,false);//from start port
+			// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortEnd",$fep,false);
+			// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerProtocol",$type,false);
+			// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardProtocol",$type,false);//need to ask wu
+			// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortStart",$tsp,false);//to start port
+			// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortEnd",$tep,false);
+			// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Description",$name,false);
+			// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable","true",true);
 			// $result="Success!";
 			
 			$rootObjName ="Device.NAT.X_CISCO_COM_PortTriggers.Trigger.";
@@ -155,7 +155,7 @@ if (isset($_POST['add'])){
 					array("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Description",      "string", $name),
 					array("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable",           "bool",   "true"),
 				);
-			$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+			$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 			if (!$retStatus){$result="Success!";}
 		}
 		// echo json_encode($result);
@@ -208,10 +208,10 @@ if (isset($_POST['edit'])){
 		*/
 		$ids=explode(",",getInstanceIDs("Device.NAT.PortMapping."));
 		foreach ($ids as $key=>$j) {
-			if (getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0 && getStr("Device.NAT.PortMapping.".$j.".InternalPort")==0){
-				$portMappingType=getStr("Device.NAT.PortMapping.".$j.".Protocol");
-				$arraySPort=getStr("Device.NAT.PortMapping.".$j.".ExternalPort");
-				$arrayEPort=getStr("Device.NAT.PortMapping.".$j.".ExternalPortEndRange");
+			if (ccsp_getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0 && ccsp_getStr("Device.NAT.PortMapping.".$j.".InternalPort")==0){
+				$portMappingType=ccsp_getStr("Device.NAT.PortMapping.".$j.".Protocol");
+				$arraySPort=ccsp_getStr("Device.NAT.PortMapping.".$j.".ExternalPort");
+				$arrayEPort=ccsp_getStr("Device.NAT.PortMapping.".$j.".ExternalPortEndRange");
 				
 				if($type=="BOTH" || $portMappingType=="BOTH" || $type==$portMappingType){
 					$porttest=PORTTEST($tsp,$tep,$arraySPort,$arrayEPort);
@@ -225,14 +225,14 @@ if (isset($_POST['edit'])){
 	}
 		
 	if ($result=="") {
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortStart",$fsp,false);//from start port
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortEnd",$fep,false);
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerProtocol",$type,false);
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardProtocol",$type,false);//need to ask wu
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortStart",$tsp,false);//to start port
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortEnd",$tep,false);
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Description",$name,false);
-		// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable","true",true);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortStart",$fsp,false);//from start port
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerPortEnd",$fep,false);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".TriggerProtocol",$type,false);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardProtocol",$type,false);//need to ask wu
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortStart",$tsp,false);//to start port
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".ForwardPortEnd",$tep,false);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Description",$name,false);
+		// ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable","true",true);
 		// $result="Success!";
 		
 		$rootObjName ="Device.NAT.X_CISCO_COM_PortTriggers.Trigger.";
@@ -247,7 +247,7 @@ if (isset($_POST['edit'])){
 				array("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Description",      "string", $name),
 				array("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable",           "bool",   "true"),
 			);
-		$retStatus = DmExtSetStrsWithRootObj($rootObjName, TRUE, $paramArray);	
+		$retStatus = ccsp_setStrsWithRootObj($rootObjName, TRUE, $paramArray);	
 		if (!$retStatus){$result="Success!";}
 	}
 	// echo json_encode($result);
@@ -256,11 +256,11 @@ if (isset($_POST['edit'])){
 if (isset($_POST['active'])){
 	$isChecked=$_POST['isChecked'];
 	$i=$_POST['id'];
-	setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable",$isChecked,true);
+	ccsp_setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$i.".Enable",$isChecked,true);
 }
 
 if (isset($_GET['del'])){
-	delTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$_GET['del'].".");
+	ccsp_delTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$_GET['del'].".");
 	Header("Location:../port_triggering.php");
 	exit;
 }
@@ -270,10 +270,10 @@ if ($result=="") {
 //so need to remove the '0~0,0~0' entry
 $ids=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
 	foreach ($ids as $key=>$j) {
-		$tport_start = getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.$j.TriggerPortStart");
-		$fport_start = getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.$j.ForwardPortStart");
+		$tport_start = ccsp_getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.$j.TriggerPortStart");
+		$fport_start = ccsp_getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.$j.ForwardPortStart");
         if ( ($tport_start == 0) && ($tport_start == $fport_start) ) {
-        	delTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.$j.");
+        	ccsp_delTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.$j.");
         }
 	} //end of foreach
 } //end of if

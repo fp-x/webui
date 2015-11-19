@@ -54,7 +54,7 @@ if($_FILES["file"]["error"]>0){
 			break;
 		case 2:
 			echo "<h3>Need Reboot to restore the saved configuration.</h3>";
-			setStr("Device.X_CISCO_COM_DeviceControl.RebootDevice","Router,Wifi,VoIP,Dect,MoCA",true);
+			ccsp_setStr("Device.X_CISCO_COM_DeviceControl.RebootDevice","Router,Wifi,VoIP,Dect,MoCA",true);
 			break;
 		case 3:
 			echo "<h3>Error, restore configuration failure!</h3>";

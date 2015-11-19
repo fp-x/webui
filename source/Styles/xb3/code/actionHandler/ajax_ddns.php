@@ -21,7 +21,7 @@
 function selectTable($sp) {
 	$ids=explode(",",getInstanceIDs("Device.X_CISCO_COM_DDNS.Service."));
 	foreach ($ids as $key=>$j) {
-		$spArr[$j]=getStr("Device.X_CISCO_COM_DDNS.Service.".$j.".ServiceName");
+		$spArr[$j]=ccsp_getStr("Device.X_CISCO_COM_DDNS.Service.".$j.".ServiceName");
 		if(strcasecmp($sp,$spArr[$j]) == 0)
 			return $j;
 	}
@@ -30,8 +30,8 @@ function selectTable($sp) {
 
 if (isset($_POST['set'])){
 	$status=(($_POST['status']=="Enabled")?"true":"false");
-	setStr("Device.X_CISCO_COM_DDNS.Enable",$status,true);
-	$status=getStr("Device.X_CISCO_COM_DDNS.Enable");
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Enable",$status,true);
+	$status=ccsp_getStr("Device.X_CISCO_COM_DDNS.Enable");
 	$status=($status=="true")?"Enabled":"Disabled";
 	header("Content-Type: application/json");
 	echo json_encode($status);
@@ -50,11 +50,11 @@ if (isset($_POST['add'])){
 	
 	$id = selectTable($sp);
 	if($id!=0) {
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".ServiceName",$sp,false);
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".Username",$username,false);
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".Password",$password,false);
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".Domain",$hostname,false);
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".Enable","true",true);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".ServiceName",$sp,false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".Username",$username,false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".Password",$password,false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".Domain",$hostname,false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$id.".Enable","true",true);
 		$result = "Success!";
 	} else {
 		$result = "Service Provider is not exist!";
@@ -64,30 +64,30 @@ if (isset($_POST['add'])){
 /*	
 	$ids=explode(",",getInstanceIDs("Device.X_CISCO_COM_DDNS.Service."));
 	if (count($ids)==0) {	//no table, need test whether it equals 0
-		addTblObj("Device.X_CISCO_COM_DDNS.Service.");
+		ccsp_addTblObj("Device.X_CISCO_COM_DDNS.Service.");
 		$IDs=explode(",",getInstanceIDs("Device.X_CISCO_COM_DDNS.Service."));
 		$i=$IDs[count($IDs)-1];
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".ServiceName",$sp,false);
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Username",$username,false);
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Password",$password,false);
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Domain",$hostname,false);
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","true",false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".ServiceName",$sp,false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Username",$username,false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Password",$password,false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Domain",$hostname,false);
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","true",false);
 		echo json_encode("Success!");
 	} else {
 		foreach ($ids as $key=>$j) {
-			$arrayService[$j]=getStr("Device.X_CISCO_COM_DDNS.Service.".$j.".ServiceName");
+			$arrayService[$j]=ccsp_getStr("Device.X_CISCO_COM_DDNS.Service.".$j.".ServiceName");
 		}
 		$result="";
 		if (in_array($sp,$arrayService)) { $result.="Service Provider Name has been used!\n";}
 		if ($result=="") {
-			addTblObj("Device.X_CISCO_COM_DDNS.Service.");
+			ccsp_addTblObj("Device.X_CISCO_COM_DDNS.Service.");
 			$IDs=explode(",",getInstanceIDs("Device.X_CISCO_COM_DDNS.Service."));
 			$i=$IDs[count($IDs)-1];
-			setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".ServiceName",$sp,false);
-			setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Username",$username,false);
-			setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Password",$password,false);
-			setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Domain",$hostname,false);
-			setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","true",true);
+			ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".ServiceName",$sp,false);
+			ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Username",$username,false);
+			ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Password",$password,false);
+			ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Domain",$hostname,false);
+			ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","true",true);
 			$result="Success!";
 		}
 		echo json_encode($result);
@@ -103,17 +103,17 @@ if (isset($_POST['edit'])){
 	$hostname=$_POST['hostname'];
 	
 	//delete entry - we can't edit on same index so delete on one index and update on other index
-	if(strcasecmp($sp,getStr("Device.X_CISCO_COM_DDNS.Service.".$i.".ServiceName")) != 0){
-		setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","false",true);
+	if(strcasecmp($sp,ccsp_getStr("Device.X_CISCO_COM_DDNS.Service.".$i.".ServiceName")) != 0){
+		ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","false",true);
 	}
 
 	$i = selectTable($sp);
 
-	//setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".ServiceName",$sp,false);
-	setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Username",$username,false);
-	setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Password",$password,false);
-	setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Domain",$hostname,false);
-	setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","true",true);
+	//ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".ServiceName",$sp,false);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Username",$username,false);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Password",$password,false);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Domain",$hostname,false);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","true",true);
 	$result="Success!";
 	
 	header("Content-Type: application/json");
@@ -121,9 +121,9 @@ if (isset($_POST['edit'])){
 }
 
 if (isset($_GET['del'])){
-/*	delTblObj("Device.X_CISCO_COM_DDNS.Service.".$_GET['del'].".");*/
+/*	ccsp_delTblObj("Device.X_CISCO_COM_DDNS.Service.".$_GET['del'].".");*/
 	$i=$_GET['del'];
-	setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","false",true);
+	ccsp_setStr("Device.X_CISCO_COM_DDNS.Service.".$i.".Enable","false",true);
 	Header("Location:../dynamic_dns.php");
 	exit;
 }

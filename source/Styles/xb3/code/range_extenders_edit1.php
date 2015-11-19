@@ -63,15 +63,15 @@ function setWifi5gCfg(configuration){
     <div class="module forms">
     <h2> Edit Range Extenders</h2>
     <div class="form-row odd">
-        <label for="ssid">SSID:</label> <input type="text"  size="25"  name="ssid" id="ssid" value="<?php echo getStr("Device.WiFi.SSID.2.SSID"); ?>"/>
+        <label for="ssid">SSID:</label> <input type="text"  size="25"  name="ssid" id="ssid" value="<?php echo ccsp_getStr("Device.WiFi.SSID.2.SSID"); ?>"/>
     </div>
     <div class="form-row">
-                <span class="readonlyLabel">MAC:</span> <span class="value"><?php echo getStr("Device.WiFi.SSID.2.MACAddress"); ?></span>
+                <span class="readonlyLabel">MAC:</span> <span class="value"><?php echo ccsp_getStr("Device.WiFi.SSID.2.MACAddress"); ?></span>
             </div>
     <div class="form-row odd">
         <label for="channel" class="readonlyLabel">Channel:</label>
             <?php
-                $channel = getStr("Device.WiFi.Radio.2.Channel");
+                $channel = ccsp_getStr("Device.WiFi.Radio.2.Channel");
             ?>
             
         <select id="channel">
@@ -102,7 +102,7 @@ function setWifi5gCfg(configuration){
         <div class="form-row">
             <label for="security-mode" class="readonlyLabel">Security Mode:</label>
               <?php
-                $secMode = getStr("Device.WiFi.AccessPoint.2.Security.ModeEnabled");
+                $secMode = ccsp_getStr("Device.WiFi.AccessPoint.2.Security.ModeEnabled");
             ?>
 
             <select id="security-mode">
@@ -120,7 +120,7 @@ function setWifi5gCfg(configuration){
         
         <div class="form-row odd">
             <label for="netPassword">Network Password:</label>
-            <input type="password" size="23" value="<?php echo getStr("Device.WiFi.AccessPoint.2.Security.KeyPassphrase"); ?>" id="network_password" name="network_password" />
+            <input type="password" size="23" value="<?php echo ccsp_getStr("Device.WiFi.AccessPoint.2.Security.KeyPassphrase"); ?>" id="network_password" name="network_password" />
         </div>
             
         <div class="form-row form-btn">

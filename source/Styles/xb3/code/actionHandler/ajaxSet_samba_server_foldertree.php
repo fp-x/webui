@@ -21,8 +21,8 @@
 $dir	= $_REQUEST['dir'];
 $id		= $_GET["id"];
 
-setStr("Device.X_CISCO_COM_FileSharing.Sharing.$id.LocalPath", $dir, false);
-$files	= array_filter(explode(",", getStr("Device.X_CISCO_COM_FileSharing.Sharing.$id.SubDirectories")));
+ccsp_setStr("Device.X_CISCO_COM_FileSharing.Sharing.$id.LocalPath", $dir, false);
+$files	= array_filter(explode(",", ccsp_getStr("Device.X_CISCO_COM_FileSharing.Sharing.$id.SubDirectories")));
 
 echo '<ul class="jqueryFolderTree" style="display: none;" >'; //style="display: none;"
 // All dirs start with "+", for simple coding...

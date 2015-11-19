@@ -1,3 +1,4 @@
+<?php include_once('includes/ccsp.php'); ?>
 <?php
 
     if (isset($_POST["username"]))
@@ -7,7 +8,7 @@
 
 		$client_ip		= $_SERVER["REMOTE_ADDR"];			// $client_ip="::ffff:10.0.0.101";
 		$server_ip		= $_SERVER["SERVER_ADDR"];
-		$timeout_val 		= intval(getStr("Device.X_CISCO_COM_DeviceControl.WebUITimeout"));
+		$timeout_val 		= intval(ccsp_getStr("Device.X_CISCO_COM_DeviceControl.WebUITimeout"));
 		("" == $timeout_val) && ($timeout_val = 900);
 		$_SESSION["timeout"]	= $timeout_val - 60;	//dmcli param is returning 900, GUI expects 840 - then GUI adds 60
 		$_SESSION["sid"]	= session_id();
@@ -35,9 +36,9 @@
         if ($_POST["username"] == "mso")
 	{
 	   //triggering password validation in back end
-	   setStr("Device.Users.User.1.X_CISCO_COM_Password",$_POST["password"],true);
+	   ccsp_setStr("Device.Users.User.1.X_CISCO_COM_Password",$_POST["password"],true);
 	   sleep(1);
-	   $curPwd1 = getStr("Device.Users.User.1.X_CISCO_COM_Password");
+	   $curPwd1 = ccsp_getStr("Device.Users.User.1.X_CISCO_COM_Password");
 	   
 	    if ( innerIP($client_ip) || (if_type($server_ip)=="rg_ip") )
             {
@@ -62,7 +63,7 @@
         }
         elseif ($_POST["username"] == "cusadmin")
 		{
-		$curPwd2 = getStr("Device.Users.User.2.X_CISCO_COM_Password");
+		$curPwd2 = ccsp_getStr("Device.Users.User.2.X_CISCO_COM_Password");
 			if ( innerIP($client_ip) || (if_type($server_ip)=="rg_ip") )
 			{
 				session_destroy();
@@ -86,7 +87,7 @@
         }
         elseif ($_POST["username"] == "admin")
 		{
-			$curPwd3 = getStr("Device.Users.User.3.X_CISCO_COM_Password");
+			$curPwd3 = ccsp_getStr("Device.Users.User.3.X_CISCO_COM_Password");
 			if ($_POST["password"] == $curPwd3) 
 			{
 				if ( !innerIP($client_ip) && (if_type($server_ip)!="rg_ip") )
@@ -97,7 +98,7 @@
 				else
 				{
 					exec("/usr/bin/logger -t GUI -p local5.notice 'User:admin login'");
-					setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_success",true);
+					ccsp_setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_success",true);
 					if ($curPwd3 == 'password')
 					{
 						echo '<script type="text/javascript"> if (confirm("You are using a default password, would you like to change it?")) {location.href = "password_change.php";} else {location.href = "at_a_glance.php";} </script>';
@@ -110,20 +111,20 @@
             		}
             		elseif ("" == $curPwd3)
             		{
-				setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
+				ccsp_setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
 				session_destroy();
 				echo '<script type="text/javascript"> alert("Can not get password for admin from backend!"); history.back(); </script>';
             		}
             		else
             		{
-				setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
+				ccsp_setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
 				session_destroy();
 				echo '<script type="text/javascript"> alert("Incorrect password for admin!"); history.back(); </script>';
             		}
         }
         else
 	{
-		setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
+		ccsp_setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
 		session_destroy();
 		echo '<script type="text/javascript"> alert("Incorrect user name!"); history.back(); </script>';
         }
@@ -204,7 +205,7 @@
 /*	
 	function innerIP($client_ip)
 	{
-		if (strstr($client_ip, "192.168.100.") && ("bridge-static"==getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode")))
+		if (strstr($client_ip, "192.168.100.") && ("bridge-static"==ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode")))
 		{
 			return true;
 		}
@@ -214,8 +215,8 @@
 			$tmp0	= explode(":", $client_ip);
 			$tmp1	= array_pop($tmp0);
 			$client	= explode(".", $tmp1);
-			$lanip4	= explode(".", getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress"));
-			$lanmsk	= explode(".", getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask"));
+			$lanip4	= explode(".", ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress"));
+			$lanmsk	= explode(".", ccsp_getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask"));
 					
 			for ($i=0; $i<4; $i++)
 			{
@@ -227,7 +228,7 @@
 		}
 		else
 		{
-			$prefix_dm	= getStr("Device.RouterAdvertisement.InterfaceSetting.1.Prefixes");
+			$prefix_dm	= ccsp_getStr("Device.RouterAdvertisement.InterfaceSetting.1.Prefixes");
 			$client		= explode(":", $client_ip);		
 			$prefix		= explode(":", $prefix_dm);
 			$prelen		= explode("/", $prefix_dm);
