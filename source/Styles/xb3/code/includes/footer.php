@@ -1,4 +1,5 @@
 <!-- $Id: footer.php 2976 2009-09-02 21:42:51Z cporto $ -->
+<?php include_once('includes/debug.php'); ?>
 		</div> <!-- end #main-content-->
 		
 		<!--Footer-->
@@ -8,9 +9,6 @@
 				<li style="list-style:none outside none; margin-left:10px">&#8226;&nbsp;&nbsp;<a href="https://www.twcc.com/" target="_blank">TWC Central</a></li>
 				<li style="list-style:none outside none; margin-left:10px">&#8226;&nbsp;&nbsp;<a href="http://business.timewarnercable.com" target="_blank">Business Class</a></li>
 			</ul>
-			<pre>
-			<?php print_r(ccsp_getUseMap()); ?>
-			</pre>
 		</div> <!-- end #footer -->
 	</div> <!-- end #container -->
 <script type="text/javascript">
