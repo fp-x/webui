@@ -170,7 +170,7 @@ $(document).ready(function(){
 	var goNextphoneNumber	= true;
 
 	function GWReachable(){
-		//location.href = "http://xfinity.com";
+		//location.href = "http://www.twc.com";
 		// Handle IE and more capable browsers
 		var xhr = new ( window.ActiveXObject || XMLHttpRequest )( "Microsoft.XMLHTTP" );
 		var status;
@@ -208,7 +208,7 @@ $(document).ready(function(){
 			if(isGWReachable){
 				$("#ready").show();
 				$("#setup").hide();
-				setTimeout(function(){ location.href = "http://xfinity.com"; }, 5000);
+				setTimeout(function(){ location.href = "http://www.twc.com"; }, 5000);
 			}
 			else{
 				pingTest = pingGW();
@@ -222,7 +222,7 @@ $(document).ready(function(){
 		} else {
 			$("#ready").show();
 			$("#complete").hide();
-			setTimeout(function(){ location.href = "http://xfinity.com"; }, 5000);
+			setTimeout(function(){ location.href = "http://www.twc.com"; }, 5000);
 		}
 	}
 
