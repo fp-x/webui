@@ -1,5 +1,5 @@
 
-	<div id="internet-usage" class="module form">
+	<div id="internet-usage" class="module form" style="width: 96%;">
 		<div>
 			<h2>Dev Diagnostics</h2>
 			<?php
