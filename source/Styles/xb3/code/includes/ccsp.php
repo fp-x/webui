@@ -21,14 +21,24 @@ function getCcspMap() {
 
 function ccsp_isReady() {
 	getCcspMap();
+	if(isset($GLOBALS["cosa-ready"])) {
+		return $GLOBALS["cosa-ready"];
+	}
+	if(!extension_loaded("cosa")) {
+		$GLOBALS["cosa-ready"] = false;
+		return false;
+	}
 	$resp = shell_exec("ps | grep dbus");
 	if(strstr($resp, "basic.conf")) {
+		$GLOBALS["cosa-ready"] = true;
 		return true;
 	}
 	$resp = shell_exec("ps -ef | grep dbus");
 	if(strstr($resp, "basic.conf")) {
+		$GLOBALS["cosa-ready"] = true;
 		return true;
 	}
+	$GLOBALS["cosa-ready"] = false;
 	return false;
 }
 function ccsp_getStr($str) {
