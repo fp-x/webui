@@ -1,9 +1,57 @@
 
+<?php
+include_once('includes/ccsp.php'); 
+if(isset($_SESSION['loginuser'])) {
+	?>
+	<div id="internet-usage" class="module form"  style="width: 96%;">
+		<h2 style="margin-bottom: -5px;">Network Devices</h2>
+		<table class="data" summary="This table displays Online Devices connected">
+		    <tr>
+			<th style="background: #f85f01;" id="host-name" >Name</th>
+			<th style="background: #f85f01;" id="mac-address" >MAC Address</th>
+			<th style="background: #f85f01;" id="connection-type" >IP</th>
+		    </tr>
+		<?php
+
+		$ifc = shell_exec("ifconfig");
+		$ifcArray = explode("\n\n", $ifc);
+		$i = 0;
+		foreach ($ifcArray as $d) {
+			$strs = explode(" ", $d);
+			$deviceName = $strs[0];
+			if($deviceName == "") continue;
+			$length = count($strs);
+			$mac = $addr = "";
+			for ($j = 0; $j < $length; $j++) {
+				if($strs[$j] == "HWaddr") {
+					$mac = $strs[$j+1];
+				}
+				if($strs[$j] == "inet") {
+					$addr = str_replace("addr:", "", $strs[$j+1]);
+				}
+			}
+
+			if( $i%2 ) {$divClass="class='form-row '";}
+			else {$divClass="class='form-row odd'";}
+			echo "<tr $divClass>
+				<td width='40%' class='readonlyLabel' headers='host-name'>$deviceName</td>
+				<td width='' class='readonlyLabel' headers='mac-address'>$mac</td>
+				<td width='' class='readonlyLabel' headers='connection-type'>$addr</td>
+				</tr>
+			";
+			$i++;
+		}
+		?>
+		</table>
+		</div>
+<?php
+} // if(isset($_SESSION['loginuser'])) {
+?>
+
 	<div id="internet-usage" class="module form" style="width: 96%;">
 		<div>
 			<h2>Dev Diagnostics</h2>
 			<?php
-			include_once('includes/ccsp.php'); 
 
 			function printRow($str) {
 				static $odd = false;
@@ -30,7 +78,9 @@
 					// "?p=Device.DeviceInfo.SupportedDataModel.1.URL"
 					echo printRow("Parameter test: ".$_GET["p"]."=".ccsp_getStr($_GET["p"]));
 				}
-				echo printRow("<pre>". shell_exec("ifconfig"). "</pre>");
+				if(isset($_GET["ifconfig"])) {
+					echo printRow("<pre>". shell_exec("ifconfig"). "</pre>");
+				}
 				echo printRow("<pre>". json_encode(get_loaded_extensions(), JSON_PRETTY_PRINT). "</pre>");
 				if(isset($_GET["reset_usage_map"])) {
 					echo printRow("Resetting usage map");
