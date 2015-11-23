@@ -19,13 +19,13 @@ function getCcspMap() {
 	return $_SESSION['ccsp_map'];
 }
 function ccsp_fileExists($f) {
-	if(file_exists($f) {
+	if(file_exists($f)) {
 		return true;
 	}
-	if(file_exists("/var/ccsp/".$f) {
+	if(file_exists("/var/ccsp/".$f)) {
 		return true;
 	}
-	if(file_exists("/fss/gw/var/ccsp/".$f) {
+	if(file_exists("/fss/gw/var/ccsp/".$f)) {
 		return true;
 	}
 	return false;
