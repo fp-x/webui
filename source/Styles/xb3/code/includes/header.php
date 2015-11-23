@@ -33,7 +33,7 @@
     
 	/* demo flag in session */
 	if (!isset($_SESSION['_DEBUG'])) {
-		$_DEBUG = file_exists('/fss/gw/var/ui_dev_debug');
+		$_DEBUG = ccsp_fileExists('ui_dev_debug');
 		$_SESSION['_DEBUG'] = $_DEBUG;
 	}
 	else {

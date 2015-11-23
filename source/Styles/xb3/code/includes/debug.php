@@ -13,13 +13,13 @@
 				echo "<div class=\"form-row $oddStr \"> <span class=\"readonlyLabel\">$str</span></div>";
 			}
 			function getFileExistsStr($f) {
-				return $f." exists: ". (file_exists($f)?"true":"false");
+				return $f." exists: ". (ccsp_fileExists($f)?"true":"false");
 			}
 
 			echo printRow("Debug: ". ($_DEBUG? "true":"false"));
-			echo printRow(getFileExistsStr("/var/ccsp/ui_dev_debug"));
-			echo printRow(getFileExistsStr("/var/ccsp/ui_dev_mode"));
-			echo printRow(getFileExistsStr("/var/ccsp/cosa_php_debug"));
+			echo printRow(getFileExistsStr("ui_dev_debug"));
+			echo printRow(getFileExistsStr("ui_dev_mode"));
+			echo printRow(getFileExistsStr("cosa_php_debug"));
 			echo printRow(getFileExistsStr("/var/tmp/logs/cosa_php_ext.log"));
 			echo printRow("cosa extension loaded: ". (extension_loaded("cosa")?"true":"false"));
 			echo printRow("ccsp ready: ". (ccsp_isReady()?"true":"false"));
