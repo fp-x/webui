@@ -16,7 +16,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    comcast.page.init("Gateway > Connection > MAXX Network", "nav-comcast-network");
+    comcast.page.init("Gateway > Connection > TWC Network", "nav-comcast-network");
 
 	if ("cusadmin" == "<?php echo $_SESSION["loginuser"]; ?>"){
 		$(".div_cm").remove();
@@ -90,15 +90,15 @@ function sec2dhms($sec)
 
 <div id="content">
 
-<h1>Gateway > Connection > MAXX Network</h1>
+<h1>Gateway > Connection > TWC Network</h1>
 
 <div id="educational-tip">
-	<p class="tip">View technical information related to your MAXX network connection.</p>
+	<p class="tip">View technical information related to your TWC network connection.</p>
 	<p class="hidden">You may need this information if you contact Time-Warner Cable for troubleshooting assistance.</p>
 </div>
 
 <div class="module forms">
-	<h2>MAXX Network</h2>
+	<h2>TWC Network</h2>
 	<div class="form-row">
 		<span class="readonlyLabel">Internet:</span>
 		<span class="value"><?php echo ($sta_inet=="true") ? "Active" : "Inactive";?></span>

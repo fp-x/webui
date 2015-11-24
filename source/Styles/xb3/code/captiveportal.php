@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<title>MAXX</title>
+		<title>TWC</title>
 		<link rel="stylesheet" href="cmn/css/styles.css">
 	</head>
 
@@ -170,7 +170,7 @@ $(document).ready(function(){
 	var goNextphoneNumber	= true;
 
 	function GWReachable(){
-		//location.href = "http://xfinity.com";
+		//location.href = "http://www.twc.com";
 		// Handle IE and more capable browsers
 		var xhr = new ( window.ActiveXObject || XMLHttpRequest )( "Microsoft.XMLHTTP" );
 		var status;
@@ -208,7 +208,7 @@ $(document).ready(function(){
 			if(isGWReachable){
 				$("#ready").show();
 				$("#setup").hide();
-				setTimeout(function(){ location.href = "http://xfinity.com"; }, 5000);
+				setTimeout(function(){ location.href = "http://www.twc.com"; }, 5000);
 			}
 			else{
 				pingTest = pingGW();
@@ -222,7 +222,7 @@ $(document).ready(function(){
 		} else {
 			$("#ready").show();
 			$("#complete").hide();
-			setTimeout(function(){ location.href = "http://xfinity.com"; }, 5000);
+			setTimeout(function(){ location.href = "http://www.twc.com"; }, 5000);
 		}
 	}
 
@@ -1161,7 +1161,7 @@ $(document).ready(function(){
 		    	</div>
 			<hr>
 			<div>
-				<button id="visit_xfinity" style="text-align: center; width: 215px;">Visit MAXX</button>
+				<button id="visit_xfinity" style="text-align: center; width: 215px;">Visit TWC</button>
 			</div>
 			<br><br>
 			<a href="http://customer.xfinity.com/help-and-support/Wireless-Gateway/">Learn how to join your WiFi</a>

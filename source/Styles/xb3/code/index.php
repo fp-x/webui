@@ -104,7 +104,7 @@ $_SESSION["psmMode"] = $psmMode;
 
 
 <head>
-	<title>MAXX</title>
+	<title>TWC</title>
 
 	<!--CSS-->
 	<link rel="stylesheet" type="text/css" media="screen" href="./cmn/css/common-min.css" />
@@ -159,7 +159,7 @@ $_SESSION["psmMode"] = $psmMode;
 
 		<!--Header-->
 		<div id="header">
-			<h2 id="logo"><img src="./cmn/img/logo_twc.png" alt="MAXX" title="MAXX" /></h2>
+			<h2 id="logo"><img src="./cmn/img/logo_twc.png" alt="TWC" title="TWC" /></h2>
 		</div> <!-- end #header -->
 
 		<div id='div-skip-to' style="display: none;">

@@ -125,14 +125,14 @@ function click_save()
 	});
 }
 
-/*------	check if gateway is accesible [ http://customer.comcast.com ]	------*/
+/*------	check if gateway is accesible [ http://www.twc.com ]	------*/
 	function startPing(){
 		$.ajax({
 		    url: 'http://<?php echo $ipv4_addr; ?>/check.php',
 		    async: true,
 		    data: {pingTest:"test"},
 		    success: function() {
-				location.href = "http://customer.comcast.com";
+				location.href = "http://www.twc.com";
 				//console.log("success");
 			},
 		    error: function() {
