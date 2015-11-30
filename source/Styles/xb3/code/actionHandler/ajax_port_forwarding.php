@@ -1,4 +1,23 @@
-﻿<?php
+﻿<!--
+ If not stated otherwise in this file or this component's Licenses.txt file the
+ following copyright and licenses apply:
+
+ Copyright 2015 RDK Management
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+﻿<?php include('../includes/utility.php') ?>
+<?php
 
 $result="";
 
@@ -59,23 +78,40 @@ if (isset($_POST['add'])){
 	} 
 	else {
 		// $result="";
-		$ids=explode(",",getInstanceIDs("Device.NAT.PortMapping."));
-		foreach ($ids as $key=>$j) {
-			if (getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0 && getStr("Device.NAT.PortMapping.".$j.".InternalPort")==0){
-				$arrayName  = getStr("Device.NAT.PortMapping.".$j.".Description");
-				$arrayIP    = getStr("Device.NAT.PortMapping.".$j.".InternalClient");
-				$arrayType  = getStr("Device.NAT.PortMapping.".$j.".Protocol");
-				$arraySPort = getStr("Device.NAT.PortMapping.".$j.".ExternalPort");
-				$arrayEPort = getStr("Device.NAT.PortMapping.".$j.".ExternalPortEndRange");
+		$rootObjName    = "Device.NAT.PortMapping.";
+		$paramNameArray = array("Device.NAT.PortMapping.");
+		$mapping_array  = array("Description", "InternalClient", "Protocol", "ExternalPort", "ExternalPortEndRange", "InternalPort", "LeaseDuration");
+
+		$portMappingValues = getParaValues($rootObjName, $paramNameArray, $mapping_array);
+
+		foreach ($portMappingValues as $key) {
+			if ($key["LeaseDuration"]==0){
+				$arrayName = $key["Description"];
+				$arrayIP = $key["InternalClient"];
+				$arrayType = $key["Protocol"];
+				$arraySPort = $key["ExternalPort"];
+				$arrayEPort = $key["ExternalPortEndRange"];
+				$InternalPort = $key["InternalPort"];
+
 				if($name==$arrayName) { 
-					$result.="Service name has been used!\n";
-					break;
+					if($InternalPort !=0){
+						$result.="Service name has been used in HS Port Forwarding service!\n";
+						break;
+					} else {
+						$result.="Service name has been used in Port Forwarding service!\n";
+						break;
+					}
 				} 
 				else if($type=="BOTH"||$arrayType=="BOTH"||$type==$arrayType){
 					$porttest=PORTTEST($sport,$eport,$arraySPort,$arrayEPort);
 					if ($porttest==1) {
-						$result.="Conflict with other service. Please check port and IP!";
-						break;
+						if($InternalPort !=0){
+							$result.="Conflict with other HS Port Forwarding service. Please check port and IP!";
+							break;
+						} else {
+							$result.="Conflict with other Port Forwarding service. Please check port and IP!";
+							break;
+						}
 					}
 				}
 			}
@@ -115,24 +151,43 @@ if (isset($_POST['edit'])){
 	$eport=$_POST['endport'];
 	
 	// $result="";
-	$ids=explode(",",getInstanceIDs("Device.NAT.PortMapping."));
-	foreach ($ids as $key=>$j) {
+	$rootObjName    = "Device.NAT.PortMapping.";
+	$paramNameArray = array("Device.NAT.PortMapping.");
+	$mapping_array  = array("Description", "InternalClient", "Protocol", "ExternalPort", "ExternalPortEndRange", "InternalPort", "LeaseDuration");
+
+	$portMappingValues = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);
+
+	
+	foreach ($portMappingValues as $key) {
+		$j = $key["__id"];
 		if ($i==$j) continue;
-		if (getStr("Device.NAT.PortMapping.".$j.".LeaseDuration")==0 && getStr("Device.NAT.PortMapping.".$j.".InternalPort")==0){
-			$arrayName  = getStr("Device.NAT.PortMapping.".$j.".Description");
-			$arrayIP    = getStr("Device.NAT.PortMapping.".$j.".InternalClient");
-			$arrayType  = getStr("Device.NAT.PortMapping.".$j.".Protocol");
-			$arraySPort = getStr("Device.NAT.PortMapping.".$j.".ExternalPort");
-			$arrayEPort = getStr("Device.NAT.PortMapping.".$j.".ExternalPortEndRange");
+		if ($key["LeaseDuration"]==0){
+			$arrayName = $key["Description"];
+			$arrayIP = $key["InternalClient"];
+			$arrayType = $key["Protocol"];
+			$arraySPort = $key["ExternalPort"];
+			$arrayEPort = $key["ExternalPortEndRange"];
+			$InternalPort = $key["InternalPort"];
+
 			if($name==$arrayName) { 
-				$result.="Service name has been used!\n";
-				break;
+				if($InternalPort !=0){
+					$result.="Service name has been used in HS Port Forwarding service!\n";
+					break;
+				} else {
+					$result.="Service name has been used in Port Forwarding service!\n";
+					break;
+				}
 			}
 			else if($type=="BOTH"||$arrayType=="BOTH"||$type==$arrayType){
 				$porttest=PORTTEST($sport,$eport,$arraySPort,$arrayEPort);
 				if ($porttest==1) {
-					$result.="Conflict with other service. Please check port and IP!";
-					break;
+					if($InternalPort !=0){
+						$result.="Conflict with other HS Port Forwarding service. Please check port and IP!";
+						break;
+					} else {
+						$result.="Conflict with other Port Forwarding service. Please check port and IP!";
+						break;
+					}
 				}
 			}
 		}

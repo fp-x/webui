@@ -1,4 +1,23 @@
-﻿<?php
+﻿<!--
+ If not stated otherwise in this file or this component's Licenses.txt file the
+ following copyright and licenses apply:
+
+ Copyright 2015 RDK Management
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+﻿<?php include('../includes/utility.php') ?>
+<?php
 
 $result="";
 
@@ -60,14 +79,21 @@ if (isset($_POST['add'])){
 		// echo json_encode("Success!");
 	} else {
 		// $result="";
-		$ids=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
-		foreach ($ids as $key=>$j) {
-			$arrayName=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".Description");
-			$arrayType=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".TriggerProtocol");
-			$arrayFsp=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".TriggerPortStart");
-			$arrayFep=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".TriggerPortEnd");
-			$arrayTsp=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".ForwardPortStart");
-			$arratTep=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".ForwardPortEnd");
+		$rootObjName    = "Device.NAT.X_CISCO_COM_PortTriggers.Trigger.";
+		$paramNameArray = array("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.");
+		$mapping_array  = array("Description", "TriggerProtocol", "TriggerPortStart", "TriggerPortEnd", "ForwardPortStart", "ForwardPortEnd");
+
+		$portTriggerValues = getParaValues($rootObjName, $paramNameArray, $mapping_array);
+
+		//$ids=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
+
+		foreach ($portTriggerValues as $key) {
+			$arrayName = $key["Description"];
+			$arrayType = $key["TriggerProtocol"];
+			$arrayFsp = $key["TriggerPortStart"];
+			$arrayFep = $key["TriggerPortEnd"];
+			$arrayTsp = $key["ForwardPortStart"];
+			$arratTep = $key["ForwardPortEnd"];
 			if(!strcmp($name, $arrayName)) {
 				$result.="Service name has been used!\n";
 				break;
@@ -147,15 +173,22 @@ if (isset($_POST['edit'])){
 	$tep=$_POST['tep'];
 	
 	$results="";
-	$ids=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
-	foreach ($ids as $key=>$j) {
+	//$ids=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
+	$rootObjName    = "Device.NAT.X_CISCO_COM_PortTriggers.Trigger.";
+		$paramNameArray = array("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.");
+		$mapping_array  = array("Description", "TriggerProtocol", "TriggerPortStart", "TriggerPortEnd", "ForwardPortStart", "ForwardPortEnd");
+
+		$portTriggerValues = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);
+
+	foreach ($portTriggerValues as $key) {
+		$j = $key["__id"];
 		if ($i==$j) continue;
-		$arrayName=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".Description");
-		$arrayType=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".TriggerProtocol");
-		$arrayFsp=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".TriggerPortStart");
-		$arrayFep=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".TriggerPortEnd");
-		$arrayTsp=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".ForwardPortStart");
-		$arratTep=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.".$j.".ForwardPortEnd");
+		$arrayName = $key["Description"];
+			$arrayType = $key["TriggerProtocol"];
+			$arrayFsp = $key["TriggerPortStart"];
+			$arrayFep = $key["TriggerPortEnd"];
+			$arrayTsp = $key["ForwardPortStart"];
+			$arratTep = $key["ForwardPortEnd"];
 		if(!strcmp($name, $arrayName)) {
 			$result.="Service name has been used!\n";
 			break;

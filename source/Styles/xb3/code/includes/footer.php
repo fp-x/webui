@@ -4,9 +4,9 @@
 		<!--Footer-->
 		<div id="footer">
 			<ul id="footer-links">
-				<li class="first-child"><a href="http://www.xfinity.com" target="_blank">Xfinity.com</a></li>
-				<li style="list-style:none outside none; margin-left:10px">&#8226;&nbsp;&nbsp;<a href="https://customer.comcast.com/" target="_blank">customerCentral</a></li>
-				<li style="list-style:none outside none; margin-left:10px">&#8226;&nbsp;&nbsp;<a href="http://customer.comcast.com/userguides" target="_blank">User Guide</a></li>
+				<li class="first-child"><a href="http://www.timewarnercable.com" target="_blank">TWC.com</a></li>
+				<li style="list-style:none outside none; margin-left:10px">&#8226;&nbsp;&nbsp;<a href="https://www.twcc.com/" target="_blank">TWC Central</a></li>
+				<li style="list-style:none outside none; margin-left:10px">&#8226;&nbsp;&nbsp;<a href="http://business.timewarnercable.com" target="_blank">Business Class</a></li>
 			</ul>
 		</div> <!-- end #footer -->
 	</div> <!-- end #container -->
